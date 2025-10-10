@@ -1,0 +1,59 @@
+unit Unit1;
+
+{$mode ObjFPC}
+
+interface
+
+uses
+  Classes, SysUtils;
+
+{
+type
+     имя_класса=class(имя_родителя, список_интерфейсов)
+         private
+         strict private
+         protected
+         strict protected
+         public
+         publicshed
+end;
+
+overload; // перегружение
+
+virtual;
+dynamic;
+override;
+}
+
+type
+    TMyClass=class
+        private
+            x:integer;
+        strict private
+            y:integer;
+        public
+            procedure setY(_y:integer);
+            function getY:integer;
+    end;
+
+var obj:TMyClass;
+
+implementation
+
+procedure TMyClass.setY(_y:integer);
+begin
+    self.y := _y;
+end;
+
+function TMyClass.getY:integer;
+begin
+    getY:=self.y;
+end;
+
+begin // только при потклучению
+    obj := TMyClass.Create; // сосдаёт обект или ...
+    //obj := free; // удалить или destroy
+    obj.x := 10;
+
+end.
+

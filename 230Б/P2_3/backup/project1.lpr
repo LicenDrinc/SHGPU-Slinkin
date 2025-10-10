@@ -1,0 +1,41 @@
+program project1;
+
+uses unit1, Unit2, Unit3;
+
+var x:TFloatMemStorage;
+    y:TIntMemStorage;  
+    z: TIntFileStorage;
+begin
+    writeln('TFloatMemStorage');
+    x:=TFloatMemStorage.Create;
+    x[2]:=1.2;
+    writeln(x[0]:0:2);
+    writeln(x[2]:0:2);
+    writeln(x.count);
+    x.free;
+
+    writeln; writeln('TIntMemStorage');
+    y:=TIntMemStorage.Create;
+    y[5]:=7;
+    y[3]:=8;
+    writeln(y[1]);
+    writeln(y[3]);
+    writeln(y[5]);
+    writeln(y.count);
+    y.free;
+
+    writeln; writeln('TIntFileStorage');
+    z := TIntFileStorage.Create('storage.dat');
+    z[2] := 1;
+    writeln(z[3]);
+    writeln(z[2]);
+    z[0] := -11;
+    writeln(z[0]);
+    z[1000000] := 123;
+    writeln(z[1000000]);
+    writeln(z[2000000]);
+    writeln(z.count);
+    z.free;
+
+    readln;
+end.

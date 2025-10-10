@@ -1,0 +1,1 @@
+gcc -Wall -g -o "m.exe" "m.c" -lm -fopenmp

@@ -1,0 +1,20 @@
+Free Pascal Compiler version 3.2.2 [2021/05/15] for i386
+Copyright (c) 1993-2021 by Florian Klaempfl and others
+Target OS: Win32 for i386
+Compiling funcs.pas
+Compiling funcs.pas
+112 lines compiled, 0.1 sec
+. 
+Free Pascal Compiler version 3.2.2 [2021/05/15] for i386
+Copyright (c) 1993-2021 by Florian Klaempfl and others
+Target OS: Win32 for i386
+Compiling testFuncs.pas
+221 lines compiled, 0.1 sec
+. 
+Free Pascal Compiler version 3.2.2 [2021/05/15] for i386
+Copyright (c) 1993-2021 by Florian Klaempfl and others
+Target OS: Win32 for i386
+Compiling P2_4.pas
+Linking P2_4.exe
+39 lines compiled, 8.2 sec, 89216 bytes code, 5812 bytes data
+. 

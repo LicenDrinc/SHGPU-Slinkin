@@ -1,0 +1,15 @@
+program project1;
+
+uses unit1;
+
+begin
+  writeln('привет');
+  writeln(TMyClass.ClassParent.ClassName);
+  writeln(obj.ClassName);
+  //writeln(obj.x);
+  obj.setY(200);
+  writeln(obj.getY());
+  obj.setY(obj.getY() + 200);
+  writeln(obj.getY());
+end.
+
