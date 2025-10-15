@@ -24,7 +24,7 @@ type
 
 implementation
 
-procedure TDataInfo.writeInfo();
+procedure TDataInfo.writeAllInfo();
 begin
     randomInfo();
     writeln('Исследуемый тип: ',typeDataInfo);

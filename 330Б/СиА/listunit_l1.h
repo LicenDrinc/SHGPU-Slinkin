@@ -1,47 +1,41 @@
-// заголовочный файл для поддержки односвязных списков
 #ifndef LISTUNIT_L1
 #define LISTUNIT_L1
 
-// структура для хранения узла списка
-typedef struct tnodeL1 *pnodeL1; 
-typedef struct tnodeL1
-	{   char *data;
-	    pnodeL1 pnext;
-	} tnodeL1;
+typedef struct tnodeL1 {
+	char* str;
+	struct tnodeL1* TN;
+} tnodeL1;
+typedef struct tnodeL1* pnodeL1;
 
- // создает узел по копии переданной строки и возвращает его
- pnodeL1 createNodeL1(char *data);
+typedef int (*listfunc)(char*);
 
- // вставляет узел в начало списка и возвращает вставленный узел 
- pnodeL1 addFirstNodeL1(pnodeL1 *ph, pnodeL1 p);
- // вставляет узел в конец списка и возвращает вставленный узел 
- pnodeL1 addLastNodeL1(pnodeL1 *ph, pnodeL1 p);
- // вставляет узел в список после переданного узла и возвращает вставленный узел 
- pnodeL1 insertAfterNodeL1(pnodeL1 pn, pnodeL1 p);
+pnodeL1 createNodeL1(char* str1);
+int listCountL1(pnodeL1 TN1);
 
- // уничтожает узел и устанавливает его в NULL
- void disposeNodeL1(pnodeL1 *pn);
- // удаляет узел из списка после переданного узла и возвращает удаленный узел
- pnodeL1 deleteAfterNodeL1(pnodeL1 pn);
- // удаляет узел из списка после переданного узла и уничтожает удаленный узел
- void disposeAfterNodeL1(pnodeL1 pn);
- // уничтожает список и устанавливает его в NULL
- void disposeListL1(pnodeL1 *ph);
- 
- // выполняет функцию func над каждым узлом списка
- // если func возвращает 0, listAction завершает перебор узлов списка  
- typedef int (*listfunc)(char*);
- void listActionL1(pnodeL1 ph, listfunc func);
- // выводит список в стандартный поток вывода
- void listOutL1(pnodeL1 ph);
- // возвращает количество элементов в списке
- int listCountL1(pnodeL1 ph);
- // Объединяет данные элементов списка в строку с использованием разделителя
- // delimiter между отдельными данными.
- // Полученную строку заносит в dest и возвращает в качестве результата функции.
- // Длина результирующей строки не должна превышать maxsize.
- // Если maxsize==0 или dest==NULL, функция возвращает NULL
- char *listSumStr(char *dest, int maxsize, pnodeL1 ph, char *delimiter);  
+pnodeL1 addFirstNodeL1(pnodeL1 *TN1, pnodeL1 TN2);
+pnodeL1 addLastNodeL1(pnodeL1 *TN1, pnodeL1 TN2);
+pnodeL1 insertAfterNodeL1(pnodeL1 *TN1, pnodeL1 TN2);
+pnodeL1 addPosNodeL1(pnodeL1 *TN1, pnodeL1 TN2, int pos);
 
-#endif // LISTUNIT_1
+pnodeL1 lastNodeL1(pnodeL1 TN1);
+pnodeL1 posNodeL1(pnodeL1 TN1, int pos);
 
+void listOutL1(pnodeL1 TN1);
+
+void disposeNodeL1(pnodeL1 *TN1);
+void disposeListL1(pnodeL1 *TN1);
+void disposeFristNodeL1(pnodeL1 *TN1);
+void disposeLastNodeL1(pnodeL1 *TN1);
+void disposeAfterNodeL1(pnodeL1 TN1);
+void disposePosNodeL1(pnodeL1 *TN1, int pos);
+
+pnodeL1 deleteFirstNodeL1(pnodeL1 *TN1);
+pnodeL1 deleteLastNodeL1(pnodeL1 *TN1);
+pnodeL1 deleteAfterNodeL1(pnodeL1 TN1);
+pnodeL1 deletePosNodeL1(pnodeL1 *TN1, int pos);
+
+void listActionL1(pnodeL1 *TN1, listfunc func);
+
+char* listSumStr(pnodeL1 TN1, char *dest, int maxsize, char *delimiter);
+
+#endif

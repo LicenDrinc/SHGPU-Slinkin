@@ -17,7 +17,7 @@ type
             function upBorderInfo(): T;
             function byteInfo(): Int64;
             function randomInfo(): T;
-            function randomDownInfo():  T;
+            function randomDownInfo(): T;
             function randomUpInfo(): T;
             function ramInfo(): string;
     end;
