@@ -13,26 +13,26 @@ int printTo(char* s)
 int main()
 {
 	pnodeL1 TN = createNodeL1("10ф15");
-	//pnodeL1 TN1;
+	pnodeL1 TN1 = NULL;
 	//insertAfterNodeL1(&TN, createNodeL1("3-"));
 	//addPosNodeL1(&TN, createNodeL1("-3"), 1);
 	
-	//addFirstNodeL1(&TN, createNodeL1("-1"));
-	//addLastNodeL1(&TN, createNodeL1("1-"));
-	//printf("lin = %d\n",listCountL1(TN)); listOutL1(TN); printf("\n");
-	disposeListL1(&TN);
-	/*
+	addFirstNodeL1(&TN, createNodeL1("-1"));
+	addLastNodeL1(&TN, createNodeL1("1-"));
+	printf("lin = %d\n",listCountL1(TN)); listOutL1(TN); printf("\n");
+	
 	addLastNodeL1(&TN, createNodeL1("-2"));
 	addFirstNodeL1(&TN, createNodeL1("2-"));
 	printf("lin = %d | ",listCountL1(TN));
-	char* l = ""; printf("%s\n", listSumStr(TN, l, 50, " | ")); printf("\n");
+	char l[50] = ""; printf("%s\n", listSumStr(TN, l, 50, " | ")); printf("\n");
 	
 	addPosNodeL1(&TN, createNodeL1("-3"), 1);
 	TN1 = posNodeL1(TN, 4);
 	insertAfterNodeL1(&TN1, createNodeL1("3-"));
-	printf("lin = %d | ",listCountL1(TN));
-	printf("%s\n", listSumStr(TN, l, 50, " | ")); printf("\n");
-	
+	printf("lin = %d | ",listCountL1(TN)); printf("\n");
+	printf("%s\n", listSumStr(TN, l, 50, " | "));
+	printf("%s\n", listSumStr(TN, l, 1, " | ")); printf("\n");
+
 	listActionL1(&TN, &printTo); printf("\n");
 	TN1 = posNodeL1(TN, 3);
 	insertAfterNodeL1(&TN1, createNodeL1("0"));
@@ -54,13 +54,19 @@ int main()
 	printf("{lin = %d} ",listCountL1(TN));
 	printf("%s\n", listSumStr(TN, l, 50, " | ")); printf("\n");
 	
-	listOutL1(deletePosNodeL1(&TN, 1));
-	listOutL1(deleteAfterNodeL1(posNodeL1(TN, 1))); printf("\n");
+	TN1 = deletePosNodeL1(&TN, 1);
+	listOutL1(TN1); disposeNodeL1(&TN1);
+	TN1 = deleteAfterNodeL1(posNodeL1(TN, 1));
+	listOutL1(TN1); disposeNodeL1(&TN1);
+	printf("\n");
 	printf("{lin = %d} ",listCountL1(TN));
 	printf("%s\n", listSumStr(TN, l, 50, " | ")); printf("\n");
 	
-	listOutL1(deleteFirstNodeL1(&TN));
-	listOutL1(deleteLastNodeL1(&TN)); printf("\n");
+	TN1 = deleteFirstNodeL1(&TN);
+	listOutL1(TN1); disposeNodeL1(&TN1);
+	TN1 = deleteLastNodeL1(&TN);
+	listOutL1(TN1); disposeNodeL1(&TN1);
+	printf("\n");
 	printf("{lin = %d} ",listCountL1(TN));
 	printf("%s\n", listSumStr(TN, l, 50, " | ")); printf("\n");
 	
