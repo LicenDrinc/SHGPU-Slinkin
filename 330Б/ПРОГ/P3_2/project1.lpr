@@ -4,7 +4,7 @@ uses Unit1, Unit2, Unit3, Unit4;
 
 var data, data1, data2: TClassicList;
     dataA, dataA1, dataA2: TArrayList;
-    o: tobject;
+    o, o1, o2: tobject;
     i: integer;
     //TClassicList
     //TArrayList
@@ -16,11 +16,56 @@ begin
     dataA1 := TArrayList.Create;
     dataA2 := TArrayList.Create;
 
+    data1.addFirst(TIntObj.Create(1));
+    dataA1.addFirst(TIntObj.Create(3));
 
+    data1.addLast(TRealObj.Create(100.25456871));
+    dataA1.addLast(TRealObj.Create(-2131.545));
 
+    data1.showNode(data1.first);
+    data1.showNode(data1.last);
+    dataA1.showNode(dataA1.first);
+    dataA1.showNode(dataA1.last);
 
+    writeln(data1.compare(data1.first, data1.last));
+    writeln(data1.compare(data1.last, data1.first));
+    writeln(dataA1.compare(dataA1.first, dataA1.last));
+    writeln(dataA1.compare(dataA1.last, dataA1.first));
+
+    data1.insertAfter(data1.first, TStrObj.Create('100.25456871'));
+    dataA1.insertAfter(dataA1.first, TStrObj.Create('100.2545687_1'));
+
+    data1.first; dataA1.first;
+    o1 := data1.next; o2 := dataA1.next;
+    data1.showNode(o1);
+    dataA1.showNode(o2);
+    writeln(data1.compare(o1, data1.last));
+    writeln(dataA1.compare(o2, dataA1.first));
+
+    writeln('---'); data1.writeList; writeln; dataA1.writeList;
+
+    dataA1.addLast(data1.copyNode(data1.first));
+    data1.addLast(dataA1.copyNode(dataA1.first));
+
+    data1.deleteFirst.free;
+    dataA1.deleteFirst.free;
+
+    writeln('---'); data1.writeList; writeln; dataA1.writeList;
+
+    data1.deleteAfter(data1.first).free;
+    dataA1.deleteAfter(dataA1.first).free;
+
+    writeln('---'); data1.writeList; writeln; dataA1.writeList;
+
+    data1.destroyList; dataA1.destroyList;
+
+    writeln('---'); data1.writeList; writeln; dataA1.writeList;
+
+    writeln('------------');
     data.addFirst(TIntObj.Create(1));
     dataA.addFirst(TIntObj.Create(3));
+    data2.addFirst(TIntObj.Create(3));
+    dataA2.addFirst(TIntObj.Create(1));
 
     for i := 0 to 5 do begin
         data.addLast(data.copyNode(data.last));
@@ -30,24 +75,28 @@ begin
         dataA.addLast(dataA.copyNode(dataA.last));
         TIntObj(dataA.last).data := TIntObj(dataA.last).data - 1;
     end;
+    for i := 0 to 5 do begin
+        data2.addLast(data2.copyNode(data2.last));
+        TIntObj(data2.last).data := TIntObj(data2.last).data - 1;
+    end;
+    for i := 0 to 5 do begin
+        dataA2.addLast(dataA2.copyNode(dataA2.last));
+        TIntObj(dataA2.last).data := TIntObj(dataA2.last).data + 1;
+    end;
 
-    o := data.first;
-    while (o <> nil) do
-    begin data.showNode(o); o := data.next; end; writeln;
-    o := dataA.first;
-    while (o <> nil) do
-    begin dataA.showNode(o); o := dataA.next; end; writeln;
+    data.writeList; writeln;
+    data2.writeList; writeln;
+    //dataA.writeList; writeln;
+    //dataA2.writeList; writeln;
 
     //ListMerge(data, dataA);
     //ListChessMerge(data, dataA);
-    ListSort(data, dataA, true);
+    ListSort(data, data2, true);
 
-    o := data.first;
-    while (o <> nil) do
-    begin data.showNode(o); o := data.next; end; writeln;
-    o := dataA.first;
-    while (o <> nil) do
-    begin dataA.showNode(o); o := dataA.next; end;
+    data.writeList; writeln;
+    data2.writeList; writeln;
+    //dataA.writeList; writeln;
+    //dataA2.writeList; writeln;
 
     dataA.free;
     dataA1.free;
@@ -55,6 +104,6 @@ begin
     data.free;
     data1.free;
     data2.free;
-    //readln;
+    readln;
 end.
 

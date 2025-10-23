@@ -28,6 +28,8 @@ type
             function copyNode(node: tobject): tobject;
             procedure destroyList;
 
+            procedure writeList;
+
             constructor Create;
             destructor Destroy; override;
         private
@@ -44,6 +46,14 @@ end;
 destructor TClassicList.Destroy;
 begin
     destroyList;
+end;
+
+procedure TClassicList.writeList;
+var o: tobject;
+begin
+    o := first;
+    while (o <> nil) do
+    begin showNode(o); o := next; end;
 end;
 
 function TClassicList.addFirst(note: tobject): tobject;
@@ -91,6 +101,7 @@ end;
 function TClassicList.deleteFirst: tobject;
 var pn: PNode;
 begin
+    if (obj = nil) then exit(nil);
     pn := obj;
     obj := obj^.next;
     result := pn^.data;
@@ -99,6 +110,7 @@ end;
 function TClassicList.deleteAfter(prevNode: tobject): tobject;
 var pn, pn1: PNode;
 begin
+    if (obj = nil) then exit(nil);
     if (prevNode = nil) then exit(nil);
     pn := obj;
     while (pn^.data <> prevNode) and (pn^.next <> nil) do
@@ -121,6 +133,7 @@ begin
         dispose(pn);
         pn := pn1;
     end;
+    obj := nil;
 end;
 
 function TClassicList.first: tobject;
@@ -165,11 +178,11 @@ begin
     if node1 is TIntObj then r1 := TIntObj(node1).data
     else if node1 is TRealObj then r1 := TRealObj(node1).data
     else if node1 is TStrObj then Val(TStrObj(node1).data, r1, i1)
-    else i1 := -1;
+    else i1 := -2;
     if node2 is TIntObj then r2 := TIntObj(node2).data
     else if node2 is TRealObj then r2 := TRealObj(node2).data
     else if node2 is TStrObj then Val(TStrObj(node2).data, r2, i2)
-    else i2 := -1;
+    else i2 := -2;
 
     if (i1 <> 0) or (i2 <> 0) then exit(-2)
     else if (r1 - r2 > 0.0000001) then exit(1)

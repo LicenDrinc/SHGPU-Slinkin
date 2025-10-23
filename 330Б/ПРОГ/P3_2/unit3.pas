@@ -14,6 +14,10 @@ type
     end;
 
     TArrayList = class(TInterfacedObject, IList)
+        private
+            arrObj: array of tobject;
+            obj, posObj: PANode;
+            function nilArrObj: integer;
         public
             function addFirst(note: tobject): tobject;
             function addLast(node: tobject): tobject;
@@ -28,12 +32,10 @@ type
             function copyNode(node: tobject): tobject;
             procedure destroyList;
 
+            procedure writeList;
+
             constructor Create;
             destructor Destroy; override;
-        private
-            arrObj: array of tobject;
-            obj, posObj: PANode;
-            pos: integer;
     end;
 
 implementation
@@ -41,112 +43,142 @@ implementation
 constructor TArrayList.Create;
 begin
     inherited Create;
-    setLength(arrObj,0); pos := 0;
-    posObj := nil;
+    setLength(arrObj,0);
+    obj := nil; posObj := nil;
 end;
 destructor TArrayList.Destroy;
 begin
     destroyList;
 end;
 
-function TArrayList.addFirst(note: tobject): tobject;
+procedure TArrayList.writeList;
+var o: tobject;
+begin
+    o := first;
+    while (o <> nil) do
+    begin showNode(o); o := next; end;
+end;
+
+
+function TArrayList.nilArrObj: integer;
 var i: integer;
-    pn: PANode;
-    b: boolean;
+begin
+   for i := 0 to length(arrObj) - 1 do
+       if (arrObj[i] = nil) then exit(i);
+   setLength(arrObj, length(arrObj) + 1);
+   result := length(arrObj) - 1;
+end;
+
+function TArrayList.addFirst(note: tobject): tobject;
+var pn: PANode;
 begin
     if (note = nil) then exit(note);
-    new(pn); b := true;
-    for i := 0 to length(arrObj) - 1 do
-    begin
-        if (arrObj[i] = nil) and (not b) then
-        begin
-            b := false;
-            arrObj[i] := note;
-            pn^.data := i;
-        end;
-    end;
-    if (b) then
-    begin
-        setLength(arrObj, length(arrObj) + 1);
-        arrObj[length(arrObj) - 1] := note;
-        pn^.data := length(arrObj) - 1;
-    end;
+    new(pn);
+    pn^.data := nilArrObj;
+    arrObj[pn^.data] := note;
     pn^.next := obj;
     obj := pn;
     result := note;
 end;
 function TArrayList.addLast(node: tobject): tobject;
+var pn, pn1: PANode;
 begin
-    if (node = nil) then exit(nil);
-    setLength(arrObj, length(arrObj) + 1);
-    arrObj[length(arrObj) - 1] := node;
+    if (node = nil) then exit(node);
+    new(pn1);
+    pn1^.data := nilArrObj;
+    arrObj[pn1^.data] := node;
+    pn1^.next := nil;
+    if (obj = nil) then obj := pn1
+    else
+    begin
+        pn := obj;
+        while (pn^.next <> nil) do pn := pn^.next;
+        pn^.next := pn1;
+    end;
     result := node;
 end;
 function TArrayList.insertAfter(prevNode, node: tobject): tobject;
-var i, i1: integer;
+var pn, pn1: PANode;
 begin
-    if (node = nil) then exit(nil);
     if (prevNode = nil) then exit(nil);
-    i1 := -1;
-    for i := 0 to length(arrObj) - 1 do
-        if (arrObj[i] = prevNode) then i1 := i + 1;
-    if (i1 = -1) then exit(nil);
-    setLength(arrObj, length(arrObj) + 1);
-    for i := length(arrObj) - 2 downto i1 do
-        arrObj[i + 1] := arrObj[i];
-    arrObj[i1] := node;
+    if (node = nil) then exit(node);
+    pn := obj;
+    new(pn1);
+    pn1^.data := nilArrObj;
+    arrObj[pn1^.data] := node;
+    while (arrObj[pn^.data] <> prevNode) and (pn <> nil) do
+        pn := pn^.next;
+    if (pn = nil) then exit(nil);
+    pn1^.next := pn^.next;
+    pn^.next := pn1;
     result := node;
 end;
 
 function TArrayList.deleteFirst: tobject;
-var i: integer;
+var pn: PANode;
 begin
-    if (length(arrObj) = 0) then exit(nil);
-    result := arrObj[0];
-    for i := 0 to length(arrObj) - 2 do
-        arrObj[i] := arrObj[i+1];
-    setLength(arrObj, length(arrObj) - 1);
+    if (obj = nil) then exit(nil);
+    pn := obj;
+    obj := obj^.next;
+    result := arrObj[pn^.data];
+    arrObj[pn^.data] := nil;
+    dispose(pn);
 end;
 function TArrayList.deleteAfter(prevNode: tobject): tobject;
-var i, j: integer;
+var pn, pn1: PANode;
 begin
+    if (obj = nil) then exit(nil);
     if (prevNode = nil) then exit(nil);
-    if (length(arrObj) = 0) then  exit(nil);
-    j := -1;
-    for i := 0 to length(arrObj) - 2 do
-        if (arrObj[i] = prevNode) then j := i+1;
-    if (j = -1) then exit(nil);
-    result := arrObj[j];
-    for i := j to length(arrObj) - 2 do
-        arrObj[i] := arrObj[i+1];
-    setLength(arrObj, length(arrObj) - 1);
+    pn := obj;
+    while (arrObj[pn^.data] <> prevNode) and (pn^.next <> nil) do
+        pn := pn^.next;
+    if (pn^.next = nil) then exit(nil);
+    pn1 := pn^.next;
+    result := arrObj[pn1^.data];
+    arrObj[pn1^.data] := nil;
+    pn^.next := pn1^.next;
+    dispose(pn1);
 end;
 procedure TArrayList.destroyList;
-var i: integer;
+var pn, pn1: PANode;
 begin
-    for i := 0 to length(arrObj)-1 do
-        arrObj[i].free;
+    pn := obj;
+    posObj := nil;
+    while (pn <> nil) do
+    begin
+        pn1 := pn^.next;
+        arrObj[pn^.data].free;
+        dispose(pn);
+        pn := pn1;
+    end;
+    obj := nil;
     setLength(arrObj, 0);
 end;
 
 function TArrayList.first: tobject;
 begin
-    if (length(arrObj) = 0) then exit(nil);
-    pos := 0;
-    result := arrObj[pos];
+    if (obj = nil) then exit(nil);
+    posObj := obj;
+    result := arrObj[posObj^.data];
 end;
 function TArrayList.next: tobject;
 begin
-    if (length(arrObj) = 0) then exit(nil);
-    if (length(arrObj) - 1 = pos) then exit(nil);
-    pos := pos + 1;
-    result := arrObj[pos];
+    if (obj = nil) then exit(nil);
+    if (posObj = nil) then posObj := obj;
+    if (posObj^.next = nil) then exit(nil);
+    posObj := posObj^.next;
+    result := arrObj[posObj^.data];
 end;
 function TArrayList.last: tobject;
+var pn: PANode;
 begin
-    if (length(arrObj) = 0) then exit(nil);
-    pos := length(arrObj) - 1;
-    result := arrObj[pos];
+    if (obj = nil) then exit(nil);
+    if (posObj = nil) then posObj := obj;
+    pn := posObj;
+    while (pn^.next <> nil) do
+        pn := pn^.next;
+    posObj := pn;
+    result := arrObj[posObj^.data];
 end;
 
 procedure TArrayList.showNode(node: tobject);
