@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 pnodeL2C createNodeL2C(double data)
 {
@@ -28,6 +29,8 @@ pnodeL2C addFirstNodeL2C(pnodeL2C* ph, pnodeL2C p)
 
 	p->next = *ph;
 	p->prev = (*ph)->prev;
+	(*ph)->prev->next = p;
+	(*ph)->prev = p;
 	return *ph = p;
 }
 pnodeL2C addLastNodeL2C(pnodeL2C* ph, pnodeL2C p)
@@ -37,6 +40,8 @@ pnodeL2C addLastNodeL2C(pnodeL2C* ph, pnodeL2C p)
 
 	p->next = *ph;
 	p->prev = (*ph)->prev;
+	(*ph)->prev->next = p;
+	(*ph)->prev = p;
 	return p;
 }
 pnodeL2C insertAfterNodeL2C(pnodeL2C pn, pnodeL2C p)
@@ -45,6 +50,7 @@ pnodeL2C insertAfterNodeL2C(pnodeL2C pn, pnodeL2C p)
 
 	p->next = pn->next;
 	p->prev = pn;
+	pn->next->prev = p;
 	pn->next = p;
 	return p;
 }
@@ -54,6 +60,7 @@ pnodeL2C insertBeforeNodeL2C(pnodeL2C pn, pnodeL2C p)
 
 	p->prev = pn->prev;
 	p->next = pn;
+	pn->prev->next = p;
 	pn->prev = p;
 	return p;
 }
@@ -82,20 +89,21 @@ void disposeListL2C(pnodeL2C* ph)
 	if (*ph == NULL) return;
 
 	pnodeL2C tn1 = *ph;
-	for (int i = 0; tn1->next != *ph || i == 0; i++)
+	for (; tn1->next != *ph;)
 	{
 		tn1 = tn1->next;
 		free(tn1->prev);
 	}
+	free(tn1);
 	*ph = NULL;
 }
 
-void listActionL2C(pnodeL2C ph, int fwd, listfunc func)
+void listActionL2C(pnodeL2C ph, int fwd, listfunc1 func)
 {
 	if (ph == NULL || func == NULL) return;
 
-	pnodeL2C tn1 = ph;
-	for (int i = 0; (!fwd ? tn1->prev : tn1->next) != ph || i == 0; i++)
+	pnodeL2C tn1 = (!fwd ? ph->prev : ph);
+	for (int i = 0; (!fwd ? tn1->next : tn1) != ph || i == 0; i++)
 	{
 		if (!func(tn1->data)) return;
 		tn1 = (!fwd ? tn1->prev : tn1->next);
@@ -118,9 +126,9 @@ double minmaxL2C(pnodeL2C ph, int min)
 {
 	if (ph == NULL) return 0;
 
-	double minmax = (!min ? INT_MAX : INT_MIN);
+	double minmax = (!min ? LLONG_MIN : LLONG_MAX);
 	pnodeL2C tn1 = ph;
-	for (int i = 0; tn1->next != ph || i == 0; i++)
+	for (int i = 0; tn1 != ph || i == 0; i++)
 	{
 		minmax = ((!min && minmax < tn1->data) || (min && minmax > tn1->data) ? tn1->data : minmax);
 		tn1 = tn1->next;
@@ -131,11 +139,11 @@ pnodeL2C abNodeL2C(pnodeL2C ph, int first, int above, double data)
 {
 	if (ph == NULL) return NULL;
 
-	pnodeL2C tn1 = ph;
-	for (int i = 0; (!first ? tn1->prev : tn1->next) != ph || i == 0; i++)
+	pnodeL2C tn1 = (!first ? ph->prev : ph);
+	for (int i = 0; (!first ? tn1->next : tn1) != ph || i == 0; i++)
 	{
-		if ((!above && data < tn1->data) || (above && data > tn1->data)) return tn1;
-		tn1 = (!fwd ? tn1->prev : tn1->next);
+		if ((above && data < tn1->data) || (!above && data > tn1->data)) return tn1;
+		tn1 = (!first ? tn1->prev : tn1->next);
 	}
 	return NULL;
 }

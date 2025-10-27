@@ -3,11 +3,12 @@
 
 typedef struct tnodeL2C {
 	double data;
-	pnodeL2C prev, next;
+	struct tnodeL2C* prev;
+	struct tnodeL2C* next;
 } tnodeL2C;
 typedef struct tnodeL2C* pnodeL2C;
 
-typedef int (*listfunc)(double);
+typedef int (*listfunc1)(double);
 
  pnodeL2C createNodeL2C(double data);
  int listCountL2C(pnodeL2C ph);
@@ -21,7 +22,7 @@ pnodeL2C deleteNodeL2C(pnodeL2C *ph, pnodeL2C pn);
 void disposeNodeL2C(pnodeL2C *pn);
 void disposeListL2C(pnodeL2C *ph);
 
-void listActionL2C(pnodeL2C ph, int fwd, listfunc func);
+void listActionL2C(pnodeL2C ph, int fwd, listfunc1 func);
 
 void listOutL2C(pnodeL2C ph, int fwd);
 double minmaxL2C(pnodeL2C ph, int min);
