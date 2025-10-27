@@ -14,6 +14,8 @@ type
     end;
 
     TClassicList = class(TInterfacedObject, IList)
+        private
+            obj, posObj: PNode;
         public
             function addFirst(note: tobject): tobject;
             function addLast(node: tobject): tobject;
@@ -32,8 +34,6 @@ type
 
             constructor Create;
             destructor Destroy; override;
-        private
-            obj, posObj: PNode;
     end;
 
 implementation
@@ -53,7 +53,8 @@ var o: tobject;
 begin
     o := first;
     while (o <> nil) do
-    begin showNode(o); o := next; end;
+    begin showNode(o); o := next; write(' '); end;
+    writeln;
 end;
 
 function TClassicList.addFirst(note: tobject): tobject;
@@ -133,6 +134,7 @@ begin
         dispose(pn);
         pn := pn1;
     end;
+    obj := nil;
 end;
 
 function TClassicList.first: tobject;
@@ -163,9 +165,9 @@ end;
 
 procedure TClassicList.showNode(node: tobject);
 begin
-    if node is TIntObj then writeln(TIntObj(node).data)
-    else if node is TRealObj then writeln(TRealObj(node).data:0:6)
-    else if node is TStrObj then writeln(TStrObj(node).data)
+    if node is TIntObj then write(TIntObj(node).data)
+    else if node is TRealObj then write(TRealObj(node).data:0:6)
+    else if node is TStrObj then write(TStrObj(node).data)
     else writeln('none type');
 end;
 

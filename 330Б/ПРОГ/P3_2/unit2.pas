@@ -14,6 +14,8 @@ type
     end;
 
     TClassicList = class(TInterfacedObject, IList)
+        private
+            obj, posObj: PNode;
         public
             function addFirst(note: tobject): tobject;
             function addLast(node: tobject): tobject;
@@ -32,8 +34,6 @@ type
 
             constructor Create;
             destructor Destroy; override;
-        private
-            obj, posObj: PNode;
     end;
 
 implementation

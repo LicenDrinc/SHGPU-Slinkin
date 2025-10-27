@@ -13,11 +13,10 @@ pnodeL1 createNodeL1(char* str1)
 
 int listCountL1(pnodeL1 TN1)
 {
-	if (TN1 == NULL) return -1;
+	if (TN1 == NULL) return 0;
 	
 	pnodeL1 TNEnd = TN1;
 	int i = 0;
-	if (TN1 == NULL) return 0;
 	for (;TNEnd->TN != NULL;i++)
 		TNEnd = TNEnd->TN;
 	return i + 1;
