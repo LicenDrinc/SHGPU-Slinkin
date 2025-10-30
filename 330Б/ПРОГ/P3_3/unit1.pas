@@ -7,20 +7,25 @@ interface
 uses Classes, SysUtils;
 
 type
-
+    PHuman = ^THuman;
     THuman = record
-        first_name, last_name, Patromynic: ansistring;
+        firstName, lastName, patromynic: ansistring;
         gender, date, id: ansistring;
-        child: array to ansistring;
+        child: array of ansistring;
     end;
 
     TArrayHuman = class
+        private
+            arrHuman: array of PHuman;
         public
-            arrHuman: array to PHuman;
             constructor Create;
             destructor Destroy; override;
 
-            procedure pressure();
+            function createHuman(fN, lN, pn, g, d, id: ansistring; c: array of ansistring = nil): PHuman;
+
+            procedure pressureHuman(H: PHuman);
+            procedure writeHuman(H: PHuman);
+            procedure writeArrHuman;
     end;
 
 implementation
