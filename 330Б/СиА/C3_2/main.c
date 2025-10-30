@@ -24,8 +24,8 @@ int main()
 	addLastNodeL1(&TN, createNodeL1("-2"));
 	addFirstNodeL1(&TN, createNodeL1("2-"));
 	printf("lin = %d | ",listCountL1(TN));
-	char l[50] = ""; printf("%s\n", listSumStr(TN, l, 50, " | ")); printf("\n");
-	
+	char l[20] = ""; printf("%s\n", listSumStr(TN, l, 20, " | ")); printf("\n");
+	/*
 	addPosNodeL1(&TN, createNodeL1("-3"), 1);
 	TN1 = posNodeL1(TN, 4);
 	insertAfterNodeL1(&TN1, createNodeL1("3-"));

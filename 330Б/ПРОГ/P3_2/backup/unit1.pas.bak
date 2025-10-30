@@ -1,6 +1,7 @@
 unit Unit1;
 
 {$mode ObjFPC}{$H+}
+{$INTERFACES}
 
 interface
 
@@ -21,9 +22,6 @@ type
         procedure showNode(node: tobject);
         function copyNode(node: tobject): tobject;
         procedure destroyList;
-
-        constructor Create;
-        destructor Destroy; override;
     end;
 
     generic TDataObj<T> = class
@@ -34,7 +32,7 @@ type
 
     TIntObj = specialize TDataObj<integer>;
     TRealObj = specialize TDataObj<real>;
-    TStrObj = specialize TDataObj<string>;
+    //TStrObj = specialize TDataObj<string>;
 
 implementation
 

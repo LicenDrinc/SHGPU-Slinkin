@@ -1,6 +1,7 @@
 unit Unit1;
 
 {$mode ObjFPC}{$H+}
+{$INTERFACES CORBA}
 
 interface
 
@@ -31,7 +32,7 @@ type
 
     TIntObj = specialize TDataObj<integer>;
     TRealObj = specialize TDataObj<real>;
-    TStrObj = specialize TDataObj<string>;
+    //TStrObj = specialize TDataObj<string>;
 
 implementation
 

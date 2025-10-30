@@ -10,8 +10,8 @@ typedef struct tnodeL2C* pnodeL2C;
 
 typedef int (*listfunc1)(double);
 
- pnodeL2C createNodeL2C(double data);
- int listCountL2C(pnodeL2C ph);
+pnodeL2C createNodeL2C(double data);
+int listCountL2C(pnodeL2C ph);
  
 pnodeL2C addFirstNodeL2C(pnodeL2C *ph, pnodeL2C p);
 pnodeL2C addLastNodeL2C(pnodeL2C *ph, pnodeL2C p);

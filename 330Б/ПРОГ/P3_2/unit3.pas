@@ -28,7 +28,7 @@ type
             function copyNode(node: tobject): tobject;
             procedure destroyList;
 
-            procedure writeList;
+            procedure writeList(str: string = '');
 
             constructor Create;
             destructor Destroy; override;
@@ -48,12 +48,14 @@ begin
     destroyList;
 end;
 
-procedure TArrayList.writeList;
+procedure TArrayList.writeList(str: string);
 var o: tobject;
 begin
+    if (str <> '') then writeln(str);
     o := first;
     while (o <> nil) do
     begin showNode(o); o := next; end;
+    if (str <> '') then writeln(str);
 end;
 
 function TArrayList.nilArrObj: integer;
@@ -97,7 +99,7 @@ end;
 function TArrayList.insertAfter(prevNode, node: tobject): tobject;
 var i, i1: integer;
 begin
-    if (prevNode = nil) then exit(nil);
+    if (obj = -1) or (prevNode = nil) then exit(nil);
     if (node = nil) then exit(node);
     i := nilArrObj;
     i1 := obj;
@@ -112,7 +114,7 @@ end;
 function TArrayList.deleteFirst: tobject;
 var i: integer;
 begin
-    if (length(arrObj) = 0) then exit(nil);
+    if (length(arrObj) = 0) or (obj = -1) then exit(nil);
     i := obj;
     obj := arrNext[obj];
     result := arrObj[i];
@@ -122,11 +124,11 @@ end;
 function TArrayList.deleteAfter(prevNode: tobject): tobject;
 var i, i1: integer;
 begin
-    if (length(arrObj) = 0) then exit(nil);
+    if (length(arrObj) = 0) or (obj = -1) then exit(nil);
     if (prevNode = nil) then exit(nil);
     i := obj;
     while (arrObj[i] <> prevNode) and (arrNext[i] <> -1) do i := arrNext[i];
-    if (arrObj[i] <> prevNode) and (arrNext[i] = -1) then exit(nil);
+    if (arrNext[i] = -1) then exit(nil);
     i1 := arrNext[i];
     result := arrObj[i1];
     arrNext[i] := arrNext[i1];
@@ -136,7 +138,7 @@ end;
 procedure TArrayList.destroyList;
 var i, i1: integer;
 begin
-    if (length(arrObj) = 0) then exit;
+    if (length(arrObj) = 0) or (obj = -1) then exit;
     i := obj;
     posObj := 0;
     while (arrNext[i] > -1) do
@@ -156,13 +158,13 @@ end;
 
 function TArrayList.first: tobject;
 begin
-    if (length(arrObj) = 0) then exit(nil);
+    if (length(arrObj) = 0) or (obj = -1) then exit(nil);
     posObj := obj;
     result := arrObj[posObj];
 end;
 function TArrayList.next: tobject;
 begin
-    if (length(arrObj) = 0) then exit(nil);
+    if (length(arrObj) = 0) or (obj = -1) then exit(nil);
     if (posObj <= -1) then posObj := obj;
     if (arrNext[posObj] = -1) then exit(nil);
     posObj := arrNext[posObj];
@@ -171,7 +173,7 @@ end;
 function TArrayList.last: tobject;
 var i: integer;
 begin
-    if (length(arrObj) = 0) then exit(nil);
+    if (length(arrObj) = 0) or (obj = -1) then exit(nil);
     if (posObj <= -1) then posObj := obj;
     i := posObj;
     while (arrNext[i] <> -1) do i := arrNext[i];
@@ -183,7 +185,7 @@ procedure TArrayList.showNode(node: tobject);
 begin
     if node is TIntObj then writeln(TIntObj(node).data)
     else if node is TRealObj then writeln(TRealObj(node).data:0:6)
-    else if node is TStrObj then writeln(TStrObj(node).data)
+    //else if node is TStrObj then writeln(TStrObj(node).data)
     else writeln('none type');
 end;
 
@@ -194,11 +196,11 @@ begin
     i1 := 0; i2 := 0;
     if node1 is TIntObj then r1 := TIntObj(node1).data
     else if node1 is TRealObj then r1 := TRealObj(node1).data
-    else if node1 is TStrObj then Val(TStrObj(node1).data, r1, i1)
+    //else if node1 is TStrObj then Val(TStrObj(node1).data, r1, i1)
     else i1 := -1;
     if node2 is TIntObj then r2 := TIntObj(node2).data
     else if node2 is TRealObj then r2 := TRealObj(node2).data
-    else if node2 is TStrObj then Val(TStrObj(node2).data, r2, i2)
+    //else if node2 is TStrObj then Val(TStrObj(node2).data, r2, i2)
     else i2 := -1;
 
     if (i1 <> 0) or (i2 <> 0) then exit(-2)
@@ -210,8 +212,8 @@ end;
 function TArrayList.copyNode(node: tobject): tobject;
 begin
     if node is TIntObj then exit(TIntObj.Create(TIntObj(node).data))
-    else if node is TRealObj then exit(TRealObj.Create(TRealObj(node).data))
-    else if node is TStrObj then exit(TStrObj.Create(TStrObj(node).data));
+    else if node is TRealObj then exit(TRealObj.Create(TRealObj(node).data));
+    //else if node is TStrObj then exit(TStrObj.Create(TStrObj(node).data));
     result := nil;
 end;
 

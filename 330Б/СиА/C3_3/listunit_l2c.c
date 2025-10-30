@@ -7,7 +7,8 @@
 pnodeL2C createNodeL2C(double data)
 {
 	pnodeL2C TN = (pnodeL2C)malloc(sizeof(tnodeL2C));
-	TN->data = data; TN->prev = TN->next = TN;
+	TN->data = data;
+	TN->prev = TN->next = TN;
 	return TN;
 }
 
@@ -71,8 +72,8 @@ pnodeL2C deleteNodeL2C(pnodeL2C* ph, pnodeL2C pn)
 
 	pnodeL2C tn1 = *ph;
 	for (; tn1->next != *ph && tn1 != pn; ) tn1 = tn1->next;
-	if (tn1->next == *ph) return NULL;
-	if (*ph == pn) *ph = tn1->next;
+	if (*ph == pn && listCountL2C(*ph) != 1) *ph = tn1->next;
+	else if (*ph == pn && listCountL2C(*ph) == 1) *ph = NULL;
 	tn1->prev->next = tn1->next;
 	tn1->next->prev = tn1->prev;
 	pn->next = pn->prev = pn;

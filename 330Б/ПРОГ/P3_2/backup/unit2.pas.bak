@@ -30,10 +30,10 @@ type
             function copyNode(node: tobject): tobject;
             procedure destroyList;
 
-            procedure writeList;
+            procedure writeList(str: string = '');
 
             constructor Create;
-            destructor Destroy; override;;
+            destructor Destroy; override;
     end;
 
 implementation
@@ -48,12 +48,14 @@ begin
     destroyList;
 end;
 
-procedure TClassicList.writeList;
+procedure TClassicList.writeList(str: string);
 var o: tobject;
 begin
+    writeln(str);
     o := first;
     while (o <> nil) do
     begin showNode(o); o := next; end;
+    writeln(str);
 end;
 
 function TClassicList.addFirst(note: tobject): tobject;
@@ -166,7 +168,7 @@ procedure TClassicList.showNode(node: tobject);
 begin
     if node is TIntObj then writeln(TIntObj(node).data)
     else if node is TRealObj then writeln(TRealObj(node).data:0:6)
-    else if node is TStrObj then writeln(TStrObj(node).data)
+    //else if node is TStrObj then writeln(TStrObj(node).data)
     else writeln('none type');
 end;
 
@@ -177,11 +179,11 @@ begin
     i1 := 0; i2 := 0;
     if node1 is TIntObj then r1 := TIntObj(node1).data
     else if node1 is TRealObj then r1 := TRealObj(node1).data
-    else if node1 is TStrObj then Val(TStrObj(node1).data, r1, i1)
+    //else if node1 is TStrObj then Val(TStrObj(node1).data, r1, i1)
     else i1 := -2;
     if node2 is TIntObj then r2 := TIntObj(node2).data
     else if node2 is TRealObj then r2 := TRealObj(node2).data
-    else if node2 is TStrObj then Val(TStrObj(node2).data, r2, i2)
+    //else if node2 is TStrObj then Val(TStrObj(node2).data, r2, i2)
     else i2 := -2;
 
     if (i1 <> 0) or (i2 <> 0) then exit(-2)
@@ -193,8 +195,8 @@ end;
 function TClassicList.copyNode(node: tobject): tobject;
 begin
     if node is TIntObj then exit(TIntObj.Create(TIntObj(node).data))
-    else if node is TRealObj then exit(TRealObj.Create(TRealObj(node).data))
-    else if node is TStrObj then exit(TStrObj.Create(TStrObj(node).data));
+    else if node is TRealObj then exit(TRealObj.Create(TRealObj(node).data));
+    //else if node is TStrObj then exit(TStrObj.Create(TStrObj(node).data));
     result := nil;
 end;
 
