@@ -34,6 +34,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Unit1"/>
       </Unit>
+      <Unit>
+        <Filename Value="unit2.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Unit2"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
