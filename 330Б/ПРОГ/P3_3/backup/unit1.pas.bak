@@ -108,7 +108,7 @@ begin
     addHuman(n, g, d, id, c);
 end;
 
-procedure TArrayHuman.saveTStream(Stream: TStream);
+procedure TArrayHuman.saveToStream(Stream: TStream);
 var i, j, count: Integer;
 begin
     count := Length(arrHuman);
@@ -127,7 +127,7 @@ begin
             Stream.WriteAnsiString(arrHuman[i].child[j]);
     end;
 end;
-procedure TArrayHuman.loadTStream(Stream: TStream);
+procedure TArrayHuman.loadFromStream(Stream: TStream);
 var i, j, count, childCount: Integer;
 begin
     if (Stream.Size = 0) then exit;
@@ -149,7 +149,7 @@ begin
     end;
 end;
 
-procedure TArrayHuman.saveTWriter(Stream: TStream);
+procedure TArrayHuman.saveWithWriter(Stream: TStream);
 var Writer: TWriter;
     i, j: Integer;
 begin
@@ -171,7 +171,7 @@ begin
         Writer.free;
     end;
 end;
-procedure TArrayHuman.loadTReader(Stream: TStream);
+procedure TArrayHuman.loadWithReader(Stream: TStream);
 var Reader: TReader;
     i, j, count, childCount: Integer;
 begin

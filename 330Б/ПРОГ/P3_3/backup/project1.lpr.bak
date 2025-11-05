@@ -25,14 +25,14 @@ begin
     human.saveTStream(fl);
     //human.saveTWriter(fl);
     fl.free;
-
+{
     readln;
 
     human.loadTStream(fl1);
     human.manualInputHuman;
     human.writeArrHuman('-----');
     human.saveTStream(fl1);
-
+}
     human.free;
     fl1.free;
     //readln;

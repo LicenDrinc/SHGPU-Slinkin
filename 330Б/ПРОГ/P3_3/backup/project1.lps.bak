@@ -19,8 +19,8 @@
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="118"/>
-        <CursorPos X="33" Y="134"/>
+        <TopLine Value="84"/>
+        <CursorPos X="21" Y="100"/>
         <UsageCount Value="37"/>
         <Loaded Value="True"/>
       </Unit>
@@ -57,6 +57,10 @@
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="17" Column="28"/>
+      </Position>
       <Position>
         <Filename Value="project1.lpr"/>
         <Caret Line="3" Column="20"/>
@@ -172,10 +176,6 @@
       <Position>
         <Filename Value="unit1.pas"/>
         <Caret Line="103" Column="20" TopLine="86"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="100" Column="21" TopLine="84"/>
       </Position>
     </JumpHistory>
     <RunParams>
