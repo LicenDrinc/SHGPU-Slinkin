@@ -8,7 +8,7 @@
       <Unit>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos Y="8"/>
+        <CursorPos X="49" Y="22"/>
         <UsageCount Value="36"/>
         <Loaded Value="True"/>
       </Unit>
@@ -18,8 +18,8 @@
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="86"/>
-        <CursorPos X="8" Y="92"/>
+        <TopLine Value="147"/>
+        <CursorPos X="8" Y="156"/>
         <UsageCount Value="36"/>
         <Loaded Value="True"/>
       </Unit>
