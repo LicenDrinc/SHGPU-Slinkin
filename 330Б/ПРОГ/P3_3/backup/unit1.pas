@@ -51,7 +51,7 @@ begin
     writeln('пол: ', H.gender ,'; д.р.: ', H.date);
     writeln('id: ', H.id);
     if (length(H.child) = 0) then exit;
-    for i:=0 to length(H.child) - 1 do
+    for i := 0 to length(H.child) - 1 do
     begin
         k := -1;
         System.write(i + 1,' ребёнка: ', H.child[i]);

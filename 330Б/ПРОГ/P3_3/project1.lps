@@ -8,7 +8,7 @@
       <Unit>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos Y="17"/>
+        <CursorPos Y="8"/>
         <UsageCount Value="36"/>
         <Loaded Value="True"/>
       </Unit>
@@ -18,9 +18,18 @@
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="162"/>
-        <CursorPos X="44" Y="168"/>
+        <TopLine Value="127"/>
+        <CursorPos X="6" Y="191"/>
         <UsageCount Value="36"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="unit2.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Unit2"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="34" Y="10"/>
+        <UsageCount Value="27"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -33,33 +42,19 @@
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\classes\streams.inc"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="19"/>
-        <CursorPos X="18" Y="33"/>
-        <UsageCount Value="9"/>
+        <TopLine Value="181"/>
+        <CursorPos X="22" Y="192"/>
+        <UsageCount Value="10"/>
       </Unit>
       <Unit>
-        <Filename Value="unit2.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Unit2"/>
-        <EditorIndex Value="2"/>
-        <CursorPos X="34" Y="10"/>
-        <UsageCount Value="27"/>
-        <Loaded Value="True"/>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\classes\classesh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="940"/>
+        <CursorPos X="15" Y="946"/>
+        <UsageCount Value="10"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="16" Column="26" TopLine="10"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="35" Column="38" TopLine="23"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="20" Column="25" TopLine="6"/>
-      </Position>
+    <JumpHistory HistoryIndex="28">
       <Position>
         <Filename Value="unit1.pas"/>
         <Caret Line="33" Column="5" TopLine="31"/>
@@ -67,10 +62,6 @@
       <Position>
         <Filename Value="unit1.pas"/>
         <Caret Line="20" Column="25" TopLine="6"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="22" TopLine="28"/>
       </Position>
       <Position>
         <Filename Value="project1.lpr"/>
@@ -167,6 +158,18 @@
       <Position>
         <Filename Value="project1.lpr"/>
         <Caret Line="13" Column="7"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="128" Column="17" TopLine="106"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="13" Column="30"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="191" Column="6" TopLine="177"/>
       </Position>
     </JumpHistory>
     <RunParams>

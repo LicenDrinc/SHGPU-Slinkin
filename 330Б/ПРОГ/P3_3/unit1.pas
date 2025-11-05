@@ -189,6 +189,7 @@ procedure TArrayHuman.loadWithReader(Stream: TStream);
 var Reader: TReader;
     i, j, count, childCount: Integer;
 begin
+    if (Stream.Size = 0) then exit;
     Reader := TReader.Create(Stream, 4096);
     try
         count := Reader.ReadInteger;
