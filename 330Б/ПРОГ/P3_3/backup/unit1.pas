@@ -8,8 +8,7 @@ uses Classes, SysUtils;
 
 type
     THuman = record
-        firstName, lastName, patromynic: ansistring;
-        gender, date, id: ansistring;
+        name, gender, date, id: ansistring;
         child: array of ansistring;
     end;
 
@@ -21,7 +20,7 @@ type
             destructor Destroy; override;
 
             procedure manualInputHuman;
-            procedure addHuman(fN, lN, pn, g, d, id: ansistring; c: array of ansistring);
+            procedure addHuman(n, g, d, id: ansistring; c: array of ansistring);
             procedure writeHuman(H: THuman);
             procedure writeArrHuman(str: string = '');
 
@@ -47,7 +46,7 @@ end;
 procedure TArrayHuman.writeHuman(H: THuman);
 var i, j, k: integer;
 begin
-    writeln('ФИО: ', H.firstName, ' ', H.lastName, ' ', H.patromynic);
+    writeln('ФИО: ', H.name);
     writeln('пол: ', H.gender ,'; д.р.: ', H.date);
     writeln('id: ', H.id);
     if (length(H.child) = 0) then exit;
@@ -59,7 +58,7 @@ begin
             if (H.child[i] = arrHuman[j].id) then
                 k := j;
         if (k <> -1) then
-            writeln('; ФИО: ', arrHuman[k].firstName, ' ', arrHuman[k].lastName, ' ', arrHuman[k].patromynic)
+            writeln('; ФИО: ', arrHuman[k].name)
         else writeln('; ---');
     end;
 end;
@@ -74,14 +73,12 @@ begin
     if (str <> '') then writeln(str);
 end;
 
-procedure TArrayHuman.addHuman(fN, lN, pn, g, d, id: ansistring; c: array of ansistring);
+procedure TArrayHuman.addHuman(n, g, d, id: ansistring; c: array of ansistring);
 var i, j: integer;
 begin
     i := length(arrHuman);
     setLength(arrHuman, i + 1);
-    arrHuman[i].firstName := fN;
-    arrHuman[i].lastName := lN;
-    arrHuman[i].patromynic := pn;
+    arrHuman[i].name := n;
     arrHuman[i].gender := g;
     arrHuman[i].date := d;
     arrHuman[i].id := id;
@@ -92,15 +89,11 @@ begin
 end;
 
 procedure TArrayHuman.manualInputHuman;
-var name, t, fN, lN, pn, g, d, id: ansistring;
+var n, g, d, id: ansistring;
     c: array of ansistring;
     i: integer;
 begin
-    write('ФИО: '); readln(name);
-    fN := copy(name, 0, pos(' ', name) - 1);
-    t := copy(name, pos(' ', name) + 1, length(name) - pos(' ', name));
-    lN := copy(t, 0, pos(' ', t) - 1);
-    pn := copy(t, pos(' ', t) + 1, length(t) - pos(' ', name));
+    write('ФИО: '); readln(n);
     write('пол: '); readln(g);
     write('д.р.: '); readln(d);
     write('id: '); readln(id);
@@ -112,7 +105,7 @@ begin
         write('id ', i + 1, ' ребёнка: '); readln(t);
         i := i + 1;
     end;
-    addHuman(fN, lN, pn, g, d, id, c);
+    addHuman(n, g, d, id, c);
 end;
 
 procedure TArrayHuman.saveToStream(Stream: TStream);
@@ -125,9 +118,7 @@ begin
 
     for i := 0 to count - 1 do
     begin
-        Stream.WriteAnsiString(arrHuman[i].firstName);
-        Stream.WriteAnsiString(arrHuman[i].lastName);
-        Stream.WriteAnsiString(arrHuman[i].patromynic);
+        Stream.WriteAnsiString(arrHuman[i].name);
         Stream.WriteAnsiString(arrHuman[i].gender);
         Stream.WriteAnsiString(arrHuman[i].date);
         Stream.WriteAnsiString(arrHuman[i].id);
@@ -147,12 +138,10 @@ begin
 
     for i := 0 to count - 1 do
     begin
-        arrHuman[i].firstName   := Stream.ReadAnsiString;
-        arrHuman[i].lastName    := Stream.ReadAnsiString;
-        arrHuman[i].patromynic  := Stream.ReadAnsiString;
-        arrHuman[i].gender      := Stream.ReadAnsiString;
-        arrHuman[i].date        := Stream.ReadAnsiString;
-        arrHuman[i].id          := Stream.ReadAnsiString;
+        arrHuman[i].name := Stream.ReadAnsiString;
+        arrHuman[i].gender := Stream.ReadAnsiString;
+        arrHuman[i].date := Stream.ReadAnsiString;
+        arrHuman[i].id := Stream.ReadAnsiString;
 
         Stream.ReadBuffer(childCount, SizeOf(childCount));
         SetLength(arrHuman[i].child, childCount);
@@ -170,9 +159,7 @@ begin
         Writer.WriteInteger(Length(arrHuman));
         for i := 0 to Length(arrHuman) - 1 do
         begin
-            Writer.WriteString(arrHuman[i].firstName);
-            Writer.WriteString(arrHuman[i].lastName);
-            Writer.WriteString(arrHuman[i].patromynic);
+            Writer.WriteString(arrHuman[i].name);
             Writer.WriteString(arrHuman[i].gender);
             Writer.WriteString(arrHuman[i].date);
             Writer.WriteString(arrHuman[i].id);
@@ -189,6 +176,7 @@ procedure TArrayHuman.loadWithReader(Stream: TStream);
 var Reader: TReader;
     i, j, count, childCount: Integer;
 begin
+    if (Stream.Size = 0) then exit;
     Reader := TReader.Create(Stream, 4096);
     try
         count := Reader.ReadInteger;

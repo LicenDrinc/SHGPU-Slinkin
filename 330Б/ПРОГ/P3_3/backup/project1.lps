@@ -8,7 +8,7 @@
       <Unit>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="30" Y="13"/>
+        <CursorPos Y="8"/>
         <UsageCount Value="36"/>
         <Loaded Value="True"/>
       </Unit>
@@ -18,8 +18,8 @@
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="177"/>
-        <CursorPos X="36" Y="192"/>
+        <TopLine Value="127"/>
+        <CursorPos X="6" Y="191"/>
         <UsageCount Value="36"/>
         <Loaded Value="True"/>
       </Unit>
@@ -41,26 +41,20 @@
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\classes\streams.inc"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="181"/>
         <CursorPos X="22" Y="192"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\classes\classesh.inc"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="940"/>
         <CursorPos X="15" Y="946"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="20" Column="25" TopLine="6"/>
-      </Position>
+    <JumpHistory HistoryIndex="28">
       <Position>
         <Filename Value="unit1.pas"/>
         <Caret Line="33" Column="5" TopLine="31"/>
@@ -170,12 +164,12 @@
         <Caret Line="128" Column="17" TopLine="106"/>
       </Position>
       <Position>
-        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\classes\classesh.inc"/>
-        <Caret Line="953" Column="15" TopLine="939"/>
-      </Position>
-      <Position>
         <Filename Value="project1.lpr"/>
         <Caret Line="13" Column="30"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="191" Column="6" TopLine="177"/>
       </Position>
     </JumpHistory>
     <RunParams>
