@@ -184,12 +184,10 @@ begin
 
         for i := 0 to count - 1 do
         begin
-            arrHuman[i].firstName  := Reader.ReadString;
-            arrHuman[i].lastName   := Reader.ReadString;
-            arrHuman[i].patromynic := Reader.ReadString;
-            arrHuman[i].gender     := Reader.ReadString;
-            arrHuman[i].date       := Reader.ReadString;
-            arrHuman[i].id         := Reader.ReadString;
+            arrHuman[i].name := Reader.ReadString;
+            arrHuman[i].gender := Reader.ReadString;
+            arrHuman[i].date := Reader.ReadString;
+            arrHuman[i].id := Reader.ReadString;
 
             childCount := Reader.ReadInteger;
             SetLength(arrHuman[i].child, childCount);
