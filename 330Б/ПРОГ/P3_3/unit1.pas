@@ -154,6 +154,8 @@ procedure TArrayHuman.saveWithWriter(Stream: TStream);
 var Writer: TWriter;
     i, j: Integer;
 begin
+    Stream.Size := 0;
+    Stream.Seek(0, soBeginning);
     Writer := TWriter.Create(Stream, 4096);
     try
         Writer.WriteInteger(Length(arrHuman));

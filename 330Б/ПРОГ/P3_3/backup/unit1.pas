@@ -89,7 +89,7 @@ begin
 end;
 
 procedure TArrayHuman.manualInputHuman;
-var n, g, d, id: ansistring;
+var t, n, g, d, id: ansistring;
     c: array of ansistring;
     i: integer;
 begin
