@@ -4,14 +4,16 @@ uses Unit1, Unit2, Classes;
 
 var human: TArrayHuman;
     fl: TFileStream;
-    fl1: TArrayStream;
+    fl1: TMemoryStream;
+    //fl1: TArrayStream;
 begin
     human := TArrayHuman.Create;
 
-    fl1 := TArrayStream.Create;
-    human.loadTStream(fl1);
+    fl1 := TMemoryStream.Create; fl1.LoadFromFile('4.txt');
+    //fl1 := TArrayStream.Create;
+    //human.loadTStream(fl1);
 
-    fl := TFileStream.Create('1.txt', fmOpenRead);
+    fl := TFileStream.Create('4.txt', fmOpenRead);
     human.loadTStream(fl);
     //human.loadTReader(fl);
     fl.free;
@@ -30,11 +32,10 @@ begin
 
     human.loadTStream(fl1);
     human.manualInputHuman;
-    human.writeArrHuman('-----');
+    human.writeArrHuman('+++++');
     human.saveTStream(fl1);
 
-    human.free;
-    fl1.free;
+    human.free; fl1.free;
     //readln;
 end.
 
