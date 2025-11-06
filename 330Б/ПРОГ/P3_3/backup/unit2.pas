@@ -13,6 +13,8 @@ type
             FPos: Int64;
         public
             constructor Create;
+            destructor Destroy; override;
+
             function Read(var Buffer; Count: LongInt): LongInt; override;
             function Write(const Buffer; Count: LongInt): LongInt; override;
             function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64; override;
@@ -25,8 +27,11 @@ implementation
 constructor TArrayStream.Create;
 begin
     inherited Create;
-    FPos := 0;
-    SetLength(FData, 0);
+    FPos := 0; SetLength(FData, 0);
+end;
+destructor TArrayStream.Destroy;
+begin
+
 end;
 
 function TArrayStream.Read(var Buffer; Count: LongInt): LongInt;

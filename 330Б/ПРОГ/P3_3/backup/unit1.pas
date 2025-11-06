@@ -24,11 +24,11 @@ type
             procedure writeHuman(H: THuman);
             procedure writeArrHuman(str: string = '');
 
-            procedure saveToStream(Stream: TStream);
-            procedure loadFromStream(Stream: TStream);
+            procedure saveTStream(Stream: TStream);
+            procedure loadTStream(Stream: TStream);
 
-            procedure saveWithWriter(Stream: TStream);
-            procedure loadWithReader(Stream: TStream);
+            procedure saveTWriter(Stream: TStream);
+            procedure loadTReader(Stream: TStream);
     end;
 
 implementation
@@ -53,7 +53,7 @@ begin
     for i := 0 to length(H.child) - 1 do
     begin
         k := -1;
-        System.write(i + 1,' ребёнка: ', H.child[i]);
+        System.write(i + 1,' ребёнка: id ', H.child[i]);
         for j := 0 to length(arrHuman) - 1 do
             if (H.child[i] = arrHuman[j].id) then
                 k := j;
@@ -108,11 +108,9 @@ begin
     addHuman(n, g, d, id, c);
 end;
 
-procedure TArrayHuman.saveToStream(Stream: TStream);
+procedure TArrayHuman.saveTStream(Stream: TStream);
 var i, j, count: Integer;
 begin
-    Stream.Size := 0;
-    Stream.Seek(0, soBeginning);
     count := Length(arrHuman);
     Stream.WriteBuffer(count, SizeOf(count));
 
@@ -129,10 +127,11 @@ begin
             Stream.WriteAnsiString(arrHuman[i].child[j]);
     end;
 end;
-procedure TArrayHuman.loadFromStream(Stream: TStream);
+procedure TArrayHuman.loadTStream(Stream: TStream);
 var i, j, count, childCount: Integer;
 begin
     if (Stream.Size = 0) then exit;
+    Stream.seek(0, soBeginning);
     Stream.ReadBuffer(count, SizeOf(count));
     SetLength(arrHuman, count);
 
@@ -150,7 +149,7 @@ begin
     end;
 end;
 
-procedure TArrayHuman.saveWithWriter(Stream: TStream);
+procedure TArrayHuman.saveTWriter(Stream: TStream);
 var Writer: TWriter;
     i, j: Integer;
 begin
@@ -172,7 +171,7 @@ begin
         Writer.free;
     end;
 end;
-procedure TArrayHuman.loadWithReader(Stream: TStream);
+procedure TArrayHuman.loadTReader(Stream: TStream);
 var Reader: TReader;
     i, j, count, childCount: Integer;
 begin
