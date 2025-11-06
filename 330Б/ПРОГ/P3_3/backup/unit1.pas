@@ -109,11 +109,10 @@ begin
 end;
 
 procedure TArrayHuman.saveTStream(Stream: TStream);
-var i, j, count: Integer;
+var i, j, count, countChild: Integer;
 begin
     count := Length(arrHuman);
     Stream.WriteBuffer(count, SizeOf(count));
-
     for i := 0 to count - 1 do
     begin
         Stream.WriteAnsiString(arrHuman[i].name);
@@ -121,20 +120,19 @@ begin
         Stream.WriteAnsiString(arrHuman[i].date);
         Stream.WriteAnsiString(arrHuman[i].id);
 
-        count := Length(arrHuman[i].child);
+        countChild := Length(arrHuman[i].child);
         Stream.WriteBuffer(count, SizeOf(count));
-        for j := 0 to count - 1 do
+        for j := 0 to countChild - 1 do
             Stream.WriteAnsiString(arrHuman[i].child[j]);
     end;
 end;
 procedure TArrayHuman.loadTStream(Stream: TStream);
-var i, j, count, childCount: Integer;
+var i, j, count, countChild: Integer;
 begin
     if (Stream.Size = 0) then exit;
     Stream.seek(0, soBeginning);
     Stream.ReadBuffer(count, SizeOf(count));
     SetLength(arrHuman, count);
-
     for i := 0 to count - 1 do
     begin
         arrHuman[i].name := Stream.ReadAnsiString;
@@ -142,9 +140,9 @@ begin
         arrHuman[i].date := Stream.ReadAnsiString;
         arrHuman[i].id := Stream.ReadAnsiString;
 
-        Stream.ReadBuffer(childCount, SizeOf(childCount));
-        SetLength(arrHuman[i].child, childCount);
-        for j := 0 to childCount - 1 do
+        Stream.ReadBuffer(countChild, SizeOf(countChild));
+        SetLength(arrHuman[i].child, countChild);
+        for j := 0 to countChild - 1 do
             arrHuman[i].child[j] := Stream.ReadAnsiString;
     end;
 end;
@@ -154,22 +152,19 @@ var Writer: TWriter;
     i, j: Integer;
 begin
     Writer := TWriter.Create(Stream, 4096);
-    try
-        Writer.WriteInteger(Length(arrHuman));
-        for i := 0 to Length(arrHuman) - 1 do
-        begin
-            Writer.WriteString(arrHuman[i].name);
-            Writer.WriteString(arrHuman[i].gender);
-            Writer.WriteString(arrHuman[i].date);
-            Writer.WriteString(arrHuman[i].id);
+    Writer.WriteInteger(Length(arrHuman));
+    for i := 0 to Length(arrHuman) - 1 do
+    begin
+        Writer.WriteString(arrHuman[i].name);
+        Writer.WriteString(arrHuman[i].gender);
+        Writer.WriteString(arrHuman[i].date);
+        Writer.WriteString(arrHuman[i].id);
 
-            Writer.WriteInteger(Length(arrHuman[i].child));
-            for j := 0 to Length(arrHuman[i].child) - 1 do
-                Writer.WriteString(arrHuman[i].child[j]);
-        end;
-    finally
-        Writer.free;
+        Writer.WriteInteger(Length(arrHuman[i].child));
+        for j := 0 to Length(arrHuman[i].child) - 1 do
+            Writer.WriteString(arrHuman[i].child[j]);
     end;
+    Writer.free;
 end;
 procedure TArrayHuman.loadTReader(Stream: TStream);
 var Reader: TReader;
@@ -177,25 +172,22 @@ var Reader: TReader;
 begin
     if (Stream.Size = 0) then exit;
     Reader := TReader.Create(Stream, 4096);
-    try
-        count := Reader.ReadInteger;
-        SetLength(arrHuman, count);
+    count := Reader.ReadInteger;
+    SetLength(arrHuman, count);
 
-        for i := 0 to count - 1 do
-        begin
-            arrHuman[i].name := Reader.ReadString;
-            arrHuman[i].gender := Reader.ReadString;
-            arrHuman[i].date := Reader.ReadString;
-            arrHuman[i].id := Reader.ReadString;
+    for i := 0 to count - 1 do
+    begin
+        arrHuman[i].name := Reader.ReadString;
+        arrHuman[i].gender := Reader.ReadString;
+        arrHuman[i].date := Reader.ReadString;
+        arrHuman[i].id := Reader.ReadString;
 
-            childCount := Reader.ReadInteger;
-            SetLength(arrHuman[i].child, childCount);
-            for j := 0 to childCount - 1 do
-                arrHuman[i].child[j] := Reader.ReadString;
-        end;
-    finally
-        Reader.free;
+        childCount := Reader.ReadInteger;
+        SetLength(arrHuman[i].child, childCount);
+        for j := 0 to childCount - 1 do
+            arrHuman[i].child[j] := Reader.ReadString;
     end;
+    Reader.free;
 end;
 
 end.

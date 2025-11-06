@@ -112,6 +112,7 @@ procedure TArrayHuman.saveTStream(Stream: TStream);
 var i, j, count, countChild: Integer;
 begin
     count := Length(arrHuman);
+    Stream.WriteBuffer(count, SizeOf(count));
     for i := 0 to count - 1 do
     begin
         Stream.WriteAnsiString(arrHuman[i].name);
@@ -120,38 +121,29 @@ begin
         Stream.WriteAnsiString(arrHuman[i].id);
 
         countChild := Length(arrHuman[i].child);
+        Stream.WriteBuffer(countChild, SizeOf(countChild));
         for j := 0 to countChild - 1 do
             Stream.WriteAnsiString(arrHuman[i].child[j]);
     end;
 end;
 procedure TArrayHuman.loadTStream(Stream: TStream);
-var i, j: Integer;
-    name, c: ansistring;
+var i, j, count, countChild: Integer;
 begin
     if (Stream.Size = 0) then exit;
     Stream.seek(0, soBeginning);
-    SetLength(arrHuman, 0);
-    i := 0;
-    while True do
+    Stream.ReadBuffer(count, SizeOf(count));
+    SetLength(arrHuman, count);
+    for i := 0 to count - 1 do
     begin
-        name := Stream.ReadAnsiString;
-        if (name = '') then exit;
-        SetLength(arrHuman, i + 1);
-        arrHuman[i].name := name;
+        arrHuman[i].name := Stream.ReadAnsiString;
         arrHuman[i].gender := Stream.ReadAnsiString;
         arrHuman[i].date := Stream.ReadAnsiString;
         arrHuman[i].id := Stream.ReadAnsiString;
 
-        SetLength(arrHuman[i].child, 0);
-        j := 0;
-        while True do
-        begin
-            c := Stream.ReadAnsiString;
-            if (c = '') then break;
-            arrHuman[i].child[j] := c;
-            j := j + 1;
-        end;
-        i := i + 1;
+        Stream.ReadBuffer(countChild, SizeOf(countChild));
+        SetLength(arrHuman[i].child, countChild);
+        for j := 0 to countChild - 1 do
+            arrHuman[i].child[j] := Stream.ReadAnsiString;
     end;
 end;
 

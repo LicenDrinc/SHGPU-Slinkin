@@ -2,30 +2,52 @@ program project1;
 
 uses Unit1, Unit2, Classes;
 
-var human: TArrayHuman;
+var huma, human1: TArrayHuman;
     fl: TFileStream;
-    fl2: TFileStream;
-    fl1: TArrayStream;
+    fl1: TMemoryStream;
+    fl2: TArrayStream;
+    b: char;
 begin
     human := TArrayHuman.Create;
-    fl := TFileStream.Create('3.txt', fmOpenReadWrite);
-    fl1 := TArrayStream.Create;
-    human.loadFromStream(fl1);
-    human.loadWithReader(fl);
-    fl.free;
 
     human.manualInputHuman;
     human.manualInputHuman;
+    human.manualInputHuman;
+    human.manualInputHuman;
+    human.manualInputHuman;
+    human.writeArrHuman('=====');
 
-    human.writeArrHuman('-----');
+    fl := TFileStream.Create('1.txt', fmCreate);
+    human.saveTStream(fl); fl.free;
+    fl := TFileStream.Create('1.txt', fmOpenRead);
+    human1 := TArrayHuman.Create;
+    human1.loadTStream(fl); fl.free;
+    human1.writeArrHuman('-----');
+    human1.free;
 
-    fl := TFileStream.Create('3.txt', fmOpenReadWrite);
-    human.saveToStream(fl1);
-    human.saveWithWriter(fl);
+    fl := TFileStream.Create('2.txt', fmCreate);
+    human.saveTWriter(fl); fl.free;
+    fl := TFileStream.Create('2.txt', fmOpenRead);
+    human1 := TArrayHuman.Create;
+    human1.loadTReader(fl); fl.free;
+    human1.writeArrHuman('+++++');
+    human1.free;
+
+    fl1 := TMemoryStream.Create;
+    human.saveTStream(fl1);
+    human1 := TArrayHuman.Create;
+    human1.loadTStream(fl1);
+    human1.writeArrHuman('/////');
+    fl1.free; human1.free;
+
+    fl2 := TArrayStream.Create;
+    human.saveTStream(fl2);
+    human1 := TArrayHuman.Create;
+    human1.loadTStream(fl2);
+    human1.writeArrHuman('!!!!!');
+    fl2.free; human1.free;
 
     human.free;
-    fl.free;
-    fl1.free;
     readln;
 end.
 
