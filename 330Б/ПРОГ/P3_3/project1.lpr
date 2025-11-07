@@ -15,14 +15,14 @@ begin
     human.manualInputHuman;
     human.manualInputHuman;
     human.manualInputHuman;
-    human.writeArrHuman('=====');
+    writeln; human.writeArrHuman('=====');
 
     fl := TFileStream.Create('1.txt', fmCreate);
     human.saveTStream(fl); fl.free;
     fl := TFileStream.Create('1.txt', fmOpenRead);
     human1 := TArrayHuman.Create;
     human1.loadTStream(fl); fl.free;
-    human1.writeArrHuman('-----');
+    writeln; human1.writeArrHuman('-----');
     human1.free;
 
     fl := TFileStream.Create('2.txt', fmCreate);
@@ -30,21 +30,21 @@ begin
     fl := TFileStream.Create('2.txt', fmOpenRead);
     human1 := TArrayHuman.Create;
     human1.loadTReader(fl); fl.free;
-    human1.writeArrHuman('+++++');
+    writeln; human1.writeArrHuman('+++++');
     human1.free;
 
     fl1 := TMemoryStream.Create;
     human.saveTStream(fl1);
     human1 := TArrayHuman.Create;
     human1.loadTStream(fl1);
-    human1.writeArrHuman('/////');
+    writeln; human1.writeArrHuman('/////');
     fl1.free; human1.free;
 
     fl2 := TArrayStream.Create;
     human.saveTStream(fl2);
     human1 := TArrayHuman.Create;
     human1.loadTStream(fl2);
-    human1.writeArrHuman('!!!!!');
+    writeln; human1.writeArrHuman('!!!!!');
     fl2.free; human1.free;
 
     human.free;

@@ -2,7 +2,7 @@ program project1;
 
 uses Unit1, Unit2, Classes;
 
-var huma, human1: TArrayHuman;
+var human, human1: TArrayHuman;
     fl: TFileStream;
     fl1: TMemoryStream;
     fl2: TArrayStream;
@@ -15,14 +15,14 @@ begin
     human.manualInputHuman;
     human.manualInputHuman;
     human.manualInputHuman;
-    human.writeArrHuman('=====');
+    writeln; human.writeArrHuman('=====');
 
     fl := TFileStream.Create('1.txt', fmCreate);
     human.saveTStream(fl); fl.free;
     fl := TFileStream.Create('1.txt', fmOpenRead);
     human1 := TArrayHuman.Create;
     human1.loadTStream(fl); fl.free;
-    human1.writeArrHuman('-----');
+    writeln; human1.writeArrHuman('-----');
     human1.free;
 
     fl := TFileStream.Create('2.txt', fmCreate);
@@ -30,7 +30,7 @@ begin
     fl := TFileStream.Create('2.txt', fmOpenRead);
     human1 := TArrayHuman.Create;
     human1.loadTReader(fl); fl.free;
-    human1.writeArrHuman('+++++');
+    hwriteln; uman1.writeArrHuman('+++++');
     human1.free;
 
     fl1 := TMemoryStream.Create;
@@ -44,7 +44,7 @@ begin
     human.saveTStream(fl2);
     human1 := TArrayHuman.Create;
     human1.loadTStream(fl2);
-    human1.writeArrHuman('!!!!!');
+    writeln; human1.writeArrHuman('!!!!!');
     fl2.free; human1.free;
 
     human.free;
