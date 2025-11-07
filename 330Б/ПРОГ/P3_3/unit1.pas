@@ -19,7 +19,7 @@ type
             constructor Create();
             destructor Destroy; override;
 
-            procedure manualInputHuman;
+            function manualInputHuman: boolean;
             procedure addHuman(n, g, d, id: ansistring; c: array of ansistring);
             procedure writeHuman(H: THuman);
             procedure writeArrHuman(str: string = '');
@@ -88,12 +88,13 @@ begin
         arrHuman[i].child[j] := copy(c[j], 0, length(c[j]));
 end;
 
-procedure TArrayHuman.manualInputHuman;
+function TArrayHuman.manualInputHuman: boolean;
 var t, n, g, d, id: ansistring;
     c: array of ansistring;
     i: integer;
 begin
     write('ФИО: '); readln(n);
+    if (n = '') then exit(false);
     write('пол: '); readln(g);
     write('д.р.: '); readln(d);
     write('id: '); readln(id);
@@ -106,6 +107,7 @@ begin
         i := i + 1;
     end;
     addHuman(n, g, d, id, c);
+    result := true;
 end;
 
 procedure TArrayHuman.saveTStream(Stream: TStream);

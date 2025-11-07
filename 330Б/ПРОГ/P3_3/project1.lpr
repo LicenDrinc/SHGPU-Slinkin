@@ -9,11 +9,7 @@ var human, human1: TArrayHuman;
 begin
     human := TArrayHuman.Create;
 
-    human.manualInputHuman;
-    human.manualInputHuman;
-    human.manualInputHuman;
-    human.manualInputHuman;
-    human.manualInputHuman;
+    while (human.manualInputHuman) do;
     writeln; human.writeArrHuman('=====');
 
     fl := TFileStream.Create('1.txt', fmCreate);
@@ -47,6 +43,6 @@ begin
     fl2.free; human1.free;
 
     human.free;
-    readln;
+    //readln;
 end.
 
