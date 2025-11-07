@@ -30,14 +30,14 @@ begin
     fl := TFileStream.Create('2.txt', fmOpenRead);
     human1 := TArrayHuman.Create;
     human1.loadTReader(fl); fl.free;
-    hwriteln; uman1.writeArrHuman('+++++');
+    writeln; human1.writeArrHuman('+++++');
     human1.free;
 
     fl1 := TMemoryStream.Create;
     human.saveTStream(fl1);
     human1 := TArrayHuman.Create;
     human1.loadTStream(fl1);
-    human1.writeArrHuman('/////');
+    writeln; human1.writeArrHuman('/////');
     fl1.free; human1.free;
 
     fl2 := TArrayStream.Create;

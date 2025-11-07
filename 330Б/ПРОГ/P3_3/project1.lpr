@@ -6,7 +6,6 @@ var human, human1: TArrayHuman;
     fl: TFileStream;
     fl1: TMemoryStream;
     fl2: TArrayStream;
-    b: char;
 begin
     human := TArrayHuman.Create;
 
