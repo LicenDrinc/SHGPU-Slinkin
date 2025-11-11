@@ -132,7 +132,6 @@ procedure TArrayHuman.loadTStream(Stream: TStream);
 var i, j, count, countChild: Integer;
 begin
     if (Stream.Size = 0) then exit;
-    Stream.seek(0, soBeginning);
     Stream.ReadBuffer(count, SizeOf(count));
     SetLength(arrHuman, count);
     for i := 0 to count - 1 do
