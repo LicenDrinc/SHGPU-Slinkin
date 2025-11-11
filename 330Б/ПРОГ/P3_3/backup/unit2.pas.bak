@@ -59,11 +59,10 @@ function TArrayStream.Seek(const Offset: Int64; Origin: TSeekOrigin): Int64;
 begin
     case Origin of
         soBeginning: FPos := Offset;
-        soCurrent:   FPos := FPos + Offset;
-        soEnd:       FPos := Length(FData) + Offset;
+        soCurrent: FPos := FPos + Offset;
+        soEnd: FPos := Length(FData) + Offset;
     end;
     if FPos < 0 then FPos := 0;
-    if FPos > Length(FData) then FPos := Length(FData);
     Result := FPos;
 end;
 

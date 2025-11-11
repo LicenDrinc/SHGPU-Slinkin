@@ -63,7 +63,7 @@ begin
         soEnd: FPos := Length(FData) + Offset;
     end;
     if FPos < 0 then FPos := 0;
-    if FPos > Length(FData) then FPos := Length(FData);
+    //if FPos > Length(FData) then FPos := Length(FData);
     Result := FPos;
 end;
 

@@ -29,6 +29,8 @@ begin
     human1.free;
 
     fl1 := TMemoryStream.Create;
+    fl1.seek(1000, soBeginning);
+    writeln(fl1.position, ' <<<<');
     human.saveTStream(fl1);
     human1 := TArrayHuman.Create;
     human1.loadTStream(fl1);
