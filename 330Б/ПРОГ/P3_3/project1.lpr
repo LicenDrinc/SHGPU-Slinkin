@@ -1,6 +1,6 @@
 program project1;
 
-uses Unit1, Unit2, Classes;
+uses heaptrc ,Unit1, Unit2, Classes;
 
 var human, human1: TArrayHuman;
     fl: TFileStream;

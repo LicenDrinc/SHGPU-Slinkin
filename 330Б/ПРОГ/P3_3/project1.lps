@@ -8,20 +8,18 @@
       <Unit>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="35"/>
-        <CursorPos X="33" Y="61"/>
-        <UsageCount Value="51"/>
+        <IsVisibleTab Value="True"/>
+        <CursorPos X="13" Y="3"/>
+        <UsageCount Value="53"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="unit1.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Unit1"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="173"/>
-        <CursorPos X="26" Y="180"/>
-        <UsageCount Value="51"/>
+        <CursorPos X="20" Y="3"/>
+        <UsageCount Value="53"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -31,14 +29,14 @@
         <EditorIndex Value="2"/>
         <TopLine Value="46"/>
         <CursorPos X="58" Y="66"/>
-        <UsageCount Value="42"/>
+        <UsageCount Value="44"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\..\230Б\ПРОГ\P2_1.pas"/>
         <EditorIndex Value="3"/>
         <CursorPos Y="13"/>
-        <UsageCount Value="14"/>
+        <UsageCount Value="15"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -110,11 +108,10 @@
       <Unit>
         <Filename Value="..\..\..\..\..\Downloads\330prog\tstream\srw.pas"/>
         <UnitName Value="sRW"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="19"/>
         <CursorPos X="6" Y="51"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\classes\writer.inc"/>

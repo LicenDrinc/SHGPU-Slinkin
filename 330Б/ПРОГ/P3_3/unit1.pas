@@ -172,7 +172,7 @@ begin
 end;
 procedure TArrayHuman.loadTReader(Stream: TStream);
 var Reader: TReader;
-    i: integer;
+    i, j: integer;
 begin
     if (Stream.Size = 0) then exit;
     Reader := TReader.Create(Stream, 1024);
@@ -180,19 +180,20 @@ begin
     Reader.ReadListBegin;
     while not Reader.EndOfList do
     begin
-        SetLength(arrHuman, length(arrHuman) + 1);
-        arrHuman[length(arrHuman) - 1].name := Reader.ReadString;
-        arrHuman[length(arrHuman) - 1].gender := Reader.ReadString;
-        arrHuman[length(arrHuman) - 1].date := Reader.ReadString;
-        arrHuman[length(arrHuman) - 1].id := Reader.ReadString;
+        i := length(arrHuman);
+        SetLength(arrHuman, i + 1);
+        arrHuman[i].name := Reader.ReadString;
+        arrHuman[i].gender := Reader.ReadString;
+        arrHuman[i].date := Reader.ReadString;
+        arrHuman[i].id := Reader.ReadString;
 
-        SetLength(arrHuman[length(arrHuman) - 1].child, 0);
+        SetLength(arrHuman[i].child, 0);
         Reader.ReadListBegin;
         while not Reader.EndOfList do
         begin
-            i := length(arrHuman[length(arrHuman) - 1].child);
-            SetLength(arrHuman[length(arrHuman) - 1].child, i + 1);
-            arrHuman[length(arrHuman) - 1].child[i] := Reader.ReadString;
+            j := length(arrHuman[i].child);
+            SetLength(arrHuman[i].child, j + 1);
+            arrHuman[i].child[j] := Reader.ReadString;
         end;
         Reader.ReadListEnd;
     end;

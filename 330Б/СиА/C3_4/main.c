@@ -4,7 +4,6 @@
 #include "squnitA.h"
 #include "squnitL.h"
 
-
 int main()
 {
 	printf("----------------------A\n");

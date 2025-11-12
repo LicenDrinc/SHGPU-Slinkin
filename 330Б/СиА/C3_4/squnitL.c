@@ -38,6 +38,7 @@ void LStack_push(pLStack stack, int number)
 int LStack_pop(pLStack stack)
 {
 	if (stack == NULL) return 0;
+	if (stack->data == 0) return 0;
 	pLStack r = stack->next, r1 = stack->next;
 	for (; r1->next != NULL;) { r = r1; r1 = r->next; }
 	int i = r1->data; r->next = NULL; free(r1);
@@ -99,6 +100,7 @@ void LQueue_put(pLQueue que, int number)
 int LQueue_get(pLQueue que)
 {
 	if (que == NULL) return 0;
+	if (que->data == 0) return 0;
 	pLQueue r = que->next, r1 = que->next;
 	que->next = r->next; que->data--;
 	int i = r1->data;

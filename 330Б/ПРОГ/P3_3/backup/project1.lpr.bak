@@ -63,7 +63,6 @@ begin
     writeln; human1.writeArrHuman('-----');
     human1.free;
 
-
     human.free;
     //readln;
 end.
