@@ -8,9 +8,10 @@
       <Unit>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="13"/>
-        <CursorPos X="37" Y="19"/>
-        <UsageCount Value="47"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="36"/>
+        <CursorPos X="17" Y="64"/>
+        <UsageCount Value="48"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -18,20 +19,19 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Unit1"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="119"/>
-        <CursorPos X="48" Y="123"/>
-        <UsageCount Value="47"/>
+        <TopLine Value="128"/>
+        <CursorPos X="45" Y="135"/>
+        <UsageCount Value="48"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="unit2.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Unit2"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="34"/>
-        <CursorPos X="7" Y="66"/>
-        <UsageCount Value="38"/>
+        <TopLine Value="43"/>
+        <CursorPos X="58" Y="66"/>
+        <UsageCount Value="39"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -76,27 +76,27 @@
         <UsageCount Value="11"/>
       </Unit>
       <Unit>
-        <Filename Value="..\..\..\..\..\Downloads\330prog\tstream\project1.lpr"/>
+        <Filename Value="D:\Downloads\330prog\tstream\project1.lpr"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="13" Y="11"/>
         <UsageCount Value="12"/>
       </Unit>
       <Unit>
-        <Filename Value="..\..\..\..\..\Downloads\330prog\tstream\srw.pas"/>
+        <Filename Value="D:\Downloads\330prog\tstream\srw.pas"/>
         <UnitName Value="sRW"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="28" Y="10"/>
         <UsageCount Value="12"/>
       </Unit>
       <Unit>
-        <Filename Value="..\..\..\..\..\..\..\..\usr\share\fpcsrc\rtl\objpas\classes\classesh.inc"/>
+        <Filename Value="D:\usr\share\fpcsrc\rtl\objpas\classes\classesh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="947"/>
         <CursorPos X="38" Y="969"/>
         <UsageCount Value="10"/>
       </Unit>
       <Unit>
-        <Filename Value="..\..\..\..\..\..\..\..\usr\share\fpcsrc\rtl\objpas\classes\streams.inc"/>
+        <Filename Value="D:\usr\share\fpcsrc\rtl\objpas\classes\streams.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="441"/>
         <CursorPos X="5" Y="450"/>

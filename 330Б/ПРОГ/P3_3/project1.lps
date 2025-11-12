@@ -8,9 +8,10 @@
       <Unit>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="11"/>
-        <CursorPos X="36" Y="33"/>
-        <UsageCount Value="47"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="35"/>
+        <CursorPos X="33" Y="61"/>
+        <UsageCount Value="48"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -18,20 +19,19 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Unit1"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="101"/>
-        <CursorPos X="36" Y="134"/>
-        <UsageCount Value="47"/>
+        <TopLine Value="128"/>
+        <CursorPos X="45" Y="135"/>
+        <UsageCount Value="48"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="unit2.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Unit2"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="40"/>
-        <CursorPos X="28" Y="61"/>
-        <UsageCount Value="38"/>
+        <TopLine Value="43"/>
+        <CursorPos X="58" Y="66"/>
+        <UsageCount Value="39"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
