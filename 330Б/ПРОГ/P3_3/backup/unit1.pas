@@ -132,7 +132,6 @@ procedure TArrayHuman.loadTStream(Stream: TStream);
 var i, j, count, countChild: Integer;
 begin
     if (Stream.Size = 0) then exit;
-    Stream.seek(0, soBeginning);
     Stream.ReadBuffer(count, SizeOf(count));
     SetLength(arrHuman, count);
     for i := 0 to count - 1 do
@@ -153,8 +152,8 @@ procedure TArrayHuman.saveTWriter(Stream: TStream);
 var Writer: TWriter;
     i, j: Integer;
 begin
-    Writer := TWriter.Create(Stream, 4096);
-    Writer.WriteInteger(Length(arrHuman));
+    Writer := TWriter.Create(Stream, 1024);
+    Writer.WriteListBegin;
     for i := 0 to Length(arrHuman) - 1 do
     begin
         Writer.WriteString(arrHuman[i].name);
@@ -162,33 +161,43 @@ begin
         Writer.WriteString(arrHuman[i].date);
         Writer.WriteString(arrHuman[i].id);
 
-        Writer.WriteInteger(Length(arrHuman[i].child));
+        Writer.WriteListBegin;
         for j := 0 to Length(arrHuman[i].child) - 1 do
             Writer.WriteString(arrHuman[i].child[j]);
+        Writer.WriteListEnd;
     end;
+
+    Writer.WriteListEnd;
     Writer.free;
 end;
 procedure TArrayHuman.loadTReader(Stream: TStream);
 var Reader: TReader;
-    i, j, count, childCount: Integer;
+    i: integer;
 begin
     if (Stream.Size = 0) then exit;
-    Reader := TReader.Create(Stream, 4096);
-    count := Reader.ReadInteger;
-    SetLength(arrHuman, count);
-
-    for i := 0 to count - 1 do
+    Reader := TReader.Create(Stream, 1024);
+    Reader.ReadListBegin;
+    SetLength(arrHuman, 0);
+    while not Reader.EndOfList do
     begin
-        arrHuman[i].name := Reader.ReadString;
-        arrHuman[i].gender := Reader.ReadString;
-        arrHuman[i].date := Reader.ReadString;
-        arrHuman[i].id := Reader.ReadString;
+        SetLength(arrHuman, length(arrHuman) + 1);
+        arrHuman[length(arrHuman) - 1].name := Reader.ReadString;
+        arrHuman[length(arrHuman) - 1].gender := Reader.ReadString;
+        arrHuman[length(arrHuman) - 1].date := Reader.ReadString;
+        arrHuman[length(arrHuman) - 1].id := Reader.ReadString;
 
-        childCount := Reader.ReadInteger;
-        SetLength(arrHuman[i].child, childCount);
-        for j := 0 to childCount - 1 do
-            arrHuman[i].child[j] := Reader.ReadString;
+        SetLength(arrHuman[length(arrHuman) - 1].child, 0);
+        Reader.ReadListBegin;
+        while not Reader.EndOfList do
+        begin
+            i := length(arrHuman[length(arrHuman) - 1].child);
+            SetLength(arrHuman[length(arrHuman) - 1].child, i + 1);
+            arrHuman[length(arrHuman) - 1].child[i] := Reader.ReadString;
+        end;
+        Reader.ReadListEnd;
     end;
+
+    Reader.ReadListEnd;
     Reader.free;
 end;
 
