@@ -25,25 +25,20 @@ void LStack_destroy(pLStack* stack)
 void LStack_push(pLStack stack, int number)
 {
 	if (stack == NULL) return;
-	pLStack r = (pLStack)malloc(sizeof(LStack)), r1 = stack->next;
-	r->data = number; r->next = NULL;
-	if (r1 == NULL) stack->next = r;
-	else
-	{
-		for (; r1->next != NULL;) r1 = r1->next;
-		r1->next = r;
-	}
+	pLStack r = (pLStack)malloc(sizeof(LStack));
+	r->data = number;
+	r->next = stack->next;
+	stack->next = r;
 	stack->data++;
 }
 int LStack_pop(pLStack stack)
 {
 	if (stack == NULL) return 0;
 	if (stack->data == 0) return 0;
-	pLStack r = stack->next, r1 = stack->next;
-	for (; r1->next != NULL;) { r = r1; r1 = r->next; }
-	int i = r1->data; r->next = NULL; free(r1);
+	pLStack r = stack->next;
+	stack->next = r->next;
 	stack->data--;
-	if (stack->data == 0) stack->next = NULL;
+	int i = r->data; free(r);
 	return i;
 }
 int LStack_empty(pLStack stack)
