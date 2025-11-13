@@ -6,6 +6,7 @@
 
 int main()
 {
+	/*
 	printf("----------------------A\n");
 
 	pAStack A = AStack_create(5);
@@ -14,19 +15,23 @@ int main()
 	AStack_push(A, 3);
 	AStack_push(A, 4);
 	AStack_push(A, 5);
-	for (int i = 0; i < A->count; i++) printf("%d ",A->data[i]);
-	printf("\n");
-	printf("%d %d %d\n---\n", AStack_empty(A), AStack_full(A), AStack_count(A));
-	AStack_pop(A);
-	AStack_pop(A);
 	for (int i = 0; i < A->count; i++) printf("%d ", A->data[i]);
 	printf("\n");
 	printf("%d %d %d\n---\n", AStack_empty(A), AStack_full(A), AStack_count(A));
+	AStack_pop(A);
+	AStack_pop(A);
+	AStack_push(A, 6);
+	AStack_push(A, 7);
+	for (int i = 0; i < A->count; i++) printf("%d ", A->data[i]);
+	printf("\n");
+	printf("%d %d %d\n+++\n", AStack_empty(A), AStack_full(A), AStack_count(A));
+	printf("%d ", AStack_pop(A));
+	printf("%d ", AStack_pop(A));
 	printf("%d ", AStack_pop(A));
 	printf("%d ", AStack_pop(A));
 	printf("%d ", AStack_pop(A));
 	printf("%d\n", AStack_pop(A));
-	printf("%d %d %d\n---\n", AStack_empty(A), AStack_full(A), AStack_count(A));
+	printf("%d %d %d\n===\n", AStack_empty(A), AStack_full(A), AStack_count(A));
 	AStack_push(A, 1);
 	AStack_destroy(&A);
 	printf("%d %d %d\n", AStack_empty(A), AStack_full(A), AStack_count(A));
@@ -48,17 +53,19 @@ int main()
 	AQueue_put(Q, 7);
 	for (int i = 0; i < Q->maxsize; i++) printf("%d ", Q->data[i]);
 	printf("\n");
-	printf("%d %d %d\n---\n", AQueue_empty(Q), AQueue_full(Q), AQueue_count(Q));
+	printf("%d %d %d\n+++\n", AQueue_empty(Q), AQueue_full(Q), AQueue_count(Q));
+	printf("%d ", AQueue_get(Q));
 	printf("%d ", AQueue_get(Q));
 	printf("%d ", AQueue_get(Q));
 	printf("%d ", AQueue_get(Q));
 	printf("%d ", AQueue_get(Q));
 	printf("%d\n", AQueue_get(Q));
-	printf("%d %d %d\n---\n", AQueue_empty(Q), AQueue_full(Q), AQueue_count(Q));
+	printf("%d %d %d\n===\n", AQueue_empty(Q), AQueue_full(Q), AQueue_count(Q));
 	AQueue_put(Q, 1);
 	AQueue_destroy(&Q);
 	printf("%d %d %d\n", AQueue_empty(Q), AQueue_full(Q), AQueue_count(Q));
-
+*/
+/*
 	printf("----------------------L\n");
 
 	pLStack L = LStack_create(5);
@@ -73,15 +80,19 @@ int main()
 	printf("%d %d %d\n---\n", LStack_empty(L), LStack_full(L), LStack_count(L));
 	LStack_pop(L);
 	LStack_pop(L);
+	LStack_push(L, 6);
+	LStack_push(L, 7);
 	L1 = L->next;
 	for (int i = 0; i < L->data; i++) { printf("%d ", L1->data); L1 = L1->next; }
 	printf("\n");
-	printf("%d %d %d\n---\n", LStack_empty(L), LStack_full(L), LStack_count(L));
+	printf("%d %d %d\n+++\n", LStack_empty(L), LStack_full(L), LStack_count(L));
+	printf("%d ", LStack_pop(L));
+	printf("%d ", LStack_pop(L));
 	printf("%d ", LStack_pop(L));
 	printf("%d ", LStack_pop(L));
 	printf("%d ", LStack_pop(L));
 	printf("%d\n", LStack_pop(L));
-	printf("%d %d %d\n---\n", LStack_empty(L), LStack_full(L), LStack_count(L));
+	printf("%d %d %d\n===\n", LStack_empty(L), LStack_full(L), LStack_count(L));
 	LStack_push(L, 1);
 	LStack_destroy(&L);
 	printf("%d %d %d\n", LStack_empty(L), LStack_full(L), LStack_count(L));
@@ -105,14 +116,47 @@ int main()
 	R1 = R->next;
 	for (int i = 0; i < R->data; i++) { printf("%d ", R1->data); R1 = R1->next; }
 	printf("\n");
-	printf("%d %d %d\n---\n", LQueue_empty(R), LQueue_full(R), LQueue_count(R));
+	printf("%d %d %d\n+++\n", LQueue_empty(R), LQueue_full(R), LQueue_count(R));
+	printf("%d ", LQueue_get(R));
 	printf("%d ", LQueue_get(R));
 	printf("%d ", LQueue_get(R));
 	printf("%d ", LQueue_get(R));
 	printf("%d ", LQueue_get(R));
 	printf("%d\n", LQueue_get(R));
-	printf("%d %d %d\n---\n", LQueue_empty(R), LQueue_full(R), LQueue_count(R));
+	printf("%d %d %d\n===\n", LQueue_empty(R), LQueue_full(R), LQueue_count(R));
 	LQueue_put(R, 1);
 	LQueue_destroy(&R);
 	printf("%d %d %d\n", LQueue_empty(R), LQueue_full(R), LQueue_count(R));
+	*/
+	/*
+	pAQueue Q = AQueue_create(4);
+	
+	AQueue_put(Q, 1);
+	AQueue_put(Q, 1);
+	AQueue_put(Q, 1);
+	AQueue_put(Q, 1);
+	AQueue_get(Q);
+	AQueue_get(Q);
+	AQueue_get(Q);
+	AQueue_put(Q, 2);
+	AQueue_put(Q, 2);
+	AQueue_put(Q, 2);
+	
+	for (int i = 0; i < Q->maxsize; i++) printf("%d ", Q->data[i]);
+	printf("\n");
+	printf("%d %d %d\n", AQueue_empty(Q), AQueue_full(Q), AQueue_count(Q));
+	printf("%d %d\n", Q->first, Q->last);
+	AQueue_destroy(&Q);
+	* */
+	
+	pLStack L = LStack_create(0);
+	
+	for (int i = 1; i < 100001; i++) LStack_push(L, i);
+	printf("%d %d %d\n", LStack_empty(L), LStack_full(L), LStack_count(L));
+	for (int i = 0; i < 100000; i++)
+	{
+		if (100000 - LStack_count(L) < 10 || LStack_count(L) <= 10) printf("%d\n", LStack_pop(L));
+		else LStack_pop(L);
+	}
+	LStack_destroy(&L);
 }
