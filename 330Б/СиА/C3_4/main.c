@@ -65,7 +65,7 @@ int main()
 	AQueue_destroy(&Q);
 	printf("%d %d %d\n", AQueue_empty(Q), AQueue_full(Q), AQueue_count(Q));
 */
-/*
+
 	printf("----------------------L\n");
 
 	pLStack L = LStack_create(5);
@@ -127,7 +127,7 @@ int main()
 	LQueue_put(R, 1);
 	LQueue_destroy(&R);
 	printf("%d %d %d\n", LQueue_empty(R), LQueue_full(R), LQueue_count(R));
-	*/
+	
 	/*
 	pAQueue Q = AQueue_create(4);
 	
@@ -148,7 +148,7 @@ int main()
 	printf("%d %d\n", Q->first, Q->last);
 	AQueue_destroy(&Q);
 	* */
-	
+	/*
 	pLStack L = LStack_create(0);
 	
 	for (int i = 1; i < 100001; i++) LStack_push(L, i);
@@ -159,4 +159,5 @@ int main()
 		else LStack_pop(L);
 	}
 	LStack_destroy(&L);
+	* */
 }
