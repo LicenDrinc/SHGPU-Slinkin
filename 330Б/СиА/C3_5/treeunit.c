@@ -10,19 +10,19 @@ PTree createNTree(int number)
 	r->data = number; r->left = r->right = NULL;
 	return r;
 }
-void pushNTree(PTree* HPTree, PTree NTree)
+void pushNTree(PTree* HPTree, PTree ntree)
 {
-	if (NTree == NULL) return;
-	if (*HPTree == NULL) { *HPTree = NTree; return; }
+	if (ntree == NULL) return;
+	if (*HPTree == NULL) { *HPTree = ntree; return; }
 	PTree r = *HPTree, r1 = NULL;
 	while (r != NULL)
 	{
 		r1 = r;
-		if (NTree->data < r->data) r = r->left;
+		if (ntree->data < r->data) r = r->left;
 		else r = r->right;
 	}
-	if (NTree->data < r1->data) r1->left = NTree;
-	else r1->right = NTree;
+	if (ntree->data < r1->data) r1->left = ntree;
+	else r1->right = ntree;
 }
 PTree pullNTree(PTree* HPTree, int number)
 {
@@ -50,45 +50,45 @@ void destroyNTree(PTree* HPTree)
 	free(*HPTree);
 	*HPTree = NULL;
 }
-void printNTree(PTree HTRee, int mode)
+void funcNTree(PTree HTRee, int mode, listfunc func)
 {
 	if (HTRee == NULL) return;
 	switch (mode)
 	{
 		case 1: { // Pre-order
-			printf("%d ", HTRee->data);
-			printNTree(HTRee->left, mode);
-			printNTree(HTRee->right, mode);
+			func(HTRee->data);
+			funcNTree(HTRee->left, mode, func);
+			funcNTree(HTRee->right, mode, func);
 			break;
 		}
 		case 2: { // In-order
-			printNTree(HTRee->left, mode);
-			printf("%d ", HTRee->data);
-			printNTree(HTRee->right, mode);
+			funcNTree(HTRee->left, mode, func);
+			func(HTRee->data);
+			funcNTree(HTRee->right, mode, func);
 			break;
 		}
 		case 3: { // Post-order
-			printNTree(HTRee->left, mode);
-			printNTree(HTRee->right, mode);
-			printf("%d ", HTRee->data);
+			funcNTree(HTRee->left, mode, func);
+			funcNTree(HTRee->right, mode, func);
+			func(HTRee->data);
 			break;
 		}
 		case 4: { // rev-pre-order
-			printf("%d ", HTRee->data);
-			printNTree(HTRee->right, mode);
-			printNTree(HTRee->left, mode);
+			func(HTRee->data);
+			funcNTree(HTRee->right, mode, func);
+			funcNTree(HTRee->left, mode, func);
 			break;
 		}
 		case 5: { // rev-in-order
-			printNTree(HTRee->right, mode);
-			printf("%d ", HTRee->data);
-			printNTree(HTRee->left, mode);
+			funcNTree(HTRee->right, mode, func);
+			func(HTRee->data);
+			funcNTree(HTRee->left, mode, func);
 			break;
 		}
 		case 6: { // rev-post-order
-			printNTree(HTRee->right, mode);
-			printNTree(HTRee->left, mode);
-			printf("%d ", HTRee->data);
+			funcNTree(HTRee->right, mode, func);
+			funcNTree(HTRee->left, mode, func);
+			func(HTRee->data);
 			break;
 		}
 		default: break;
@@ -114,15 +114,15 @@ PTree findNTree(PTree HTRee, int number)
 	}
 	return NULL;
 }
-int deepthNTree(PTree HTRee, PTree NTree)
+int deepthNTree(PTree HTRee, PTree ntree)
 {
 	if (HTRee == NULL) return -1;
 	PTree r = HTRee;
 	int depth = 0;
 	while (r != NULL)
 	{
-		if (r == NTree) return depth;
-		if (NTree->data < r->data) r = r->left;
+		if (r == ntree) return depth;
+		if (ntree->data < r->data) r = r->left;
 		else r = r->right;
 		depth++;
 	}

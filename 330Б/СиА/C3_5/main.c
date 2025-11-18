@@ -3,6 +3,11 @@
 #include <string.h>
 #include "treeunit.h"
 
+int printInt(int i)
+{
+	printf("%d ",i);
+}
+
 int main()
 {
 	PTree tree = NULL, tree1 = NULL;
@@ -15,12 +20,12 @@ int main()
 	pushNTree(&tree, createNTree(1000));
 	pushNTree(&tree, createNTree(4));
 
-	printf("pre-order\t "); printNTree(tree, 1); printf("\n");
-	printf("in-order\t "); printNTree(tree, 2); printf("\n");
-	printf("post-order\t "); printNTree(tree, 3); printf("\n");
-	printf("rev-pre-order\t "); printNTree(tree, 4); printf("\n");
-	printf("rev-in-order\t "); printNTree(tree, 5); printf("\n");
-	printf("rev-post-order\t "); printNTree(tree, 6); printf("\n");
+	printf("pre-order\t "); funcNTree(tree, 1, &printInt); printf("\n");
+	printf("in-order\t "); funcNTree(tree, 2, &printInt); printf("\n");
+	printf("post-order\t "); funcNTree(tree, 3, &printInt); printf("\n");
+	printf("rev-pre-order\t "); funcNTree(tree, 4, &printInt); printf("\n");
+	printf("rev-in-order\t "); funcNTree(tree, 5, &printInt); printf("\n");
+	printf("rev-post-order\t "); funcNTree(tree, 6, &printInt); printf("\n");
 	printAltNTree(tree, 0);
 
 	printf("max deepth: %d\n", maxDeepthNTree(tree));
