@@ -20,8 +20,13 @@ type
         procedure SpinEdit1EditingDone(Sender: TObject);
         procedure Timer1Timer(Sender: TObject);
     private
+        const FormMaxHeight = 500;
+        const FormMaxWidth = 1000;
+        const FormMinHeight = 100;
+        const FormMinWidth = 500;
         const speed = 15;
         const speedDemo = 10;
+        const setTimeMovongMouse = 10;
 
         demoPlusClick: boolean = False;
         demoMinusClick: boolean = False;
@@ -30,6 +35,8 @@ type
         movingMouse: boolean = False;
         HeightOld: integer = 0;
         WidthOld: integer = 0;
+        HeightNew: integer = 0;
+        WidthNew: integer = 0;
         timeMovongMouse: integer = 0;
 
         procedure FormDemoScreen(x: integer; y: integer);
@@ -52,7 +59,6 @@ begin
     SpinEdit2.EditorEnabled := False;
 
     l := x - Width; t := y - Height;
-
     sL := speedDemo * sign(l); sT := speedDemo * sign(t);
     if (abs(l) > sL) then Width := Round(Width + sL) else Width := x;
     if (abs(t) > sT) then Height := Round(Height + sT) else Height := y;
@@ -61,6 +67,7 @@ begin
     begin
         demoPlusClick := False;
         demoMinusClick := False;
+        editingDoneSE := False;
         SpinEdit1.EditorEnabled := True;
         SpinEdit2.EditorEnabled := True;
     end;
@@ -69,25 +76,15 @@ end;
 procedure TForm1.Timer1Timer(Sender: TObject);
 var l, t, lD, tD: integer; sL, sT: real;
 begin
+    Constraints.MaxHeight := FormMaxHeight;
+    Constraints.MaxWidth := FormMaxWidth;
+    Constraints.MinHeight := FormMinHeight;
+    Constraints.MinWidth := FormMinWidth;
     if not (movingMouse) then
     begin
-        if (demoPlusClick) then FormDemoScreen(1000, 500);
-        if (demoMinusClick) then FormDemoScreen(500, 100);
-        if (editingDoneSE) then
-        begin
-            if (Height <> HeightOld) then
-            begin
-                Height := SpinEdit1.Value;
-                SpinEdit1.Value := Height;
-            end;
-            if (Width <> WidthOld) then
-            begin
-                Width := SpinEdit2.Value;
-                SpinEdit2.Value := Width;
-            end;
-            movingAroundScreen := True;
-            editingDoneSE := False;
-        end;
+        if (demoPlusClick) then FormDemoScreen(FormMaxWidth, FormMaxHeight);
+        if (demoMinusClick) then FormDemoScreen(FormMinWidth, FormMinHeight);
+        if (editingDoneSE) then FormDemoScreen(WidthNew, HeightNew);
         if (movingAroundScreen) then
         begin
             l := (Screen.Width - Width) div 2;
@@ -111,28 +108,28 @@ end;
 
 procedure TForm1.FormChangeBounds(Sender: TObject);
 begin
-    if not (demoPlusClick) and (not (demoMinusClick)) and (not (movingAroundScreen)) then
+    if not (demoPlusClick) and (not (demoMinusClick)) and (not (movingAroundScreen)) and (not (editingDoneSE)) then
     begin
-        timeMovongMouse := 10; movingMouse := True;
+        timeMovongMouse := setTimeMovongMouse; movingMouse := True;
     end;
     movingAroundScreen := True;
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
 begin
-    if not (demoPlusClick) and not (demoMinusClick) then demoPlusClick := True;
+    if not (demoPlusClick) and not (demoMinusClick) and (not (editingDoneSE)) then demoPlusClick := True;
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
 begin
-    if not (demoPlusClick) and not (demoMinusClick) then demoMinusClick := True;
+    if not (demoPlusClick) and not (demoMinusClick) and (not (editingDoneSE)) then demoMinusClick := True;
 end;
 
 procedure TForm1.FormResize(Sender: TObject);
 begin
-    if not (demoPlusClick) and (not (demoMinusClick)) then
+    if not (demoPlusClick) and (not (demoMinusClick)) and (not (editingDoneSE)) then
     begin
-        movingMouse := True; timeMovongMouse := 10;
+        movingMouse := True; timeMovongMouse := setTimeMovongMouse;
     end;
 
     if (Height <> HeightOld) then SpinEdit1.Value := Height;
@@ -142,6 +139,7 @@ end;
 procedure TForm1.SpinEdit1EditingDone(Sender: TObject);
 begin
     editingDoneSE := True;
+    WidthNew := SpinEdit2.Value; HeightNew := SpinEdit1.Value;
 end;
 
 end.
