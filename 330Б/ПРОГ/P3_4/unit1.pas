@@ -1,0 +1,148 @@
+unit Unit1;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, Spin, Math;
+
+type
+    { TForm1 }
+    TForm1 = class(TForm)
+        Button1, Button2: TButton;
+        Label1, Label2: TLabel;
+        SpinEdit1, SpinEdit2: TSpinEdit;
+        Panel1: TPanel; Timer1: TTimer;
+        procedure Button1Click(Sender: TObject);
+        procedure Button2Click(Sender: TObject);
+        procedure FormChangeBounds(Sender: TObject);
+        procedure FormResize(Sender: TObject);
+        procedure SpinEdit1EditingDone(Sender: TObject);
+        procedure Timer1Timer(Sender: TObject);
+    private
+        const speed = 15;
+        const speedDemo = 10;
+
+        demoPlusClick: boolean = False;
+        demoMinusClick: boolean = False;
+        editingDoneSE: boolean = False;
+        movingAroundScreen: boolean = False;
+        movingMouse: boolean = False;
+        HeightOld: integer = 0;
+        WidthOld: integer = 0;
+        timeMovongMouse: integer = 0;
+
+        procedure FormDemoScreen(x: integer; y: integer);
+    public
+
+    end;
+
+var Form1: TForm1;
+
+implementation
+
+{$R *.lfm}
+
+{ TForm1 }
+
+procedure TForm1.FormDemoScreen(x: integer; y: integer);
+var l, t: integer; sL, sT: real;
+begin
+    SpinEdit1.EditorEnabled := False;
+    SpinEdit2.EditorEnabled := False;
+
+    l := x - Width; t := y - Height;
+
+    sL := speedDemo * sign(l); sT := speedDemo * sign(t);
+    if (abs(l) > sL) then Width := Round(Width + sL) else Width := x;
+    if (abs(t) > sT) then Height := Round(Height + sT) else Height := y;
+
+    if (Height = y) and (Width = x) then
+    begin
+        demoPlusClick := False;
+        demoMinusClick := False;
+        SpinEdit1.EditorEnabled := True;
+        SpinEdit2.EditorEnabled := True;
+    end;
+end;
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+var l, t, lD, tD: integer; sL, sT: real;
+begin
+    if not (movingMouse) then
+    begin
+        if (demoPlusClick) then FormDemoScreen(1000, 500);
+        if (demoMinusClick) then FormDemoScreen(500, 100);
+        if (editingDoneSE) then
+        begin
+            if (Height <> HeightOld) then
+            begin
+                Height := SpinEdit1.Value;
+                SpinEdit1.Value := Height;
+            end;
+            if (Width <> WidthOld) then
+            begin
+                Width := SpinEdit2.Value;
+                SpinEdit2.Value := Width;
+            end;
+            movingAroundScreen := True;
+            editingDoneSE := False;
+        end;
+        if (movingAroundScreen) then
+        begin
+            l := (Screen.Width - Width) div 2;
+            t := (Screen.Height - Height) div 2;
+            lD := l - Left; tD := t - Top;
+
+            sL := speed * sign(lD); sT := speed * sign(tD);
+            if (abs(lD) > sL) then Left := Round(Left + sL) else Left := l;
+            if (abs(tD) > sT) then Top := Round(Top + sT) else Top := t;
+            if (LD = 0) and (tD = 0) then movingAroundScreen := False;
+        end;
+    end
+    else
+    begin
+        if (timeMovongMouse = 0) then movingMouse := False
+        else timeMovongMouse := timeMovongMouse - 1;
+    end;
+    Panel1.Left := (Width - Panel1.Width) div 2;
+    Panel1.Top := (Height - Panel1.Height) div 2;
+end;
+
+procedure TForm1.FormChangeBounds(Sender: TObject);
+begin
+    if not (demoPlusClick) and (not (demoMinusClick)) and (not (movingAroundScreen)) then
+    begin
+        timeMovongMouse := 10; movingMouse := True;
+    end;
+    movingAroundScreen := True;
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+    if not (demoPlusClick) and not (demoMinusClick) then demoPlusClick := True;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+    if not (demoPlusClick) and not (demoMinusClick) then demoMinusClick := True;
+end;
+
+procedure TForm1.FormResize(Sender: TObject);
+begin
+    if not (demoPlusClick) and (not (demoMinusClick)) then
+    begin
+        movingMouse := True; timeMovongMouse := 10;
+    end;
+
+    if (Height <> HeightOld) then SpinEdit1.Value := Height;
+    if (Width <> WidthOld) then SpinEdit2.Value := Width;
+end;
+
+procedure TForm1.SpinEdit1EditingDone(Sender: TObject);
+begin
+    editingDoneSE := True;
+end;
+
+end.
+

@@ -1,0 +1,176 @@
+unit Unit1;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+    Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
+    Spin, Math, Types;
+
+type
+
+    { TForm1 }
+
+    TForm1 = class(TForm)
+        Button1: TButton;
+        Button2: TButton;
+        IdleTimer1: TIdleTimer;
+        Label1: TLabel;
+        Label2: TLabel;
+        Panel1: TPanel;
+        SpinEdit1: TSpinEdit;
+        SpinEdit2: TSpinEdit;
+        Timer1: TTimer;
+        procedure Button1Click(Sender: TObject);
+        procedure Button2Click(Sender: TObject);
+        procedure FormChangeBounds(Sender: TObject);
+        procedure FormResize(Sender: TObject);
+        procedure SpinEdit1EditingDone(Sender: TObject);
+        procedure Timer1Timer(Sender: TObject);
+    private
+        const speed = 15;
+        const speedDemo = 5;
+
+        demoPlusClick: boolean = False;
+        demoMinusClick: boolean = False;
+        editingDoneSE: boolean = False;
+        movingAroundScreen: boolean = False;
+        movingMouse: boolean = False;
+        HeightOld: integer = 0;
+        WidthOld: integer = 0;
+        timeMovongMouse: integer = 0;
+    public
+
+    end;
+
+var
+    Form1: TForm1;
+
+implementation
+
+{$R *.lfm}
+
+{ TForm1 }
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+var l, t, lD, tD: integer;
+    sL, sT, corner: real;
+begin
+    Panel1.Left := (Form1.Width - Panel1.Width) div 2;
+    Panel1.Top := (Form1.Height - Panel1.Height) div 2;
+    if not (movingMouse) then
+    begin
+        if (demoPlusClick) then
+        begin
+            SpinEdit1.EditorEnabled := False;
+            SpinEdit2.EditorEnabled := False;
+
+            l := (Screen.Width - Width) div 2;
+            t := (Screen.Height - Height) div 2;
+            lD := l - Left; tD := t - Top;
+            if (lD <> 0) or (tD <> 0) then
+            begin
+                corner := ArcTan2(tD, lD);
+                sL := speed * cos(corner); sT := speed * sin(corner);
+                if (lD <> 0) then
+                begin
+                    if (abs(lD) > sL) then Left := Round(Left + sL)
+                    else Left := l;
+                end;
+                if (tD <> 0) then
+                begin
+                    if (abs(tD) > sT) then Top := Round(Top + sT)
+                    else Top := t;
+                end;
+            end;
+
+            if (Form1.Height = 500) and (Form1.Width = 1000) then
+            begin
+                demoPlusClick := False;
+                SpinEdit1.EditorEnabled := True;
+                SpinEdit2.EditorEnabled := True;
+            end;
+        end;
+        if (editingDoneSE) then
+        begin
+            if (Form1.Height <> HeightOld) then
+            begin
+                Form1.Height := SpinEdit1.Value;
+                movingAroundScreen := True;
+            end;
+            if (Form1.Width <> WidthOld) then
+            begin
+                Form1.Width := SpinEdit2.Value;
+                movingAroundScreen := True;
+            end;
+            editingDoneSE := False;
+        end;
+        if (movingAroundScreen) then
+        begin
+            l := (Screen.Width - Form1.Width) div 2;
+            t := (Screen.Height - Form1.Height) div 2;
+            lD := l - Left; tD := t - Top;
+            if (lD <> 0) or (tD <> 0) then
+            begin
+                corner := ArcTan2(tD, lD);
+                sL := speed * cos(corner); sT := speed * sin(corner);
+                if (lD <> 0) then
+                begin
+                    if (abs(lD) > sL) then Left := Round(Left + sL)
+                    else Left := l;
+                end;
+                if (tD <> 0) then
+                begin
+                    if (abs(tD) > sT) then Top := Round(Top + sT)
+                    else Top := t;
+                end;
+            end
+            else movingAroundScreen := False;
+        end;
+    end
+    else
+    begin
+        if (timeMovongMouse = 0) then
+        begin
+            movingMouse := False;
+        end
+        else
+        begin
+            timeMovongMouse := timeMovongMouse - 1;
+        end;
+    end;
+end;
+
+procedure TForm1.FormChangeBounds(Sender: TObject);
+begin
+    movingAroundScreen := True;
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+    demoPlusClick := True;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+    demoMinusClick := True;
+end;
+
+procedure TForm1.FormResize(Sender: TObject);
+begin
+    movingMouse := True;
+    timeMovongMouse := 2;
+    if (Form1.Height <> HeightOld) then
+        SpinEdit1.Value := Form1.Height;
+    if (Form1.Width <> WidthOld) then
+        SpinEdit2.Value := Form1.Width;
+end;
+
+procedure TForm1.SpinEdit1EditingDone(Sender: TObject);
+begin
+    editingDoneSE := True;
+end;
+
+end.
+
