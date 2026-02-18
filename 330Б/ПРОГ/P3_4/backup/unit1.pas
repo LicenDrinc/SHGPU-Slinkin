@@ -19,6 +19,8 @@ type
         procedure FormResize(Sender: TObject);
         procedure SpinEdit1Click(Sender: TObject);
         procedure SpinEdit1EditingDone(Sender: TObject);
+        procedure SpinEdit1KeyDown(Sender: TObject; var Key: Word;
+            Shift: TShiftState);
         procedure Timer1Timer(Sender: TObject);
     private
         const FormMaxHeight = 500;
@@ -74,7 +76,7 @@ begin
     Constraints.MinWidth  := FormMinWidth;  SpinEdit2.MinValue := FormMinWidth;
     if not (movingMouse) then
     begin
-        if ((WidthNew <> SpinEdit2.Value) or (HeightNew <> SpinEdit1.Value)) and (editResize) then
+        if ((WidthNew <> SpinEdit2.Value) or (HeightNew <> SpinEdit1.Value)) and not (editResize) and not (newPesize) then
         begin
             WidthNew := SpinEdit2.Value;
             HeightNew := SpinEdit1.Value;
@@ -133,16 +135,17 @@ begin
     if (Width <> WidthOld) then SpinEdit2.Value := Width;
 end;
 
-procedure TForm1.SpinEdit1Click(Sender: TObject);
-begin
-    editResize := True;
-end;
-
 procedure TForm1.SpinEdit1EditingDone(Sender: TObject);
 begin
     editResize := False;
     newPesize := True;
     WidthNew := SpinEdit2.Value; HeightNew := SpinEdit1.Value;
+end;
+
+procedure TForm1.SpinEdit1KeyDown(Sender: TObject; var Key: Word;
+    Shift: TShiftState);
+begin
+    editResize := True;
 end;
 
 end.

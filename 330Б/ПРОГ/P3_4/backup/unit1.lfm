@@ -56,9 +56,8 @@ object Form1: TForm1
       Top = 8
       Width = 87
       TabOrder = 2
-      OnClick = SpinEdit1Click
       OnEditingDone = SpinEdit1EditingDone
-      OnEnter = SpinEdit1Click
+      OnKeyDown = SpinEdit1KeyDown
     end
     object SpinEdit2: TSpinEdit
       Left = 88
@@ -66,9 +65,8 @@ object Form1: TForm1
       Top = 40
       Width = 87
       TabOrder = 3
-      OnClick = SpinEdit1Click
       OnEditingDone = SpinEdit1EditingDone
-      OnEnter = SpinEdit1Click
+      OnKeyDown = SpinEdit1KeyDown
     end
   end
   object Timer1: TTimer
