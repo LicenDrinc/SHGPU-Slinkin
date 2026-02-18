@@ -17,6 +17,7 @@ type
         procedure Button2Click(Sender: TObject);
         procedure FormChangeBounds(Sender: TObject);
         procedure FormResize(Sender: TObject);
+        procedure SpinEdit1Click(Sender: TObject);
         procedure SpinEdit1EditingDone(Sender: TObject);
         procedure Timer1Timer(Sender: TObject);
     private
@@ -29,6 +30,7 @@ type
         const setTimeMovongMouse = 10;
 
         newPesize: boolean = False;
+        editResize: boolean = False;
         movingAroundScreen: boolean = False;
         movingMouse: boolean = False;
         HeightOld: integer = 0;
@@ -55,8 +57,8 @@ var l, t: integer; sL, sT: real;
 begin
     l := x - Width; t := y - Height;
     sL := speedDemo * sign(l); sT := speedDemo * sign(t);
-    if (abs(l) > sL) then Width  := Round(Width  + sL) else Width  := x;
-    if (abs(t) > sT) then Height := Round(Height + sT) else Height := y;
+    if (abs(l) > abs(sL)) then Width  := Round(Width  + sL) else Width  := x;
+    if (abs(t) > abs(sT)) then Height := Round(Height + sT) else Height := y;
 
     newPesize := not ((Height = y) and (Width = x));
     SpinEdit1.Enabled := not (newPesize); Button1.Enabled := not (newPesize);
@@ -72,6 +74,12 @@ begin
     Constraints.MinWidth  := FormMinWidth;  SpinEdit2.MinValue := FormMinWidth;
     if not (movingMouse) then
     begin
+        if ((WidthNew <> SpinEdit2.Value) or (HeightNew <> SpinEdit1.Value)) and (editResize) then
+        begin
+            WidthNew := SpinEdit2.Value;
+            HeightNew := SpinEdit1.Value;
+            FormDemoScreen(WidthNew, HeightNew);
+        end;
         if (newPesize) then FormDemoScreen(WidthNew, HeightNew);
         if (movingAroundScreen) then
         begin
@@ -80,8 +88,8 @@ begin
             lD := l - Left; tD := t - Top;
 
             sL := speed * sign(lD); sT := speed * sign(tD);
-            if (abs(lD) > sL) then Left := Round(Left + sL) else Left := l;
-            if (abs(tD) > sT) then Top  := Round(Top  + sT) else Top  := t;
+            if (abs(lD) > abs(sL)) then Left := Round(Left + sL) else Left := l;
+            if (abs(tD) > abs(sT)) then Top  := Round(Top  + sT) else Top  := t;
             movingAroundScreen := not ((LD = 0) and (tD = 0));
         end;
     end
@@ -125,8 +133,14 @@ begin
     if (Width <> WidthOld) then SpinEdit2.Value := Width;
 end;
 
+procedure TForm1.SpinEdit1Click(Sender: TObject);
+begin
+    editResize := True;
+end;
+
 procedure TForm1.SpinEdit1EditingDone(Sender: TObject);
 begin
+    editResize := False;
     newPesize := True;
     WidthNew := SpinEdit2.Value; HeightNew := SpinEdit1.Value;
 end;

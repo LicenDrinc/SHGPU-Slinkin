@@ -1,15 +1,11 @@
 object Form1: TForm1
   Left = 701
-  Height = 100
+  Height = 181
   Top = 424
-  Width = 500
+  Width = 558
   Caption = 'Form1'
-  ClientHeight = 100
-  ClientWidth = 500
-  Constraints.MaxHeight = 500
-  Constraints.MaxWidth = 1000
-  Constraints.MinHeight = 100
-  Constraints.MinWidth = 500
+  ClientHeight = 181
+  ClientWidth = 558
   DesignTimePPI = 120
   LCLVersion = '4.2.0.0'
   OnChangeBounds = FormChangeBounds
@@ -61,6 +57,7 @@ object Form1: TForm1
       Width = 87
       TabOrder = 2
       OnEditingDone = SpinEdit1EditingDone
+      OnEnter = SpinEdit1Click
     end
     object SpinEdit2: TSpinEdit
       Left = 88
@@ -69,6 +66,7 @@ object Form1: TForm1
       Width = 87
       TabOrder = 3
       OnEditingDone = SpinEdit1EditingDone
+      OnEnter = SpinEdit1Click
     end
   end
   object Timer1: TTimer

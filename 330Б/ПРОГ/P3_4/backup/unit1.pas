@@ -17,19 +17,26 @@ type
         procedure Button2Click(Sender: TObject);
         procedure FormChangeBounds(Sender: TObject);
         procedure FormResize(Sender: TObject);
+        procedure SpinEdit1Click(Sender: TObject);
         procedure SpinEdit1EditingDone(Sender: TObject);
         procedure Timer1Timer(Sender: TObject);
     private
+        const FormMaxHeight = 500;
+        const FormMinHeight = 100;
+        const FormMaxWidth = 1000;
+        const FormMinWidth = 500;
         const speed = 15;
         const speedDemo = 10;
+        const setTimeMovongMouse = 10;
 
-        demoPlusClick: boolean = False;
-        demoMinusClick: boolean = False;
-        editingDoneSE: boolean = False;
+        newPesize: boolean = False;
+        editResize: boolean = False;
         movingAroundScreen: boolean = False;
         movingMouse: boolean = False;
         HeightOld: integer = 0;
         WidthOld: integer = 0;
+        HeightNew: integer = 0;
+        WidthNew: integer = 0;
         timeMovongMouse: integer = 0;
 
         procedure FormDemoScreen(x: integer; y: integer);
@@ -48,48 +55,32 @@ implementation
 procedure TForm1.FormDemoScreen(x: integer; y: integer);
 var l, t: integer; sL, sT: real;
 begin
-    SpinEdit1.EditorEnabled := False;
-    SpinEdit2.EditorEnabled := False;
-
     l := x - Width; t := y - Height;
-
     sL := speedDemo * sign(l); sT := speedDemo * sign(t);
-    if (abs(l) > sL) then Width := Round(Width + sL) else Width := x;
-    if (abs(t) > sT) then Height := Round(Height + sT) else Height := y;
+    if (abs(l) > abs(sL)) then Width  := Round(Width  + sL) else Width  := x;
+    if (abs(t) > abs(sT)) then Height := Round(Height + sT) else Height := y;
 
-    if (Height = y) and (Width = x) then
-    begin
-        demoPlusClick := False;
-        demoMinusClick := False;
-        SpinEdit1.EditorEnabled := True;
-        SpinEdit2.EditorEnabled := True;
-    end;
+    newPesize := not ((Height = y) and (Width = x));
+    SpinEdit1.Enabled := not (newPesize); Button1.Enabled := not (newPesize);
+    SpinEdit2.Enabled := not (newPesize); Button2.Enabled := not (newPesize);
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
 var l, t, lD, tD: integer; sL, sT: real;
 begin
-    Panel1.Left := (Width - Panel1.Width) div 2;
-    Panel1.Top := (Height - Panel1.Height) div 2;
+    Constraints.MaxHeight := FormMaxHeight; SpinEdit1.MaxValue := FormMaxHeight;
+    Constraints.MaxWidth  := FormMaxWidth;  SpinEdit2.MaxValue := FormMaxWidth;
+    Constraints.MinHeight := FormMinHeight; SpinEdit1.MinValue := FormMinHeight;
+    Constraints.MinWidth  := FormMinWidth;  SpinEdit2.MinValue := FormMinWidth;
     if not (movingMouse) then
     begin
-        if (demoPlusClick) then FormDemoScreen(1000, 500);
-        if (demoMinusClick) then FormDemoScreen(500, 100);
-        if (editingDoneSE) then
+        if ((WidthNew <> SpinEdit2.Value) or (HeightNew <> SpinEdit1.Value)) and (editResize) then
         begin
-            if (Height <> HeightOld) then
-            begin
-                Height := SpinEdit1.Value;
-                SpinEdit1.Value := Height;
-            end;
-            if (Width <> WidthOld) then
-            begin
-                Width := SpinEdit2.Value;
-                SpinEdit2.Value := Width;
-            end;
-            movingAroundScreen := True;
-            editingDoneSE := False;
+            WidthNew := SpinEdit2.Value;
+            HeightNew := SpinEdit1.Value;
+            FormDemoScreen(WidthNew, HeightNew);
         end;
+        if (newPesize) then FormDemoScreen(WidthNew, HeightNew);
         if (movingAroundScreen) then
         begin
             l := (Screen.Width - Width) div 2;
@@ -97,9 +88,9 @@ begin
             lD := l - Left; tD := t - Top;
 
             sL := speed * sign(lD); sT := speed * sign(tD);
-            if (abs(lD) > sL) then Left := Round(Left + sL) else Left := l;
-            if (abs(tD) > sT) then Top := Round(Top + sT) else Top := t;
-            if (LD = 0) and (tD = 0) then movingAroundScreen := False;
+            if (abs(lD) > abs(sL)) then Left := Round(Left + sL) else Left := l;
+            if (abs(tD) > abs(sT)) then Top  := Round(Top  + sT) else Top  := t;
+            movingAroundScreen := not ((LD = 0) and (tD = 0));
         end;
     end
     else
@@ -107,41 +98,51 @@ begin
         if (timeMovongMouse = 0) then movingMouse := False
         else timeMovongMouse := timeMovongMouse - 1;
     end;
+    Panel1.Left := (Width - Panel1.Width) div 2;
+    Panel1.Top := (Height - Panel1.Height) div 2;
 end;
 
 procedure TForm1.FormChangeBounds(Sender: TObject);
 begin
-    if not (demoPlusClick) and (not (demoMinusClick)) and (not (movingAroundScreen)) then
+    if not (newPesize) and (not (movingAroundScreen)) then
     begin
-        timeMovongMouse := 10; movingMouse := True;
+        movingMouse := True; timeMovongMouse := setTimeMovongMouse;
     end;
     movingAroundScreen := True;
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
 begin
-    if not (demoPlusClick) and not (demoMinusClick) then demoPlusClick := True;
+    newPesize := True;
+    WidthNew := FormMaxWidth; HeightNew := FormMaxHeight;
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
 begin
-    if not (demoPlusClick) and not (demoMinusClick) then demoMinusClick := True;
+    newPesize := True;
+    WidthNew := FormMinWidth; HeightNew := FormMinHeight;
 end;
 
 procedure TForm1.FormResize(Sender: TObject);
 begin
-    if not (demoPlusClick) and (not (demoMinusClick)) then
+    if not (newPesize) then
     begin
-        movingMouse := True; timeMovongMouse := 10;
+        movingMouse := True; timeMovongMouse := setTimeMovongMouse;
     end;
-
     if (Height <> HeightOld) then SpinEdit1.Value := Height;
     if (Width <> WidthOld) then SpinEdit2.Value := Width;
 end;
 
+procedure TForm1.SpinEdit1Click(Sender: TObject);
+begin
+    editResize := True;
+end;
+
 procedure TForm1.SpinEdit1EditingDone(Sender: TObject);
 begin
-    editingDoneSE := True;
+    editResize := False;
+    newPesize := True;
+    WidthNew := SpinEdit2.Value; HeightNew := SpinEdit1.Value;
 end;
 
 end.
