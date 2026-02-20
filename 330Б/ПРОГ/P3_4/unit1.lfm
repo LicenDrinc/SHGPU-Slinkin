@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 701
+  Left = 639
   Height = 181
-  Top = 424
+  Top = 280
   Width = 558
   Caption = 'Form1'
   ClientHeight = 181
@@ -11,7 +11,7 @@ object Form1: TForm1
   OnChangeBounds = FormChangeBounds
   OnResize = FormResize
   object Panel1: TPanel
-    Left = 104
+    Left = 72
     Height = 80
     Top = 8
     Width = 288
@@ -50,23 +50,23 @@ object Form1: TForm1
       TabOrder = 1
       OnClick = Button1Click
     end
-    object SpinEdit1: TSpinEdit
-      Left = 88
+    object Edit1: TEdit
+      Left = 80
       Height = 28
-      Top = 8
-      Width = 87
+      Top = 43
+      Width = 100
       TabOrder = 2
+      Text = 'Edit1'
       OnEditingDone = SpinEdit1EditingDone
-      OnKeyDown = SpinEdit1KeyDown
     end
-    object SpinEdit2: TSpinEdit
-      Left = 88
+    object Edit2: TEdit
+      Left = 80
       Height = 28
-      Top = 40
-      Width = 87
+      Top = 11
+      Width = 100
       TabOrder = 3
+      Text = '234'
       OnEditingDone = SpinEdit1EditingDone
-      OnKeyDown = SpinEdit1KeyDown
     end
   end
   object Timer1: TTimer

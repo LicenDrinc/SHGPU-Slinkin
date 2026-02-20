@@ -10,16 +10,14 @@ type
     { TForm1 }
     TForm1 = class(TForm)
         Button1, Button2: TButton;
+        Edit1, Edit2: TEdit;
         Label1, Label2: TLabel;
-        SpinEdit1, SpinEdit2: TSpinEdit;
         Panel1: TPanel; Timer1: TTimer;
         procedure Button1Click(Sender: TObject);
         procedure Button2Click(Sender: TObject);
         procedure FormChangeBounds(Sender: TObject);
         procedure FormResize(Sender: TObject);
         procedure SpinEdit1EditingDone(Sender: TObject);
-        procedure SpinEdit1KeyDown(Sender: TObject; var Key: Word;
-            Shift: TShiftState);
         procedure Timer1Timer(Sender: TObject);
     private
         const FormMaxHeight = 500;
@@ -31,7 +29,6 @@ type
         const setTimeMovongMouse = 10;
 
         newPesize: boolean = False;
-        editResize: boolean = False;
         movingAroundScreen: boolean = False;
         movingMouse: boolean = False;
         HeightOld: integer = 0;
@@ -62,25 +59,19 @@ begin
     if (abs(t) > abs(sT)) then Height := Round(Height + sT) else Height := y;
 
     newPesize := not ((Height = y) and (Width = x));
-    SpinEdit1.Enabled := not (newPesize); Button1.Enabled := not (newPesize);
-    SpinEdit2.Enabled := not (newPesize); Button2.Enabled := not (newPesize);
+    Edit2.Enabled := not (newPesize); Button1.Enabled := not (newPesize);
+    Edit1.Enabled := not (newPesize); Button2.Enabled := not (newPesize);
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
 var l, t, lD, tD: integer; sL, sT: real;
 begin
-    Constraints.MaxHeight := FormMaxHeight; SpinEdit1.MaxValue := FormMaxHeight;
-    Constraints.MaxWidth  := FormMaxWidth;  SpinEdit2.MaxValue := FormMaxWidth;
-    Constraints.MinHeight := FormMinHeight; SpinEdit1.MinValue := FormMinHeight;
-    Constraints.MinWidth  := FormMinWidth;  SpinEdit2.MinValue := FormMinWidth;
+    Constraints.MaxHeight := FormMaxHeight;
+    Constraints.MaxWidth  := FormMaxWidth;
+    Constraints.MinHeight := FormMinHeight;
+    Constraints.MinWidth  := FormMinWidth;
     if not (movingMouse) then
     begin
-        if ((WidthNew <> SpinEdit2.Value) or (HeightNew <> SpinEdit1.Value)) and not (editResize) and not (newPesize) then
-        begin
-            WidthNew := SpinEdit2.Value;
-            HeightNew := SpinEdit1.Value;
-            FormDemoScreen(WidthNew, HeightNew);
-        end;
         if (newPesize) then FormDemoScreen(WidthNew, HeightNew);
         if (movingAroundScreen) then
         begin
@@ -130,21 +121,27 @@ begin
     begin
         movingMouse := True; timeMovongMouse := setTimeMovongMouse;
     end;
-    if (Height <> HeightOld) then SpinEdit1.Value := Height;
-    if (Width <> WidthOld) then SpinEdit2.Value := Width;
+    if (Height <> HeightOld) then Edit2.Text := IntToStr(Height);
+    if (Width <> WidthOld) then Edit1.Text := IntToStr(Width);
 end;
 
 procedure TForm1.SpinEdit1EditingDone(Sender: TObject);
+var x, y: integer;
 begin
-    editResize := False;
-    newPesize := True;
-    WidthNew := SpinEdit2.Value; HeightNew := SpinEdit1.Value;
-end;
-
-procedure TForm1.SpinEdit1KeyDown(Sender: TObject; var Key: Word;
-    Shift: TShiftState);
-begin
-    editResize := True;
+    if (TryStrToInt(Edit1.Text, x)) and (TryStrToInt(Edit2.Text, y)) then
+    begin
+        newPesize := True;
+        if (FormMaxHeight < y) then y := FormMaxHeight;
+        if (FormMinHeight > y) then y := FormMinHeight;
+        if (FormMaxWidth < x) then x := FormMaxWidth;
+        if (FormMinWidth > x) then x := FormMinWidth;
+        WidthNew := x; HeightNew := y;
+    end
+    else
+    begin
+        Edit2.Text := IntToStr(Height);
+        Edit1.Text := IntToStr(Width);
+    end;
 end;
 
 end.
