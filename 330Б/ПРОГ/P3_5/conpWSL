@@ -1,0 +1,2 @@
+# !/bin/bash
+/usr/bin/fpc -MObjFPC -Scghi -Cg -O1 -gw3 -gl -l -vewnhibq -Fu/usr/lib/lazarus/3.0/lcl/units/x86_64-linux/gtk2 -Fu/usr/lib/lazarus/3.0/lcl/units/x86_64-linux -Fu/usr/lib/lazarus/3.0/components/freetype/lib/x86_64-linux -Fu/usr/lib/lazarus/3.0/components/lazutils/lib/x86_64-linux -Fu/usr/lib/lazarus/3.0/packager/units/x86_64-linux -Fu. -dLCL -dLCLgtk2 project1.lpr
