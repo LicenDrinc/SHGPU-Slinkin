@@ -47,8 +47,8 @@ type
         function HexToColor(const Hex: string): TColor;
 
         const
-            maxLine = 15;
-            stepLine = 1;
+            maxLine = 10;
+            stepLine = 2;
     public
 
     end;
@@ -156,7 +156,7 @@ end;
 function TForm1.FuncY(x: Extended): Extended;
 begin
     if not PSScript1.Execute then raise Exception.Create('Ошибка выполнения скрипта');
-    Result := Extended(PSScript1.ExecuteFunction([x], 'GetResult'));
+    try Result := Extended(PSScript1.ExecuteFunction([x], 'GetResult')); except Result := NaN; end;
 end;
 
 function TForm1.HexToColor(const Hex: string): TColor;
@@ -188,14 +188,22 @@ procedure TForm1.FloatSpinEdit2Change(Sender: TObject); begin PaintNew(); end;
 procedure TForm1.PaintBox1Paint(Sender: TObject); begin PaintNew(); end;
 procedure TForm1.FormResize(Sender: TObject); begin ResizeNew(); end;
 
-function PS_Sqrt (x: Extended):    Extended; begin if x < 0 then Result := NaN else Result := Math.Power(x, 0.5); end;
-function PS_Power(x, y: Extended): Extended; begin Result := Math.Power(x, y); end;
-function PS_Sin  (x: Extended):    Extended; begin Result := Math.Sin(x); end;
-function PS_Cos  (x: Extended):    Extended; begin Result := Math.Cos(x); end;
-function PS_Tan  (x: Extended):    Extended; begin if Cos(x) = 0 then Result := NaN else Result := Math.Tan(x); end;
-function PS_Ln   (x: Extended):    Extended; begin if x <= 0 then Result := NaN else Result := Math.Ln(x); end;
-function PS_Log  (x: Extended):    Extended; begin if x <= 0 then Result := NaN else Result := Math.Ln(x)/Math.Ln(10); end;
-function PS_Exp  (x: Extended):    Extended; begin Result := Math.Exp(x); end;
+function PS_Sqrt (x: Extended):    Extended;
+begin try if x < 0 then Result := NaN else Result := Power(x, 0.5); except Result := NaN; end; end;
+function PS_Power(x, y: Extended): Extended;
+begin try Result := Power(x, y); except Result := NaN; end; end;
+function PS_Sin  (x: Extended):    Extended;
+begin try Result := Sin(x); except Result := NaN; end; end;
+function PS_Cos  (x: Extended):    Extended;
+begin try Result := Cos(x); except Result := NaN; end; end;
+function PS_Tan  (x: Extended):    Extended;
+begin try if Cos(x) = 0 then Result := NaN else Result := Tan(x); except Result := NaN; end; end;
+function PS_Ln   (x: Extended):    Extended;
+begin try if x <= 0 then Result := NaN else Result := Ln(x); except Result := NaN; end; end;
+function PS_Log  (x: Extended):    Extended;
+begin try if x <= 0 then Result := NaN else Result := Ln(x)/Ln(10); except Result := NaN; end; end;
+function PS_Exp  (x: Extended):    Extended;
+begin try Result := Exp(x); except Result := NaN; end; end;
 
 // sin(x * ln(cos(tan(x * exp(sqrt(x * pow(2,x)))))))
 
@@ -222,6 +230,9 @@ begin
     Sender.AddFunction(@PS_Log, 'function log(x: Extended): Extended;');
     Sender.AddFunction(@PS_Exp, 'function exp(x: Extended): Extended;');
 end;
+
+initialization
+    SetExceptionMask([exDenormalized, exUnderflow, exPrecision, exZeroDivide, exInvalidOp]);
 
 end.
 
