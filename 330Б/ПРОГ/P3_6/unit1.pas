@@ -5,7 +5,7 @@ unit Unit1;
 interface
 
 uses Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-    Spin, uPSComponent, Math, uPSRuntime;
+    Spin, uPSComponent, Math, uPSRuntime, pascalscript;
 
 type
     { TForm1 }
@@ -153,17 +153,16 @@ begin
     PSScript1.Script.Add('begin Result := ' + Formula + '; end;');
     PSScript1.Script.Add('begin end.');
 
-    ShowMessage(PSScript1.Script.Text);
+    //ShowMessage(PSScript1.Script.Text);
 
     if not PSScript1.Compile then raise Exception.Create('Ошибка компиляции формулы. Формула: ' + Formula);
-
+    if not PSScript1.Execute then raise Exception.Create('Ошибка выполнения скрипта');
     Result := True;
 end;
 
 function TForm1.FuncY(x: Extended): Extended;
 begin
     //ShowMessage(FloatToStr(x));
-    if not PSScript1.Execute then raise Exception.Create('Ошибка выполнения скрипта');
     try Result := Extended(PSScript1.ExecuteFunction([x], 'GetResult')); except Result := NaN; end;
 end;
 
@@ -212,21 +211,22 @@ function PS_Log  (x: Extended):    Extended;
 begin try Result := Ln(x)/Ln(10);  except Result := NaN; end; end;
 function PS_Exp  (x: Extended):    Extended;
 begin try Result := Exp(x);        except Result := NaN; end; end;
+function PS_c    (x: Extended):    Extended;
+begin try Result := sin(x);        except Result := NaN; end; end;
 
 // sin(x * ln(cos(tan(x * exp(sqrt(x * pow(2,x)))))))
 
 procedure TForm1.PSScript1Execute(Sender: TPSScript);
 begin
-    {
-    Sender.Exec.RegisterDelphiFunction(@PS_Power, 'pow',  cdRegister);
-    Sender.Exec.RegisterDelphiFunction(@PS_Sqrt,  'sqrt', cdRegister);
-    Sender.Exec.RegisterDelphiFunction(@PS_Tan,   'tan',  cdRegister);
-    Sender.Exec.RegisterDelphiFunction(@PS_Ln,    'ln',   cdRegister);
-    Sender.Exec.RegisterDelphiFunction(@PS_Log,   'log',  cdRegister);
-    Sender.Exec.RegisterDelphiFunction(@PS_Exp,   'exp',  cdRegister);
-    Sender.Exec.RegisterDelphiFunction(@PS_Sin,   'sin',  cdRegister);
-    Sender.Exec.RegisterDelphiFunction(@PS_Cos,   'cos',  cdRegister);
-    }
+    Sender.Exec.RegisterDelphiFunction(@PS_Power, 'pow',  cdCdecl);
+    Sender.Exec.RegisterDelphiFunction(@PS_Sqrt,  'sqrt', cdCdecl);
+    Sender.Exec.RegisterDelphiFunction(@PS_Tan,   'tan',  cdCdecl);
+    Sender.Exec.RegisterDelphiFunction(@PS_Ln,    'ln',   cdCdecl);
+    Sender.Exec.RegisterDelphiFunction(@PS_Log,   'log',  cdCdecl);
+    Sender.Exec.RegisterDelphiFunction(@PS_Exp,   'exp',  cdCdecl);
+    Sender.Exec.RegisterDelphiFunction(@PS_Sin,   'sin',  cdCdecl);
+    Sender.Exec.RegisterDelphiFunction(@PS_Cos,   'cos',  cdCdecl);
+    Sender.Exec.RegisterDelphiFunction(@PS_c,     'c',    cdCdecl);
 end;
 
 procedure TForm1.PSScript1Compile(Sender: TPSScript);
@@ -241,6 +241,7 @@ begin
     ' sin ' +  BoolToStr(Sender.AddFunction(@PS_Sin,   'function sin(x: Extended): Extended;')) +
     ' cos ' +  BoolToStr(Sender.AddFunction(@PS_Cos,   'function cos(x: Extended): Extended;')) +
     ' test: f ' + BoolToStr(False) + ' t ' + BoolToStr(True);
+    Sender.AddFunction(@PS_c,   'function c(x: Extended): Extended;');
 end;
 
 initialization
