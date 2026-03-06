@@ -47,7 +47,7 @@ type
         function HexToColor(const Hex: string): TColor;
 
         const
-            maxLine = 10;
+            maxLine = 15;
             stepLine = 2;
     public
 
@@ -90,6 +90,8 @@ begin
     PaintBox1.Canvas.TextOut(2, PaintBox1.Height div 2 + 1, '-' + FloatToStr(FloatSpinEdit1.Value));
     PaintBox1.Canvas.TextOut(PaintBox1.Width div 2 + 2, PaintBox1.Height - 22, '-' + FloatToStr(FloatSpinEdit2.Value));
 
+    Label5.Caption := IntToStr(Length(Formulas));
+
     w := PaintBox1.Width / 2.0;
     PaintBox1.Canvas.Pen.Width := 3;
     if (Length(Formulas) <> 0) then
@@ -105,8 +107,11 @@ begin
                 cx1 := cx; cy1 := cy; yO := y;
                 cx := j * stepLine;
 
-                x := FloatSpinEdit1.Value * ((cx - w) / w);
+                x := (cx - w) / w;
+                x := FloatSpinEdit1.Value * x;
                 y := FuncY(x);
+
+                //ShowMessage(FloatToStr(x) + ' ' + FloatToStr(y) + ' ' + FloatToStr(sin(x)));
 
                 if IsNan(y) or IsInfinite(y) then begin yNaN := True; continue; end
                 else
@@ -148,6 +153,8 @@ begin
     PSScript1.Script.Add('begin Result := ' + Formula + '; end;');
     PSScript1.Script.Add('begin end.');
 
+    ShowMessage(PSScript1.Script.Text);
+
     if not PSScript1.Compile then raise Exception.Create('Ошибка компиляции формулы. Формула: ' + Formula);
 
     Result := True;
@@ -155,6 +162,7 @@ end;
 
 function TForm1.FuncY(x: Extended): Extended;
 begin
+    //ShowMessage(FloatToStr(x));
     if not PSScript1.Execute then raise Exception.Create('Ошибка выполнения скрипта');
     try Result := Extended(PSScript1.ExecuteFunction([x], 'GetResult')); except Result := NaN; end;
 end;
@@ -189,46 +197,50 @@ procedure TForm1.PaintBox1Paint(Sender: TObject); begin PaintNew(); end;
 procedure TForm1.FormResize(Sender: TObject); begin ResizeNew(); end;
 
 function PS_Sqrt (x: Extended):    Extended;
-begin try if x < 0 then Result := NaN else Result := Power(x, 0.5); except Result := NaN; end; end;
+begin try Result := Power(x, 0.5); except Result := NaN; end; end;
 function PS_Power(x, y: Extended): Extended;
-begin try Result := Power(x, y); except Result := NaN; end; end;
+begin try Result := Power(x, y);   except Result := NaN; end; end;
 function PS_Sin  (x: Extended):    Extended;
-begin try Result := Sin(x); except Result := NaN; end; end;
+begin try Result := Sin(x);        except Result := NaN; end; end;
 function PS_Cos  (x: Extended):    Extended;
-begin try Result := Cos(x); except Result := NaN; end; end;
+begin try Result := Cos(x);        except Result := NaN; end; end;
 function PS_Tan  (x: Extended):    Extended;
-begin try if Cos(x) = 0 then Result := NaN else Result := Tan(x); except Result := NaN; end; end;
+begin try Result := Tan(x);        except Result := NaN; end; end;
 function PS_Ln   (x: Extended):    Extended;
-begin try if x <= 0 then Result := NaN else Result := Ln(x); except Result := NaN; end; end;
+begin try Result := Ln(x);         except Result := NaN; end; end;
 function PS_Log  (x: Extended):    Extended;
-begin try if x <= 0 then Result := NaN else Result := Ln(x)/Ln(10); except Result := NaN; end; end;
+begin try Result := Ln(x)/Ln(10);  except Result := NaN; end; end;
 function PS_Exp  (x: Extended):    Extended;
-begin try Result := Exp(x); except Result := NaN; end; end;
+begin try Result := Exp(x);        except Result := NaN; end; end;
 
 // sin(x * ln(cos(tan(x * exp(sqrt(x * pow(2,x)))))))
 
 procedure TForm1.PSScript1Execute(Sender: TPSScript);
 begin
-    Sender.Exec.RegisterDelphiFunction(@PS_Sqrt, 'sqrt', cdRegister);
-    Sender.Exec.RegisterDelphiFunction(@PS_Power, 'pow', cdRegister);
-    Sender.Exec.RegisterDelphiFunction(@PS_Sin, 'sin', cdRegister);
-    Sender.Exec.RegisterDelphiFunction(@PS_Cos, 'cos', cdRegister);
-    Sender.Exec.RegisterDelphiFunction(@PS_Tan, 'tan', cdRegister);
-    Sender.Exec.RegisterDelphiFunction(@PS_Ln, 'ln', cdRegister);
-    Sender.Exec.RegisterDelphiFunction(@PS_Log, 'log', cdRegister);
-    Sender.Exec.RegisterDelphiFunction(@PS_Exp, 'exp', cdRegister);
+    {
+    Sender.Exec.RegisterDelphiFunction(@PS_Power, 'pow',  cdRegister);
+    Sender.Exec.RegisterDelphiFunction(@PS_Sqrt,  'sqrt', cdRegister);
+    Sender.Exec.RegisterDelphiFunction(@PS_Tan,   'tan',  cdRegister);
+    Sender.Exec.RegisterDelphiFunction(@PS_Ln,    'ln',   cdRegister);
+    Sender.Exec.RegisterDelphiFunction(@PS_Log,   'log',  cdRegister);
+    Sender.Exec.RegisterDelphiFunction(@PS_Exp,   'exp',  cdRegister);
+    Sender.Exec.RegisterDelphiFunction(@PS_Sin,   'sin',  cdRegister);
+    Sender.Exec.RegisterDelphiFunction(@PS_Cos,   'cos',  cdRegister);
+    }
 end;
 
 procedure TForm1.PSScript1Compile(Sender: TPSScript);
 begin
-    Sender.AddFunction(@PS_Sqrt, 'function sqrt(x: Extended): Extended;');
-    Sender.AddFunction(@PS_Power, 'function pow(x, y: Extended): Extended;');
-    Sender.AddFunction(@PS_Sin, 'function sin(x: Extended): Extended;');
-    Sender.AddFunction(@PS_Cos, 'function cos(x: Extended): Extended;');
-    Sender.AddFunction(@PS_Tan, 'function tan(x: Extended): Extended;');
-    Sender.AddFunction(@PS_Ln, 'function ln(x: Extended): Extended;');
-    Sender.AddFunction(@PS_Log, 'function log(x: Extended): Extended;');
-    Sender.AddFunction(@PS_Exp, 'function exp(x: Extended): Extended;');
+    Label5.Caption :=
+    'pow ' +   BoolToStr(Sender.AddFunction(@PS_Power, 'function pow(x, y: Extended): Extended;')) +
+    ' sqrt ' + BoolToStr(Sender.AddFunction(@PS_Sqrt,  'function sqrt(x: Extended): Extended;')) +
+    ' tan ' +  BoolToStr(Sender.AddFunction(@PS_Tan,   'function tan(x: Extended): Extended;')) +
+    ' ln ' +   BoolToStr(Sender.AddFunction(@PS_Ln,    'function ln(x: Extended): Extended;')) +
+    ' log ' +  BoolToStr(Sender.AddFunction(@PS_Log,   'function log(x: Extended): Extended;')) +
+    ' exp ' +  BoolToStr(Sender.AddFunction(@PS_Exp,   'function exp(x: Extended): Extended;')) +
+    ' sin ' +  BoolToStr(Sender.AddFunction(@PS_Sin,   'function sin(x: Extended): Extended;')) +
+    ' cos ' +  BoolToStr(Sender.AddFunction(@PS_Cos,   'function cos(x: Extended): Extended;')) +
+    ' test: f ' + BoolToStr(False) + ' t ' + BoolToStr(True);
 end;
 
 initialization

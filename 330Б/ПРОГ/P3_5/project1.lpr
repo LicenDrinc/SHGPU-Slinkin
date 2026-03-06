@@ -70,7 +70,7 @@ begin
     self.Panel1.Width := 288;
     self.Panel1.TabOrder := 0;
 
-    self.Button2 := TButton.Create(self.Panel1);
+    self.Button2 := TButton.Create(self);
     self.Button2.Parent := self.Panel1;
     self.Button2.Left := 184;
     self.Button2.Height := 31;
@@ -80,7 +80,7 @@ begin
     self.Button2.TabOrder := 0;
     self.Button2.OnClick := @self.Button2Click;
     
-    self.Label2 := TLabel.Create(self.Panel1);
+    self.Label2 := TLabel.Create(self);
     self.Label2.Parent := self.Panel1;
     self.Label2.Left := 16;
     self.Label2.Height := 20;
@@ -88,7 +88,7 @@ begin
     self.Label2.Width := 56;
     self.Label2.Caption := 'ширина';
     
-    self.Label1 := TLabel.Create(self.Panel1);
+    self.Label1 := TLabel.Create(self);
     self.Label1.Parent := self.Panel1;
     self.Label1.Left := 16;
     self.Label1.Height := 20;
@@ -96,7 +96,7 @@ begin
     self.Label1.Width := 49;
     self.Label1.Caption := 'высота';
     
-    self.Button1 := TButton.Create(self.Panel1);
+    self.Button1 := TButton.Create(self);
     self.Button1.Parent := self.Panel1;
     self.Button1.Left := 184;
     self.Button1.Height := 31;
@@ -106,7 +106,7 @@ begin
     self.Button1.TabOrder := 1;
     self.Button1.OnClick := @self.Button1Click;
     
-    self.Edit1 := TEdit.Create(self.Panel1);
+    self.Edit1 := TEdit.Create(self);
     self.Edit1.Parent := self.Panel1;
     self.Edit1.Left := 80;
     self.Edit1.Height := 28;
@@ -115,7 +115,7 @@ begin
     self.Edit1.TabOrder := 2;
     self.Edit1.OnEditingDone := @self.SpinEdit1EditingDone;
     
-    self.Edit2 := TEdit.Create(self.Panel1);
+    self.Edit2 := TEdit.Create(self);
     self.Edit2.Parent := self.Panel1;
     self.Edit2.Left := 80;
     self.Edit2.Height := 28;
