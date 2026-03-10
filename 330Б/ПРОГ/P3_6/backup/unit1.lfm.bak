@@ -9,13 +9,14 @@ object Form1: TForm1
   DesignTimePPI = 102
   OnCreate = FormCreate
   OnResize = FormResize
+  LCLVersion = '3.6.0.0'
   object Panel1: TPanel
     Left = 7
     Height = 75
     Top = 326
-    Width = 1369
+    Width = 1025
     ClientHeight = 75
-    ClientWidth = 1369
+    ClientWidth = 1025
     TabOrder = 0
     object Button2: TButton
       Left = 483
@@ -123,7 +124,7 @@ object Form1: TForm1
     Top = 150
   end
   object PSScript1: TPSScript
-    CompilerOptions = []
+    CompilerOptions = [icBooleanShortCircuit]
     OnCompile = PSScript1Compile
     OnExecute = PSScript1Execute
     Plugins = <>

@@ -195,24 +195,15 @@ procedure TForm1.FloatSpinEdit2Change(Sender: TObject); begin PaintNew(); end;
 procedure TForm1.PaintBox1Paint(Sender: TObject); begin PaintNew(); end;
 procedure TForm1.FormResize(Sender: TObject); begin ResizeNew(); end;
 
-function PS_Sqrt (x: Extended):    Extended;
-begin try Result := Power(x, 0.5); except Result := NaN; end; end;
-function PS_Power(x, y: Extended): Extended;
-begin try Result := Power(x, y);   except Result := NaN; end; end;
-function PS_Sin  (x: Extended):    Extended;
-begin try Result := Sin(x);        except Result := NaN; end; end;
-function PS_Cos  (x: Extended):    Extended;
-begin try Result := Cos(x);        except Result := NaN; end; end;
-function PS_Tan  (x: Extended):    Extended;
-begin try Result := Tan(x);        except Result := NaN; end; end;
-function PS_Ln   (x: Extended):    Extended;
-begin try Result := Ln(x);         except Result := NaN; end; end;
-function PS_Log  (x: Extended):    Extended;
-begin try Result := Ln(x)/Ln(10);  except Result := NaN; end; end;
-function PS_Exp  (x: Extended):    Extended;
-begin try Result := Exp(x);        except Result := NaN; end; end;
-function PS_c    (x: Extended):    Extended;
-begin try Result := sin(x);        except Result := NaN; end; end;
+function PS_Sqrt (x: Extended):    Extended; begin try Result := power(x, 0.5); except Result := NaN; end; end;
+function PS_Power(x, y: Extended): Extended; begin try Result := power(x, y);   except Result := NaN; end; end;
+function PS_Sin  (x: Extended):    Extended; begin try Result := sin(x);        except Result := NaN; end; end;
+function PS_Cos  (x: Extended):    Extended; begin try Result := cos(x);        except Result := NaN; end; end;
+function PS_Tan  (x: Extended):    Extended; begin try Result := tan(x);        except Result := NaN; end; end;
+function PS_Ln   (x: Extended):    Extended; begin try Result := ln(x);         except Result := NaN; end; end;
+function PS_Log  (x: Extended):    Extended; begin try Result := ln(x)/ln(10);  except Result := NaN; end; end;
+function PS_Exp  (x: Extended):    Extended; begin try Result := exp(x);        except Result := NaN; end; end;
+function PS_test (x: Extended):    Extended; begin try Result := sin(x);        except Result := NaN; end; end;
 
 // sin(x * ln(cos(tan(x * exp(sqrt(x * pow(2,x)))))))
 
@@ -226,7 +217,7 @@ begin
     Sender.Exec.RegisterDelphiFunction(@PS_Exp,   'exp',  cdCdecl);
     Sender.Exec.RegisterDelphiFunction(@PS_Sin,   'sin',  cdCdecl);
     Sender.Exec.RegisterDelphiFunction(@PS_Cos,   'cos',  cdCdecl);
-    Sender.Exec.RegisterDelphiFunction(@PS_c,     'c',    cdCdecl);
+    Sender.Exec.RegisterDelphiFunction(@PS_test,  'test', cdRegister);
 end;
 
 procedure TForm1.PSScript1Compile(Sender: TPSScript);
@@ -241,7 +232,7 @@ begin
     ' sin ' +  BoolToStr(Sender.AddFunction(@PS_Sin,   'function sin(x: Extended): Extended;')) +
     ' cos ' +  BoolToStr(Sender.AddFunction(@PS_Cos,   'function cos(x: Extended): Extended;')) +
     ' test: f ' + BoolToStr(False) + ' t ' + BoolToStr(True);
-    Sender.AddFunction(@PS_c,   'function c(x: Extended): Extended;');
+    Sender.AddFunction(@PS_test, 'function test(x: Extended): Extended;');
 end;
 
 initialization
