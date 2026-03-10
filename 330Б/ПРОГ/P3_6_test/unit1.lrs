@@ -1,11 +1,12 @@
 { This is an automatically generated lazarus resource file }
 
 LazarusResources.Add('TForm1','FORMDATA',[
-  'TPF0'#6'TForm1'#5'Form1'#4'Left'#3'N'#1#6'Height'#3#152#0#3'Top'#3#250#0#5'W'
-  +'idth'#3#224#0#7'Caption'#6#5'Form1'#12'ClientHeight'#3#152#0#11'ClientWidth'
-  +#3#224#0#13'DesignTimePPI'#2'f'#0#7'TButton'#7'Button1'#4'Left'#2'H'#6'Heigh'
-  +'t'#2#27#3'Top'#2'8'#5'Width'#2'P'#7'Caption'#6#7'Button1'#8'TabOrder'#2#0#7
-  +'OnClick'#7#12'Button1Click'#0#0#9'TPSScript'#9'PSScript1'#15'CompilerOption'
-  +'s'#11#0#9'OnCompile'#7#16'PSScript1Compile'#9'OnExecute'#7#16'PSScript1Exec'
-  +'ute'#7'Plugins'#14#0#15'UsePreProcessor'#8#4'Left'#2#16#3'Top'#2'0'#0#0#0
+  'TPF0'#6'TForm1'#5'Form1'#4'Left'#3'/'#4#6'Height'#3#179#0#3'Top'#3#255#0#5'W'
+  +'idth'#3#8#1#7'Caption'#6#5'Form1'#12'ClientHeight'#3#179#0#11'ClientWidth'#3
+  +#8#1#13'DesignTimePPI'#2'x'#10'LCLVersion'#6#7'4.2.0.0'#0#7'TButton'#7'Butto'
+  +'n1'#4'Left'#2'U'#6'Height'#2' '#3'Top'#2'B'#5'Width'#2'^'#7'Caption'#6#7'Bu'
+  +'tton1'#8'TabOrder'#2#0#7'OnClick'#7#12'Button1Click'#0#0#9'TPSScript'#9'PSS'
+  +'cript1'#15'CompilerOptions'#11#0#9'OnCompile'#7#16'PSScript1Compile'#9'OnEx'
+  +'ecute'#7#16'PSScript1Execute'#7'Plugins'#14#0#15'UsePreProcessor'#8#4'Left'
+  +#2#19#3'Top'#2'8'#0#0#0
 ]);

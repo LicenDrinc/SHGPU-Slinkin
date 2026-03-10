@@ -68,45 +68,47 @@ function PS_test (x: Double):    Double; begin try Result := sin(x);        exce
 procedure TForm1.PSScript1Execute(Sender: TPSScript);
 begin
     Sender.Exec.RegisterDelphiFunction(@PS_Power, 'pow',  cdCdecl);
-    //Sender.Exec.RegisterDelphiFunction(@PS_Sqrt,  'sqrt', cdCdecl);
-    //Sender.Exec.RegisterDelphiFunction(@PS_Tan,   'tan',  cdCdecl);
-    //Sender.Exec.RegisterDelphiFunction(@PS_Ln,    'ln',   cdCdecl);
-    //Sender.Exec.RegisterDelphiFunction(@PS_Log,   'log',  cdCdecl);
-    //Sender.Exec.RegisterDelphiFunction(@PS_Exp,   'exp',  cdCdecl);
-    //Sender.Exec.RegisterDelphiFunction(@PS_Sin,   'sin',  cdCdecl);
-    //Sender.Exec.RegisterDelphiFunction(@PS_Cos,   'cos',  cdCdecl);
+    Sender.Exec.RegisterDelphiFunction(@PS_Tan,   'tan',  cdCdecl);
+    Sender.Exec.RegisterDelphiFunction(@PS_Ln,    'ln',   cdCdecl);
+    Sender.Exec.RegisterDelphiFunction(@PS_Log,   'log',  cdCdecl);
+    Sender.Exec.RegisterDelphiFunction(@PS_Exp,   'exp',  cdCdecl);
     Sender.Exec.RegisterDelphiFunction(@PS_test,  'test', cdRegister);
 end;
 
 procedure TForm1.PSScript1Compile(Sender: TPSScript);
 begin
     Sender.AddFunction(@PS_Power, 'function pow(x, y: Double): Double;');
-    //Sender.AddFunction(@PS_Sqrt,  'function sqrt(x: Double): Double;');
-    //Sender.AddFunction(@PS_Tan,   'function tan(x: Double): Double;');
-    //Sender.AddFunction(@PS_Ln,    'function ln(x: Double): Double;');
-    //Sender.AddFunction(@PS_Log,   'function log(x: Double): Double;');
-    //Sender.AddFunction(@PS_Exp,   'function exp(x: Double): Double;');
-    //Sender.AddFunction(@PS_Sin,   'function sin(x: Double): Double;');
-    //Sender.AddFunction(@PS_Cos,   'function cos(x: Double): Double;');
+    Sender.AddFunction(@PS_Tan,   'function tan(x: Double): Double;');
+    Sender.AddFunction(@PS_Ln,    'function ln(x: Double): Double;');
+    Sender.AddFunction(@PS_Log,   'function log(x: Double): Double;');
+    Sender.AddFunction(@PS_Exp,   'function exp(x: Double): Double;');
     Sender.AddFunction(@PS_test,  'function test(x: Double): Double;');
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
 begin
     FuncComp('x + 3');  WriteLn(FuncY(3.1));
-    FuncComp('x - 3');  WriteLn((FuncY(3.1)));
-    FuncComp('x * 3');  WriteLn((FuncY(3.1)));
-    FuncComp('x / 3');  WriteLn((FuncY(3.1)));
-    FuncComp('pow(x, 2)'); WriteLn((FuncY(3.1)));
-    FuncComp('pow(x, 0.5)'); WriteLn((FuncY(9)));
-    FuncComp('pow(x, 0.5)'); WriteLn((FuncY(-1)));
-    FuncComp('sin(x)'); WriteLn((FuncY(Pi/2)));
-    FuncComp('sqrt(x)'); WriteLn((FuncY(9)));
-    FuncComp('sqrt(x)'); WriteLn((FuncY(-1)));
+    FuncComp('x - 3');  WriteLn(FuncY(3.1));
+    FuncComp('x * 3');  WriteLn(FuncY(3.1));
+    FuncComp('x / 3');  WriteLn(FuncY(3.1)); WriteLn('pow');
+    FuncComp('pow(x, 2)'); WriteLn(FuncY(3.1));
+    FuncComp('pow(x, 0.5)'); WriteLn(FuncY(9));
+    FuncComp('pow(x, 0.5)'); WriteLn(FuncY(-1)); WriteLn('sin');
+    FuncComp('sin(x)'); WriteLn(FuncY(Pi/2)); WriteLn('sqrt');
+    FuncComp('sqrt(x)'); WriteLn(FuncY(9));
+    FuncComp('sqrt(x)'); WriteLn(FuncY(-1)); WriteLn('tan');
+    FuncComp('tan(x)'); WriteLn(FuncY(Pi/2)); WriteLn('ln');
+    FuncComp('ln(x)'); WriteLn(FuncY(1));
+    FuncComp('ln(x)'); WriteLn(FuncY(-1)); WriteLn('log');
+    FuncComp('log(x)'); WriteLn(FuncY(1));
+    FuncComp('log(x)'); WriteLn(FuncY(-1)); WriteLn('exp');
+    FuncComp('exp(x)'); WriteLn(FuncY(1));
+    FuncComp('exp(x)'); WriteLn(FuncY(-1));
 end;
 
 initialization
     {$I unit1.lrs}
+    SetExceptionMask([exDenormalized, exUnderflow, exPrecision, exZeroDivide, exInvalidOp]);
 
 end.
 

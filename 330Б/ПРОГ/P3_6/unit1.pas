@@ -195,44 +195,35 @@ procedure TForm1.FloatSpinEdit2Change(Sender: TObject); begin PaintNew(); end;
 procedure TForm1.PaintBox1Paint(Sender: TObject); begin PaintNew(); end;
 procedure TForm1.FormResize(Sender: TObject); begin ResizeNew(); end;
 
-function PS_Sqrt (x: Extended):    Extended; begin try Result := power(x, 0.5); except Result := NaN; end; end;
-function PS_Power(x, y: Extended): Extended; begin try Result := power(x, y);   except Result := NaN; end; end;
-function PS_Sin  (x: Extended):    Extended; begin try Result := sin(x);        except Result := NaN; end; end;
-function PS_Cos  (x: Extended):    Extended; begin try Result := cos(x);        except Result := NaN; end; end;
-function PS_Tan  (x: Extended):    Extended; begin try Result := tan(x);        except Result := NaN; end; end;
-function PS_Ln   (x: Extended):    Extended; begin try Result := ln(x);         except Result := NaN; end; end;
-function PS_Log  (x: Extended):    Extended; begin try Result := ln(x)/ln(10);  except Result := NaN; end; end;
-function PS_Exp  (x: Extended):    Extended; begin try Result := exp(x);        except Result := NaN; end; end;
-function PS_test (x: Extended):    Extended; begin try Result := sin(x);        except Result := NaN; end; end;
+function PS_Power(x, y: Double): Double; begin try Result := power(x, y);  except Result := NaN; end; end;
+function PS_Tan  (x: Double):    Double; begin try Result := tan(x);       except Result := NaN; end; end;
+function PS_Ln   (x: Double):    Double; begin try Result := ln(x);        except Result := NaN; end; end;
+function PS_Log  (x: Double):    Double; begin try Result := ln(x)/ln(10); except Result := NaN; end; end;
+function PS_Exp  (x: Double):    Double; begin try Result := exp(x);       except Result := NaN; end; end;
+function PS_test (x: Double):    Double; begin try Result := sin(x);       except Result := NaN; end; end;
 
 // sin(x * ln(cos(tan(x * exp(sqrt(x * pow(2,x)))))))
 
 procedure TForm1.PSScript1Execute(Sender: TPSScript);
 begin
     Sender.Exec.RegisterDelphiFunction(@PS_Power, 'pow',  cdCdecl);
-    Sender.Exec.RegisterDelphiFunction(@PS_Sqrt,  'sqrt', cdCdecl);
     Sender.Exec.RegisterDelphiFunction(@PS_Tan,   'tan',  cdCdecl);
     Sender.Exec.RegisterDelphiFunction(@PS_Ln,    'ln',   cdCdecl);
     Sender.Exec.RegisterDelphiFunction(@PS_Log,   'log',  cdCdecl);
     Sender.Exec.RegisterDelphiFunction(@PS_Exp,   'exp',  cdCdecl);
-    Sender.Exec.RegisterDelphiFunction(@PS_Sin,   'sin',  cdCdecl);
-    Sender.Exec.RegisterDelphiFunction(@PS_Cos,   'cos',  cdCdecl);
     Sender.Exec.RegisterDelphiFunction(@PS_test,  'test', cdRegister);
 end;
 
 procedure TForm1.PSScript1Compile(Sender: TPSScript);
 begin
     Label5.Caption :=
-    'pow ' +   BoolToStr(Sender.AddFunction(@PS_Power, 'function pow(x, y: Extended): Extended;')) +
-    ' sqrt ' + BoolToStr(Sender.AddFunction(@PS_Sqrt,  'function sqrt(x: Extended): Extended;')) +
-    ' tan ' +  BoolToStr(Sender.AddFunction(@PS_Tan,   'function tan(x: Extended): Extended;')) +
-    ' ln ' +   BoolToStr(Sender.AddFunction(@PS_Ln,    'function ln(x: Extended): Extended;')) +
-    ' log ' +  BoolToStr(Sender.AddFunction(@PS_Log,   'function log(x: Extended): Extended;')) +
-    ' exp ' +  BoolToStr(Sender.AddFunction(@PS_Exp,   'function exp(x: Extended): Extended;')) +
-    ' sin ' +  BoolToStr(Sender.AddFunction(@PS_Sin,   'function sin(x: Extended): Extended;')) +
-    ' cos ' +  BoolToStr(Sender.AddFunction(@PS_Cos,   'function cos(x: Extended): Extended;')) +
+    'pow ' +   BoolToStr(Sender.AddFunction(@PS_Power, 'function pow(x, y: Double): Double;')) +
+    ' tan ' +  BoolToStr(Sender.AddFunction(@PS_Tan,   'function tan(x: Double): Double;')) +
+    ' ln ' +   BoolToStr(Sender.AddFunction(@PS_Ln,    'function ln(x: Double): Double;')) +
+    ' log ' +  BoolToStr(Sender.AddFunction(@PS_Log,   'function log(x: Double): Double;')) +
+    ' exp ' +  BoolToStr(Sender.AddFunction(@PS_Exp,   'function exp(x: Double): Double;')) +
     ' test: f ' + BoolToStr(False) + ' t ' + BoolToStr(True);
-    Sender.AddFunction(@PS_test, 'function test(x: Extended): Extended;');
+    Sender.AddFunction(@PS_test, 'function test(x: Double): Double;');
 end;
 
 initialization
