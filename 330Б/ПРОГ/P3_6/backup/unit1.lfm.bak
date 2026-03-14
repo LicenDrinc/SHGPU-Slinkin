@@ -1,11 +1,11 @@
 object Form1: TForm1
-  Left = 36
-  Height = 513
-  Top = 231
-  Width = 1497
+  Left = 161
+  Height = 476
+  Top = 154
+  Width = 768
   Caption = 'Form1'
-  ClientHeight = 513
-  ClientWidth = 1497
+  ClientHeight = 476
+  ClientWidth = 768
   DesignTimePPI = 102
   OnCreate = FormCreate
   OnResize = FormResize
@@ -14,15 +14,15 @@ object Form1: TForm1
     Left = 7
     Height = 75
     Top = 326
-    Width = 1025
+    Width = 605
     ClientHeight = 75
-    ClientWidth = 1025
+    ClientWidth = 605
     TabOrder = 0
     object Button2: TButton
       Left = 483
       Height = 24
       Top = 41
-      Width = 116
+      Width = 75
       Caption = 'очистить'
       TabOrder = 0
       OnClick = Button2Click
@@ -31,42 +31,42 @@ object Form1: TForm1
       Left = 483
       Height = 27
       Top = 7
-      Width = 116
-      Caption = 'рисовать'
+      Width = 75
+      Caption = 'добавить '
       TabOrder = 1
       OnClick = Button1Click
     end
     object Label1: TLabel
       Left = 7
-      Height = 16
+      Height = 20
       Top = 7
-      Width = 61
+      Width = 62
       Caption = 'формула'
     end
     object Edit1: TEdit
       Left = 68
-      Height = 26
+      Height = 28
       Top = 7
       Width = 408
       TabOrder = 2
     end
     object Label2: TLabel
       Left = 7
-      Height = 16
+      Height = 20
       Top = 41
-      Width = 71
+      Width = 74
       Caption = 'масштаб X'
     end
     object Label3: TLabel
       Left = 177
-      Height = 16
+      Height = 20
       Top = 41
-      Width = 73
+      Width = 75
       Caption = 'Масштаб Y'
     end
     object FloatSpinEdit1: TFloatSpinEdit
       Left = 75
-      Height = 26
+      Height = 28
       Top = 41
       Width = 95
       Increment = 0.05
@@ -78,7 +78,7 @@ object Form1: TForm1
     end
     object FloatSpinEdit2: TFloatSpinEdit
       Left = 252
-      Height = 26
+      Height = 28
       Top = 41
       Width = 95
       Increment = 0.05
@@ -90,26 +90,37 @@ object Form1: TForm1
     end
     object Label4: TLabel
       Left = 354
-      Height = 16
+      Height = 20
       Top = 41
-      Width = 28
+      Width = 31
       Caption = 'цвет'
       WordWrap = True
     end
     object Edit2: TEdit
       Left = 388
-      Height = 26
+      Height = 28
       Top = 41
       Width = 85
       TabOrder = 5
       Text = 'ff0000'
     end
-    object Label5: TLabel
-      Left = 612
-      Height = 16
-      Top = 14
-      Width = 43
-      Caption = 'Label5'
+    object Button3: TButton
+      Left = 564
+      Height = 26
+      Top = 7
+      Width = 32
+      Caption = '?'
+      TabOrder = 6
+      OnClick = Button3Click
+    end
+    object Button4: TButton
+      Left = 564
+      Height = 26
+      Top = 38
+      Width = 31
+      Caption = '?'
+      TabOrder = 7
+      OnClick = Button4Click
     end
   end
   object PaintBox1: TPaintBox
@@ -119,17 +130,13 @@ object Form1: TForm1
     Width = 605
     OnPaint = PaintBox1Paint
   end
-  object Timer1: TTimer
-    Left = 292
-    Top = 150
-  end
   object PSScript1: TPSScript
-    CompilerOptions = [icBooleanShortCircuit]
+    CompilerOptions = []
     OnCompile = PSScript1Compile
     OnExecute = PSScript1Execute
     Plugins = <>
     UsePreProcessor = False
-    Left = 326
+    Left = 347
     Top = 150
   end
 end
