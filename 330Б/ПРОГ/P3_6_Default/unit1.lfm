@@ -1,0 +1,131 @@
+object Form1: TForm1
+  Left = 161
+  Height = 476
+  Top = 154
+  Width = 768
+  Caption = 'Form1'
+  ClientHeight = 476
+  ClientWidth = 768
+  DesignTimePPI = 102
+  OnCreate = FormCreate
+  OnResize = FormResize
+  object Panel1: TPanel
+    Left = 0
+    Height = 75
+    Top = 401
+    Width = 768
+    Align = alBottom
+    ClientHeight = 75
+    ClientWidth = 768
+    TabOrder = 0
+    object Button2: TButton
+      Left = 483
+      Height = 26
+      Top = 40
+      Width = 112
+      Caption = 'очистить'
+      TabOrder = 0
+      OnClick = Button2Click
+    end
+    object Button1: TButton
+      Left = 483
+      Height = 26
+      Top = 7
+      Width = 112
+      Caption = 'добавить'
+      TabOrder = 1
+      OnClick = Button1Click
+    end
+    object Label1: TLabel
+      Cursor = crHelp
+      Left = 8
+      Height = 16
+      Top = 8
+      Width = 61
+      Caption = 'формула'
+      OnClick = Label1Click
+    end
+    object Edit1: TEdit
+      Left = 88
+      Height = 26
+      Top = 7
+      Width = 388
+      TabOrder = 2
+    end
+    object Label2: TLabel
+      Cursor = crHelp
+      Left = 8
+      Height = 16
+      Top = 48
+      Width = 71
+      Caption = 'масштаб X'
+      OnClick = Label2Click
+    end
+    object Label3: TLabel
+      Cursor = crHelp
+      Left = 177
+      Height = 16
+      Top = 48
+      Width = 73
+      Caption = 'Масштаб Y'
+      OnClick = Label2Click
+    end
+    object FloatSpinEdit1: TFloatSpinEdit
+      Left = 88
+      Height = 26
+      Top = 41
+      Width = 80
+      Increment = 0.05
+      MaxValue = 10
+      MinValue = 0.01
+      OnChange = FloatSpinEdit1Change
+      TabOrder = 3
+      Value = 5
+    end
+    object FloatSpinEdit2: TFloatSpinEdit
+      Left = 256
+      Height = 26
+      Top = 41
+      Width = 80
+      Increment = 0.05
+      MaxValue = 10
+      MinValue = 0.01
+      OnChange = FloatSpinEdit2Change
+      TabOrder = 4
+      Value = 5
+    end
+    object Label4: TLabel
+      Left = 352
+      Height = 16
+      Top = 48
+      Width = 28
+      Caption = 'цвет'
+      WordWrap = True
+    end
+    object Edit2: TEdit
+      Left = 388
+      Height = 26
+      Top = 41
+      Width = 85
+      TabOrder = 5
+      Text = 'ff0000'
+    end
+  end
+  object PaintBox1: TPaintBox
+    Left = 0
+    Height = 401
+    Top = 0
+    Width = 768
+    Align = alClient
+    OnPaint = PaintBox1Paint
+  end
+  object PSScript1: TPSScript
+    CompilerOptions = []
+    OnCompile = PSScript1Compile
+    OnExecute = PSScript1Execute
+    Plugins = <>
+    UsePreProcessor = False
+    Left = 16
+    Top = 16
+  end
+end
