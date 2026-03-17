@@ -5,27 +5,28 @@ unit Unit1;
 interface
 
 uses Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-    Spin, uPSComponent, Math, uPSRuntime, pascalscript, IpHtml, IpFileBroker;
+    Spin, CheckLst, uPSComponent, Math, uPSRuntime, pascalscript;
 
 type
     { TForm1 }
     TForm1 = class(TForm)
-        Button1: TButton; Button2: TButton; Button3: TButton; Button4: TButton;
+        Button1: TButton; Button2: TButton;
+        Button3: TButton;
+        CheckListBox1: TCheckListBox;
         Edit1: TEdit; Edit2: TEdit;
         FloatSpinEdit1: TFloatSpinEdit; FloatSpinEdit2: TFloatSpinEdit;
         Label1: TLabel; Label2: TLabel; Label3: TLabel; Label4: TLabel;
-        Label5: TLabel;
         PaintBox1: TPaintBox;
         Panel1: TPanel;
         PSScript1: TPSScript;
         procedure Button1Click(Sender: TObject);
         procedure Button2Click(Sender: TObject);
         procedure Button3Click(Sender: TObject);
-        procedure Button4Click(Sender: TObject);
         procedure FloatSpinEdit1Change(Sender: TObject);
         procedure FloatSpinEdit2Change(Sender: TObject);
         procedure FormCreate(Sender: TObject);
-        procedure FormResize(Sender: TObject);
+        procedure Label1Click(Sender: TObject);
+        procedure Label2Click(Sender: TObject);
         procedure PaintBox1Paint(Sender: TObject);
         procedure PSScript1Compile(Sender: TPSScript);
         procedure PSScript1Execute(Sender: TPSScript);
@@ -33,17 +34,18 @@ type
         Formulas: array of string;
         ColorFormulas: array of string;
 
-        procedure ResizeNew();
         procedure PaintNew();
         procedure PaintClear();
         procedure FuncNew();
         function FuncComp(Formula: string): boolean;
         function FuncY(x: Extended): Extended;
         function HexToColor(const Hex: string): TColor;
+        procedure FuncUpdate();
+        procedure FuncDelete();
     public
         const
             maxLine = 15;
-            stepLine = 500;
+            stepLine = 2001;
     end;
 
 var Form1: TForm1;
@@ -56,47 +58,29 @@ uses Unit2, Unit3;
 
 { TForm1 }
 
-procedure TForm1.ResizeNew();
-begin
-    Panel1.Top := Height - 8 - Panel1.Height; Panel1.Left := 8;
-    PaintBox1.Height := Height - 24 - Panel1.Height; PaintBox1.Width := Width - 16;
-end;
-
 procedure TForm1.PaintNew();
-var i, j, cx, cy, cx1, cy1: integer;
+var i, j, cx, cy, cx1, cy1, rH, rW: integer;
     x, y, yO: Extended;
     r, r1, r2, render: Extended;
     ry, ry1, renderY: Extended;
     yNaN: boolean;
 begin
-    PaintBox1.Canvas.Clear;
-
-    PaintBox1.Canvas.Pen.Color := HexToColor('000000');
-    PaintBox1.Canvas.Pen.Width := 0;
-
-    PaintBox1.Canvas.Line(0,PaintBox1.Height div 2, PaintBox1.Width, PaintBox1.Height div 2);
-    PaintBox1.Canvas.Line(PaintBox1.Width div 2, 0, PaintBox1.Width div 2, PaintBox1.Height);
-
-    PaintBox1.Canvas.Line(0, 0, PaintBox1.Width -1, 0);
-    PaintBox1.Canvas.Line(0, 0, 0, PaintBox1.Height -1);
-    PaintBox1.Canvas.Line(PaintBox1.Width -1, 0, PaintBox1.Width -1, PaintBox1.Height -1);
-    PaintBox1.Canvas.Line(0, PaintBox1.Height -1, PaintBox1.Width -1, PaintBox1.Height -1);
-
-    PaintBox1.Canvas.TextOut(PaintBox1.Width div 2 + 2, PaintBox1.Height div 2 + 1, '(0,0)');
-    PaintBox1.Canvas.TextOut(PaintBox1.Width - 40, PaintBox1.Height div 2 + 1, FloatToStr(FloatSpinEdit1.Value));
-    PaintBox1.Canvas.TextOut(PaintBox1.Width div 2 + 2, 1, FloatToStr(FloatSpinEdit2.Value));
-    PaintBox1.Canvas.TextOut(2, PaintBox1.Height div 2 + 1, '-' + FloatToStr(FloatSpinEdit1.Value));
-    PaintBox1.Canvas.TextOut(PaintBox1.Width div 2 + 2, PaintBox1.Height - 22, '-' + FloatToStr(FloatSpinEdit2.Value));
+    PaintBox1.Canvas.Pen.Color := HexToColor('000000'); PaintBox1.Canvas.Pen.Width := 0;
 
     render := FloatSpinEdit1.Value; renderY := FloatSpinEdit2.Value;
-    r1 := render * 2; r := r1 / stepLine; r2 := PaintBox1.Width / r1;
-    ry := renderY *2; ry1 := PaintBox1.Height / ry;
+    r1 := render * 2; r := r1 / stepLine; r2 := PaintBox1.Width / r1; ry := renderY * 2; ry1 := PaintBox1.Height / ry;
+    rH := PaintBox1.Height; rW := PaintBox1.Width;
 
-    PaintBox1.Canvas.Pen.Width := 3;
+    PaintBox1.Canvas.Line(0, rH div 2, rW, rH div 2); PaintBox1.Canvas.Line(rW div 2, 0, rW div 2, rH);
+
+    PaintBox1.Canvas.TextOut(rW div 2 +2, rH div 2 +1, '(0,0)');
+    PaintBox1.Canvas.TextOut(rW -40, rH div 2 +1, FloatToStr(render)); PaintBox1.Canvas.TextOut(2, rH div 2 +1, '-' + FloatToStr(render));
+    PaintBox1.Canvas.TextOut(rW div 2 +2, 1, FloatToStr(renderY)); PaintBox1.Canvas.TextOut(rW div 2 +2, rH -22, '-' + FloatToStr(renderY));
+
+    PaintBox1.Canvas.Pen.Width := 2;
     for i := 0 to Length(Formulas) - 1 do
     begin
-        FuncComp(Formulas[i]);
-        PaintBox1.Canvas.Pen.Color := HexToColor(ColorFormulas[i]);
+        FuncComp(Formulas[i]); PaintBox1.Canvas.Pen.Color := HexToColor(ColorFormulas[i]);
         cx := 0; cy := 0; x := 0; y := 0; yNaN := True;
         for j := 0 to stepLine do
         begin
@@ -105,8 +89,8 @@ begin
             x := Extended(j) * r - render; y := FuncY(x);
             cx := Round((x + render) * r2);
 
-            if IsNan(y) or IsInfinite(y) then begin yNaN := True; continue; end;
-            if abs(yO - y) > maxLine * 2 then yNaN := True;
+            if IsNan(y) or IsInfinite(y) or (abs(y) > renderY + 1) then begin yNaN := True; continue; end;
+            if abs(yO - y) > maxLine * 1.5 then yNaN := True;
 
             cy := Round((renderY - y) * ry1);
             if yNaN then begin yNaN := False; cy1 := cy; cx1 := cx; yO := y; end;
@@ -116,7 +100,30 @@ begin
     end;
 end;
 
-procedure TForm1.PaintClear(); begin SetLength(Formulas, 0); SetLength(ColorFormulas, 0); PaintNew(); end;
+procedure TForm1.PaintClear(); begin SetLength(Formulas, 0); SetLength(ColorFormulas, 0); FuncUpdate(); end;
+
+procedure TForm1.FuncUpdate();
+var i: integer;
+begin
+    CheckListBox1.Items.Clear;
+    for i := 0 to Length(Formulas) - 1 do CheckListBox1.Items.Add(ColorFormulas[i] + ' | ' + Formulas[i]);
+end;
+
+procedure TForm1.FuncDelete();
+var i, j, k: integer;
+begin
+    for i := 0 to Length(Formulas) - 1 do begin if CheckListBox1.Checked[i] then Formulas[i] := ''; end;
+    k := 0;
+    for i := Length(Formulas) - 1 downto 0 do
+    begin
+        if Formulas[i] = '' then
+        begin
+            k := k + 1; for j := i to Length(Formulas) - 2 - k do
+            begin Formulas[j] := Formulas[j + 1]; ColorFormulas[j] := ColorFormulas[j + 1]; end;
+        end;
+    end;
+    SetLength(Formulas, Length(Formulas) - k); SetLength(ColorFormulas, Length(Formulas)); FuncUpdate();
+end;
 
 procedure TForm1.FuncNew();
 begin
@@ -126,6 +133,7 @@ begin
     begin
         SetLength(ColorFormulas, Length(ColorFormulas)+1); SetLength(Formulas, Length(Formulas)+1);
         ColorFormulas[High(ColorFormulas)] := Edit2.Text;  Formulas[High(Formulas)] := Edit1.Text;
+        FuncUpdate();
     end;
 end;
 
@@ -156,32 +164,29 @@ procedure TForm1.FormCreate(Sender: TObject);
 begin
     PaintBox1.Canvas.Brush.Style := bsClear;
 
-    FloatSpinEdit1.MaxValue := maxLine; FloatSpinEdit2.MaxValue := maxLine;
-    FloatSpinEdit1.MinValue := 0.01;    FloatSpinEdit2.MinValue := 0.01;
+    FloatSpinEdit1.MaxValue  := maxLine; FloatSpinEdit2.MaxValue  := maxLine;
+    FloatSpinEdit1.MinValue  := 0.01;    FloatSpinEdit2.MinValue  := 0.01;
+    FloatSpinEdit1.Increment := 0.05;    FloatSpinEdit2.Increment := 0.05;
 
-    Constraints.MinHeight := 24 + Panel1.Height + 400;
-    Constraints.MinWidth  := 16 + Panel1.Width;
-    PaintBox1.Top := 8; PaintBox1.Left := 8;
+    Constraints.MinHeight := 600; Constraints.MinWidth  := 800;
 
-    ResizeNew();
     PaintClear();
 end;
 
-procedure TForm1.FloatSpinEdit1Change(Sender: TObject); begin PaintNew(); end;
-procedure TForm1.Button1Click(Sender: TObject); begin FuncNew(); PaintNew(); end;
-procedure TForm1.Button2Click(Sender: TObject); begin PaintClear(); end;
-procedure TForm1.FloatSpinEdit2Change(Sender: TObject); begin PaintNew(); end;
-procedure TForm1.PaintBox1Paint(Sender: TObject); begin PaintNew(); end;
-procedure TForm1.FormResize(Sender: TObject); begin ResizeNew(); end;
-procedure TForm1.Button3Click(Sender: TObject); begin Form2.Show; end;
-procedure TForm1.Button4Click(Sender: TObject); begin Form3.Show; end;
+procedure TForm1.FloatSpinEdit1Change(Sender: TObject); begin PaintBox1.Invalidate; end;
+procedure TForm1.FloatSpinEdit2Change(Sender: TObject); begin PaintBox1.Invalidate; end;
+procedure TForm1.PaintBox1Paint      (Sender: TObject); begin PaintNew(); end;
+procedure TForm1.Button1Click        (Sender: TObject); begin FuncNew(); PaintBox1.Invalidate; end;
+procedure TForm1.Button2Click        (Sender: TObject); begin PaintClear(); PaintBox1.Invalidate; end;
+procedure TForm1.Button3Click        (Sender: TObject); begin FuncDelete(); PaintBox1.Invalidate; end;
+procedure TForm1.Label1Click         (Sender: TObject); begin Form2.Show; end;
+procedure TForm1.Label2Click         (Sender: TObject); begin Form3.Show; end;
 
 function PS_Power(x, y: Double): Double; begin try Result := power(x, y);  except Result := NaN; end; end;
 function PS_Tan  (x: Double):    Double; begin try Result := tan(x);       except Result := NaN; end; end;
 function PS_Ln   (x: Double):    Double; begin try Result := ln(x);        except Result := NaN; end; end;
 function PS_Log  (x: Double):    Double; begin try Result := ln(x)/ln(10); except Result := NaN; end; end;
 function PS_Exp  (x: Double):    Double; begin try Result := exp(x);       except Result := NaN; end; end;
-function PS_test (x: Double):    Double; begin try Result := sin(x);       except Result := NaN; end; end;
 
 procedure TForm1.PSScript1Execute(Sender: TPSScript);
 begin
@@ -190,7 +195,6 @@ begin
     Sender.Exec.RegisterDelphiFunction(@PS_Ln,    'ln',   cdCdecl);
     Sender.Exec.RegisterDelphiFunction(@PS_Log,   'log',  cdCdecl);
     Sender.Exec.RegisterDelphiFunction(@PS_Exp,   'exp',  cdCdecl);
-    Sender.Exec.RegisterDelphiFunction(@PS_test,  'test', cdCdecl);
 end;
 
 procedure TForm1.PSScript1Compile(Sender: TPSScript);
@@ -200,7 +204,6 @@ begin
     Sender.AddFunction(@PS_Ln,    'function ln(x: Double): Double;');
     Sender.AddFunction(@PS_Log,   'function log(x: Double): Double;');
     Sender.AddFunction(@PS_Exp,   'function exp(x: Double): Double;');
-    Sender.AddFunction(@PS_test,  'function test(x: Double): Double;');
 end;
 
 initialization
