@@ -4,13 +4,10 @@ unit Unit3;
 
 interface
 
-uses
-    Classes, SysUtils, Forms, Controls, Graphics, Dialogs, IpHtml;
+uses Classes, SysUtils, Forms, Controls, Graphics, Dialogs, IpHtml;
 
 type
-
     { TForm3 }
-
     TForm3 = class(TForm)
         IpHtmlPanel1: TIpHtmlPanel;
         procedure FormCreate(Sender: TObject);

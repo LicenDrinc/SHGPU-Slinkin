@@ -22,6 +22,8 @@ type
         procedure Button1Click(Sender: TObject);
         procedure Button2Click(Sender: TObject);
         procedure Button3Click(Sender: TObject);
+        procedure CheckListBox1Click(Sender: TObject);
+        procedure CheckListBox1DblClick(Sender: TObject);
         procedure FloatSpinEdit1Change(Sender: TObject);
         procedure FloatSpinEdit2Change(Sender: TObject);
         procedure FormCreate(Sender: TObject);
@@ -31,18 +33,21 @@ type
         procedure PSScript1Compile(Sender: TPSScript);
         procedure PSScript1Execute(Sender: TPSScript);
     private
-        Formulas: array of string;
-        ColorFormulas: array of string;
-
         procedure PaintNew();
         procedure PaintClear();
         procedure FuncNew();
         function FuncComp(Formula: string): boolean;
         function FuncY(x: Extended): Extended;
         function HexToColor(const Hex: string): TColor;
-        procedure FuncUpdate();
         procedure FuncDelete();
     public
+        Formulas: array of string;
+        ColorFormulas: array of string;
+        indexFormulas: integer;
+
+        procedure FuncUpdate();
+    public
+
         const
             maxLine = 15;
             stepLine = 2001;
@@ -52,7 +57,7 @@ var Form1: TForm1;
 
 implementation
 
-uses Unit2, Unit3;
+uses Unit2, Unit3, Unit4;
 
 {$R *.lfm}
 
@@ -118,7 +123,7 @@ begin
     begin
         if Formulas[i] = '' then
         begin
-            k := k + 1; for j := i to Length(Formulas) - 2 - k do
+            k := k + 1; for j := i to Length(Formulas) - 1 - k do
             begin Formulas[j] := Formulas[j + 1]; ColorFormulas[j] := ColorFormulas[j + 1]; end;
         end;
     end;
@@ -181,6 +186,17 @@ procedure TForm1.Button2Click        (Sender: TObject); begin PaintClear(); Pain
 procedure TForm1.Button3Click        (Sender: TObject); begin FuncDelete(); PaintBox1.Invalidate; end;
 procedure TForm1.Label1Click         (Sender: TObject); begin Form2.Show; end;
 procedure TForm1.Label2Click         (Sender: TObject); begin Form3.Show; end;
+
+procedure TForm1.CheckListBox1Click(Sender: TObject);
+begin
+    if (CheckListBox1.ItemIndex <> -1) then
+        CheckListBox1.Checked[CheckListBox1.ItemIndex] := not CheckListBox1.Checked[CheckListBox1.ItemIndex];
+end;
+procedure TForm1.CheckListBox1DblClick(Sender: TObject);
+begin
+    ShowMessage(IntToStr(CheckListBox1.ItemIndex));
+    if (CheckListBox1.ItemIndex <> -1) then begin indexFormulas := CheckListBox1.ItemIndex; Form4.Show; end;
+end;
 
 function PS_Power(x, y: Double): Double; begin try Result := power(x, y);  except Result := NaN; end; end;
 function PS_Tan  (x: Double):    Double; begin try Result := tan(x);       except Result := NaN; end; end;

@@ -12,7 +12,7 @@ object Form2: TForm2
   OnResize = FormResize
   object IpHtmlPanel1: TIpHtmlPanel
     Left = 56
-    Height = 63
+    Height = 64
     Top = 72
     Width = 213
     FixedTypeface = 'Courier New'

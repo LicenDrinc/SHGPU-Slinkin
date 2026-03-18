@@ -47,7 +47,7 @@ begin
         '<p>1/(sin(x)+cos(x))</p>' +
         '</body></html>'
     );
-    Top := 100; Left := 100;
+    Top := 100;    Left := 100;
     Width := 1000; Height := 500;
     IpHtmlPanel1.Top := 0;
     IpHtmlPanel1.Left := 0;
