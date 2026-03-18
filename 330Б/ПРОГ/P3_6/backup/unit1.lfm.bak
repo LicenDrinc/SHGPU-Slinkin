@@ -1,80 +1,80 @@
 object Form1: TForm1
-  Left = 161
-  Height = 476
-  Top = 154
-  Width = 768
+  Left = 128
+  Height = 469
+  Top = 275
+  Width = 680
   Caption = 'Form1'
-  ClientHeight = 476
-  ClientWidth = 768
+  ClientHeight = 469
+  ClientWidth = 680
   DesignTimePPI = 102
   OnCreate = FormCreate
-  OnResize = FormResize
+  LCLVersion = '3.6.0.0'
   object Panel1: TPanel
     Left = 0
-    Height = 188
-    Top = 288
-    Width = 768
+    Height = 129
+    Top = 423
+    Width = 800
     Align = alBottom
-    ClientHeight = 188
-    ClientWidth = 768
+    ClientHeight = 129
+    ClientWidth = 800
     TabOrder = 0
     object Button2: TButton
-      Left = 483
-      Height = 26
-      Top = 40
-      Width = 112
+      Left = 530
+      Height = 24
+      Top = 99
+      Width = 68
       Caption = 'очистить'
       TabOrder = 0
       OnClick = Button2Click
     end
     object Button1: TButton
-      Left = 483
-      Height = 26
+      Left = 605
+      Height = 24
       Top = 7
-      Width = 112
+      Width = 68
       Caption = 'добавить'
       TabOrder = 1
       OnClick = Button1Click
     end
     object Label1: TLabel
       Cursor = crHelp
-      Left = 8
-      Height = 16
-      Top = 8
-      Width = 61
+      Left = 7
+      Height = 20
+      Top = 7
+      Width = 62
       Caption = 'формула'
       OnClick = Label1Click
     end
     object Edit1: TEdit
-      Left = 88
-      Height = 26
+      Left = 68
+      Height = 28
       Top = 7
-      Width = 388
+      Width = 422
       TabOrder = 2
     end
     object Label2: TLabel
       Cursor = crHelp
-      Left = 338
-      Height = 16
-      Top = 82
-      Width = 73
+      Left = 530
+      Height = 20
+      Top = 37
+      Width = 76
       Caption = 'Масштаб X'
       OnClick = Label2Click
     end
     object Label3: TLabel
       Cursor = crHelp
-      Left = 338
-      Height = 16
-      Top = 114
-      Width = 73
+      Left = 530
+      Height = 20
+      Top = 68
+      Width = 75
       Caption = 'Масштаб Y'
       OnClick = Label2Click
     end
     object FloatSpinEdit1: TFloatSpinEdit
-      Left = 416
-      Height = 26
-      Top = 72
-      Width = 60
+      Left = 605
+      Height = 28
+      Top = 37
+      Width = 68
       Increment = 0.05
       MaxValue = 10
       MinValue = 0.01
@@ -83,10 +83,10 @@ object Form1: TForm1
       Value = 5
     end
     object FloatSpinEdit2: TFloatSpinEdit
-      Left = 416
-      Height = 26
-      Top = 104
-      Width = 60
+      Left = 605
+      Height = 28
+      Top = 68
+      Width = 68
       Increment = 0.05
       MaxValue = 10
       MinValue = 0.01
@@ -95,27 +95,46 @@ object Form1: TForm1
       Value = 5
     end
     object Label4: TLabel
-      Left = 352
-      Height = 16
-      Top = 48
-      Width = 28
+      Left = 496
+      Height = 20
+      Top = 7
+      Width = 31
       Caption = 'цвет'
       WordWrap = True
     end
     object Edit2: TEdit
-      Left = 391
-      Height = 26
-      Top = 41
-      Width = 85
+      Left = 530
+      Height = 28
+      Top = 7
+      Width = 68
       TabOrder = 5
       Text = 'ff0000'
+    end
+    object CheckListBox1: TCheckListBox
+      Left = 7
+      Height = 85
+      Top = 37
+      Width = 517
+      ItemHeight = 25
+      TabOrder = 6
+      OnClick = CheckListBox1Click
+      OnDblClick = CheckListBox1DblClick
+    end
+    object Button3: TButton
+      Left = 605
+      Height = 24
+      Top = 99
+      Width = 68
+      Caption = 'удалить'
+      TabOrder = 7
+      OnClick = Button3Click
     end
   end
   object PaintBox1: TPaintBox
     Left = 0
-    Height = 288
+    Height = 400
     Top = 0
-    Width = 768
+    Width = 800
     Align = alClient
     OnPaint = PaintBox1Paint
   end

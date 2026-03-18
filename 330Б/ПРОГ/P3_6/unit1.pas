@@ -112,6 +112,7 @@ var i: integer;
 begin
     CheckListBox1.Items.Clear;
     for i := 0 to Length(Formulas) - 1 do CheckListBox1.Items.Add(ColorFormulas[i] + ' | ' + Formulas[i]);
+    if (Length(Formulas) > 0) then CheckListBox1.ItemIndex := 0;
 end;
 
 procedure TForm1.FuncDelete();
@@ -190,7 +191,7 @@ procedure TForm1.Label2Click         (Sender: TObject); begin Form3.Show; end;
 procedure TForm1.CheckListBox1Click(Sender: TObject);
 begin
     if (CheckListBox1.ItemIndex <> -1) then
-        CheckListBox1.Checked[CheckListBox1.ItemIndex] := not CheckListBox1.Checked[CheckListBox1.ItemIndex];
+    begin CheckListBox1.Checked[CheckListBox1.ItemIndex] := not CheckListBox1.Checked[CheckListBox1.ItemIndex]; end;
 end;
 procedure TForm1.CheckListBox1DblClick(Sender: TObject);
 begin if (CheckListBox1.ItemIndex <> -1) then begin indexFormulas := CheckListBox1.ItemIndex; Form4.Show; end; end;

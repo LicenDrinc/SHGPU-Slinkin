@@ -1,20 +1,20 @@
 object Form3: TForm3
   Left = 134
-  Height = 482
+  Height = 567
   Top = 167
-  Width = 633
+  Width = 745
   Caption = 'Form3'
-  ClientHeight = 482
-  ClientWidth = 633
-  DesignTimePPI = 102
+  ClientHeight = 567
+  ClientWidth = 745
+  DesignTimePPI = 120
+  LCLVersion = '4.2.0.0'
   OnCreate = FormCreate
   OnResize = FormResize
-  LCLVersion = '3.6.0.0'
   object IpHtmlPanel1: TIpHtmlPanel
-    Left = 303
-    Height = 54
-    Top = 284
-    Width = 181
+    Left = 356
+    Height = 64
+    Top = 334
+    Width = 213
     FixedTypeface = 'Courier New'
     DefaultTypeFace = 'default'
     DefaultFontSize = 12

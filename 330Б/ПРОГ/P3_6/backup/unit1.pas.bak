@@ -4,12 +4,15 @@ unit Unit1;
 
 interface
 
-uses Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, Spin, uPSComponent, Math, uPSRuntime, pascalscript;
+uses Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
+    Spin, CheckLst, uPSComponent, Math, uPSRuntime, pascalscript;
 
 type
     { TForm1 }
     TForm1 = class(TForm)
         Button1: TButton; Button2: TButton;
+        Button3: TButton;
+        CheckListBox1: TCheckListBox;
         Edit1: TEdit; Edit2: TEdit;
         FloatSpinEdit1: TFloatSpinEdit; FloatSpinEdit2: TFloatSpinEdit;
         Label1: TLabel; Label2: TLabel; Label3: TLabel; Label4: TLabel;
@@ -18,27 +21,33 @@ type
         PSScript1: TPSScript;
         procedure Button1Click(Sender: TObject);
         procedure Button2Click(Sender: TObject);
+        procedure Button3Click(Sender: TObject);
+        procedure CheckListBox1Click(Sender: TObject);
+        procedure CheckListBox1DblClick(Sender: TObject);
         procedure FloatSpinEdit1Change(Sender: TObject);
         procedure FloatSpinEdit2Change(Sender: TObject);
         procedure FormCreate(Sender: TObject);
-        procedure FormResize(Sender: TObject);
         procedure Label1Click(Sender: TObject);
         procedure Label2Click(Sender: TObject);
         procedure PaintBox1Paint(Sender: TObject);
         procedure PSScript1Compile(Sender: TPSScript);
         procedure PSScript1Execute(Sender: TPSScript);
     private
-        Formulas: array of string;
-        ColorFormulas: array of string;
-
-        procedure ResizeNew();
         procedure PaintNew();
         procedure PaintClear();
         procedure FuncNew();
         function FuncComp(Formula: string): boolean;
         function FuncY(x: Extended): Extended;
         function HexToColor(const Hex: string): TColor;
+        procedure FuncDelete();
     public
+        Formulas: array of string;
+        ColorFormulas: array of string;
+        indexFormulas: integer;
+
+        procedure FuncUpdate();
+    public
+
         const
             maxLine = 15;
             stepLine = 2001;
@@ -48,17 +57,11 @@ var Form1: TForm1;
 
 implementation
 
-uses Unit2, Unit3;
+uses Unit2, Unit3, Unit4;
 
 {$R *.lfm}
 
 { TForm1 }
-
-procedure TForm1.ResizeNew();
-begin
-    Panel1.Top := Height - 8 - Panel1.Height; Panel1.Left := 8;
-    PaintBox1.Height := Height - 24 - Panel1.Height; PaintBox1.Width := Width - 16;
-end;
 
 procedure TForm1.PaintNew();
 var i, j, cx, cy, cx1, cy1, rH, rW: integer;
@@ -74,8 +77,6 @@ begin
     rH := PaintBox1.Height; rW := PaintBox1.Width;
 
     PaintBox1.Canvas.Line(0, rH div 2, rW, rH div 2); PaintBox1.Canvas.Line(rW div 2, 0, rW div 2, rH);
-    PaintBox1.Canvas.Line(0, 0, rW -1, 0); PaintBox1.Canvas.Line(0, 0, 0, rH -1);
-    PaintBox1.Canvas.Line(rW -1, 0, rW -1, rH -1); PaintBox1.Canvas.Line(0, rH -1, rW -1, rH -1);
 
     PaintBox1.Canvas.TextOut(rW div 2 +2, rH div 2 +1, '(0,0)');
     PaintBox1.Canvas.TextOut(rW -40, rH div 2 +1, FloatToStr(render)); PaintBox1.Canvas.TextOut(2, rH div 2 +1, '-' + FloatToStr(render));
@@ -104,7 +105,31 @@ begin
     end;
 end;
 
-procedure TForm1.PaintClear(); begin SetLength(Formulas, 0); SetLength(ColorFormulas, 0); end;
+procedure TForm1.PaintClear(); begin SetLength(Formulas, 0); SetLength(ColorFormulas, 0); FuncUpdate(); end;
+
+procedure TForm1.FuncUpdate();
+var i: integer;
+begin
+    CheckListBox1.Items.Clear;
+    for i := 0 to Length(Formulas) - 1 do CheckListBox1.Items.Add(ColorFormulas[i] + ' | ' + Formulas[i]);
+    if (Length(Formulas) > 0) then CheckListBox1.ItemIndex := 0;
+end;
+
+procedure TForm1.FuncDelete();
+var i, j, k: integer;
+begin
+    for i := 0 to Length(Formulas) - 1 do begin if CheckListBox1.Checked[i] then Formulas[i] := ''; end;
+    k := 0;
+    for i := Length(Formulas) - 1 downto 0 do
+    begin
+        if Formulas[i] = '' then
+        begin
+            k := k + 1; for j := i to Length(Formulas) - 1 - k do
+            begin Formulas[j] := Formulas[j + 1]; ColorFormulas[j] := ColorFormulas[j + 1]; end;
+        end;
+    end;
+    SetLength(Formulas, Length(Formulas) - k); SetLength(ColorFormulas, Length(Formulas)); FuncUpdate();
+end;
 
 procedure TForm1.FuncNew();
 begin
@@ -114,6 +139,7 @@ begin
     begin
         SetLength(ColorFormulas, Length(ColorFormulas)+1); SetLength(Formulas, Length(Formulas)+1);
         ColorFormulas[High(ColorFormulas)] := Edit2.Text;  Formulas[High(Formulas)] := Edit1.Text;
+        FuncUpdate();
     end;
 end;
 
@@ -148,21 +174,28 @@ begin
     FloatSpinEdit1.MinValue  := 0.01;    FloatSpinEdit2.MinValue  := 0.01;
     FloatSpinEdit1.Increment := 0.05;    FloatSpinEdit2.Increment := 0.05;
 
-    Constraints.MinHeight := 24 + Panel1.Height + 400;
-    Constraints.MinWidth  := 16 + Panel1.Width;
-    PaintBox1.Top := 8; PaintBox1.Left := 8;
+    Constraints.MinHeight := 600; Constraints.MinWidth  := 800;
 
-    ResizeNew(); PaintClear();
+    PaintClear();
 end;
 
 procedure TForm1.FloatSpinEdit1Change(Sender: TObject); begin PaintBox1.Invalidate; end;
 procedure TForm1.FloatSpinEdit2Change(Sender: TObject); begin PaintBox1.Invalidate; end;
 procedure TForm1.PaintBox1Paint      (Sender: TObject); begin PaintNew(); end;
-procedure TForm1.FormResize          (Sender: TObject); begin {ResizeNew(); PaintNew();} end;
 procedure TForm1.Button1Click        (Sender: TObject); begin FuncNew(); PaintBox1.Invalidate; end;
 procedure TForm1.Button2Click        (Sender: TObject); begin PaintClear(); PaintBox1.Invalidate; end;
+procedure TForm1.Button3Click        (Sender: TObject); begin FuncDelete(); PaintBox1.Invalidate; end;
 procedure TForm1.Label1Click         (Sender: TObject); begin Form2.Show; end;
 procedure TForm1.Label2Click         (Sender: TObject); begin Form3.Show; end;
+
+procedure TForm1.CheckListBox1Click(Sender: TObject);
+begin
+    ShowMessage(IntToStr(CheckListBox1.ItemIndex));
+    if (CheckListBox1.ItemIndex <> -1) then
+    begin CheckListBox1.Checked[CheckListBox1.ItemIndex] := not CheckListBox1.Checked[CheckListBox1.ItemIndex]; end;
+end;
+procedure TForm1.CheckListBox1DblClick(Sender: TObject);
+begin if (CheckListBox1.ItemIndex <> -1) then begin indexFormulas := CheckListBox1.ItemIndex; Form4.Show; end; end;
 
 function PS_Power(x, y: Double): Double; begin try Result := power(x, y);  except Result := NaN; end; end;
 function PS_Tan  (x: Double):    Double; begin try Result := tan(x);       except Result := NaN; end; end;
