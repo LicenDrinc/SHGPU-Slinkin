@@ -43,10 +43,15 @@ type
         FocNode: PNodePaint;
         typeButton: integer;
         deltaMouse: transform;
+        focMouse: Boolean;
 
         procedure NewPaint();
+        procedure PaintNode(n: PNodePaint);
         function HexToColor(const Hex: string): TColor;
         procedure FocPaint(X, Y: integer);
+        procedure FocNone();
+        procedure ButtonClik(tb: integer);
+        procedure NewStatusBar();
         function CheckLine(Mx, My, x, y, x1, y1, line: integer): Boolean;
     public
 
@@ -58,11 +63,10 @@ implementation
 
 {$R *.lfm}
 
-{ TForm1 }
-
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-    StartNode := nil; EndNode := nil; FocNode := nil; typeButton := 0;
+    StartNode := nil; EndNode := nil; FocNode := nil; typeButton := 0; focMouse := false; NewStatusBar();
+    Form1.Constraints.MinHeight := 400 + StatusBar1.Height; Form1.Constraints.MinWidth := 600 + FlowPanel1.Width;
 end;
 
 procedure TForm1.PaintBox1MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -75,6 +79,7 @@ begin
             NewNode^.next := nil; NewNode^.prev := nil;
             NewNode^.Paint.position.x := X; NewNode^.Paint.position.y := Y;
         end
+        else if (typeButton = 0) then focMouse := true
         else if (typeButton = -1) then
         begin
             if (FocNode <> nil) then
@@ -97,6 +102,7 @@ begin
             end;
             PaintBox1.Invalidate;
         end;
+        NewStatusBar();
     end;
 end;
 
@@ -119,7 +125,14 @@ begin
         end;
         PaintBox1.Invalidate;
     end;
-    if (typeButton <= 0) then FocPaint(X, Y);
+    if (typeButton <= 0) and (not focMouse) then FocPaint(X, Y);
+    if (typeButton > 0) then PaintBox1.Cursor := crCross
+    else if (FocNode <> nil) then
+    begin
+        if (typeButton = 0) then PaintBox1.Cursor := crSizeAll
+        else if (typeButton = -1) then PaintBox1.Cursor := crNoDrop;
+    end
+    else PaintBox1.Cursor := crDefault;
 end;
 
 procedure TForm1.PaintBox1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -136,25 +149,27 @@ begin
         end
         else if (typeButton = 0) then
         begin
+            focMouse := false;
             if (FocNode <> nil) then
             begin
                 FocNode^.Paint.position.x := X - deltaMouse.x;
                 FocNode^.Paint.position.y := Y - deltaMouse.y;
             end;
         end;
+        FocPaint(X, Y);
         PaintBox1.Invalidate;
+        NewStatusBar();
     end;
 end;
 
 procedure TForm1.PaintBox1Paint(Sender: TObject); begin NewPaint(); end;
-procedure TForm1.SpeedButton1Click(Sender: TObject); begin typeButton := 1; end;
-procedure TForm1.SpeedButton2Click(Sender: TObject); begin typeButton := 2; end;
-procedure TForm1.SpeedButton3Click(Sender: TObject); begin typeButton := 3; end;
-procedure TForm1.SpeedButton4Click(Sender: TObject); begin typeButton := 0; end;
-procedure TForm1.SpeedButton5Click(Sender: TObject); begin typeButton := -1; end;
+procedure TForm1.SpeedButton1Click(Sender: TObject); begin ButtonClik(1); end;
+procedure TForm1.SpeedButton2Click(Sender: TObject); begin ButtonClik(2); end;
+procedure TForm1.SpeedButton3Click(Sender: TObject); begin ButtonClik(3); end;
+procedure TForm1.SpeedButton4Click(Sender: TObject); begin ButtonClik(0); end;
+procedure TForm1.SpeedButton5Click(Sender: TObject); begin ButtonClik(-1); end;
 
 procedure TForm1.NewPaint();
-var x, y, x1, y1: integer;
 begin
     PaintBox1.Canvas.Pen.Color := HexToColor('000000');
     PaintBox1.Canvas.Brush.Color := HexToColor('ffffff');
@@ -162,25 +177,19 @@ begin
     while Node <> nil do
     begin
         if (Node = FocNode) then PaintBox1.Canvas.Pen.Width := 3 else PaintBox1.Canvas.Pen.Width := 0;
-
-        x := Node^.Paint.position.x;      y := Node^.Paint.position.y;
-        x1 := x + Node^.Paint.posDelta.x; y1 := y + Node^.Paint.posDelta.y;
-        if (Node^.Paint.typeForm = 1) then PaintBox1.Canvas.Line(x, y, x1, y1)
-        else if (Node^.Paint.typeForm = 2) then PaintBox1.Canvas.Rectangle(x, y, x1, y1)
-        else if (Node^.Paint.typeForm = 3) then PaintBox1.Canvas.Ellipse(x, y, x1, y1);
-
-        Node := Node^.next;
+        PaintNode(Node); Node := Node^.next;
     end;
-    if (NewNode <> nil) then
-    begin
-        PaintBox1.Canvas.Pen.Width := 0;
+    if (NewNode <> nil) then begin PaintBox1.Canvas.Pen.Width := 0; PaintNode(NewNode); end;
+end;
 
-        x := NewNode^.Paint.position.x;      y := NewNode^.Paint.position.y;
-        x1 := x + NewNode^.Paint.posDelta.x; y1 := y + NewNode^.Paint.posDelta.y;
-        if (NewNode^.Paint.typeForm = 1) then PaintBox1.Canvas.Line(x, y, x1, y1)
-        else if (NewNode^.Paint.typeForm = 2) then PaintBox1.Canvas.Rectangle(x, y, x1, y1)
-        else if (NewNode^.Paint.typeForm = 3) then PaintBox1.Canvas.Ellipse(x, y, x1, y1);
-    end;
+procedure TForm1.PaintNode(n: PNodePaint);
+var x, y, x1, y1: integer;
+begin
+    x := n^.Paint.position.x;      y := n^.Paint.position.y;
+    x1 := x + n^.Paint.posDelta.x; y1 := y + n^.Paint.posDelta.y;
+    if (n^.Paint.typeForm = 1) then PaintBox1.Canvas.Line(x, y, x1, y1)
+    else if (n^.Paint.typeForm = 2) then PaintBox1.Canvas.Rectangle(x, y, x1, y1)
+    else if (n^.Paint.typeForm = 3) then PaintBox1.Canvas.Ellipse(x, y, x1, y1);
 end;
 
 function TForm1.HexToColor(const Hex: string): TColor;
@@ -193,6 +202,7 @@ end;
 procedure TForm1.FocPaint(X, Y: integer);
 var x1, y1, x2, y2: Integer; t, t1: transform;
 begin
+    if (typeButton > 0) or focMouse then Exit;
     FocNode := nil;
     Node := EndNode;
     while Node <> nil do
@@ -235,6 +245,20 @@ begin
     dxp := Mx - (x + x1 * t); dyp := My - (y + y1 * t);
     Result := Sqrt(dxp * dxp + dyp * dyp) <= line;
 end;
+
+procedure TForm1.NewStatusBar();
+begin
+    if (typeButton = 1) then StatusBar1.SimpleText := 'Отрисовка отрезка'
+    else if (typeButton = 2) then StatusBar1.SimpleText := 'Отрисовка прямоугольника'
+    else if (typeButton = 3) then StatusBar1.SimpleText := 'Отрисовка эллипса'
+    else if (typeButton = 0) then StatusBar1.SimpleText := 'Режим готовности к перемещению фигур'
+    else if (typeButton = -1) then StatusBar1.SimpleText := 'Режим удаления фигур';
+
+    if (focMouse) then StatusBar1.SimpleText := 'Режим перемещение фигуры';
+end;
+
+procedure TForm1.FocNone(); begin FocNode := nil; PaintBox1.Invalidate; end;
+procedure TForm1.ButtonClik(tb: integer); begin typeButton := tb; NewStatusBar(); if (tb > 0) then FocNone(); end;
 
 end.
 
