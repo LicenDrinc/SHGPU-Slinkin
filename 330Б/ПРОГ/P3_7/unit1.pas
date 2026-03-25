@@ -87,7 +87,8 @@ begin
                 if (FocNode^.prev = nil) then
                 begin
                     StartNode := FocNode^.next;
-                    if (FocNode^.next <> nil) then FocNode^.next^.prev := nil;
+                    if (FocNode^.next <> nil) then FocNode^.next^.prev := nil
+                    else EndNode := nil;
                 end
                 else if (FocNode^.next = nil) then
                 begin
@@ -99,6 +100,7 @@ begin
                     FocNode^.next^.prev := FocNode^.prev;
                 end;
                 Dispose(FocNode);
+                FocNode := nil;
             end;
             PaintBox1.Invalidate;
         end;
@@ -114,6 +116,8 @@ begin
         begin
             NewNode^.Paint.posDelta.x := X - NewNode^.Paint.position.x;
             NewNode^.Paint.posDelta.y := Y - NewNode^.Paint.position.y;
+            if (NewNode^.Paint.posDelta.x = 0) then NewNode^.Paint.posDelta.x := 1;
+            if (NewNode^.Paint.posDelta.y = 0) then NewNode^.Paint.posDelta.y := 1;
         end
         else if (typeButton = 0) then
         begin
@@ -123,9 +127,9 @@ begin
                 FocNode^.Paint.position.y := Y - deltaMouse.y;
             end;
         end;
-        PaintBox1.Invalidate;
     end;
     FocPaint(X, Y);
+    PaintBox1.Invalidate;
     if (typeButton > 0) then PaintBox1.Cursor := crCross
     else if (FocNode <> nil) then
     begin
@@ -143,6 +147,12 @@ begin
         begin
             NewNode^.Paint.posDelta.x := X - NewNode^.Paint.position.x;
             NewNode^.Paint.posDelta.y := Y - NewNode^.Paint.position.y;
+            if (NewNode^.Paint.posDelta.x = 0) then NewNode^.Paint.posDelta.x := 1;
+            if (NewNode^.Paint.posDelta.y = 0) then NewNode^.Paint.posDelta.y := 1;
+
+            //if (NewNode^.Paint.posDelta.x = 1) and (NewNode^.Paint.posDelta.y = 1) and (typeButton > 1) then
+            //begin NewNode^.Paint.posDelta.x := 2; NewNode^.Paint.posDelta.y := 2; end;
+
             if (StartNode = nil) then begin StartNode := NewNode; EndNode := NewNode; end
             else begin EndNode^.next := NewNode; NewNode^.prev := EndNode; EndNode := NewNode; end;
             NewNode := nil;
@@ -214,8 +224,8 @@ begin
         if (x2 < 0) then begin t.x := x1 + x2; t1.x := x1 - t.x; end;
         if (y2 < 0) then begin t.y := y1 + y2; t1.y := y1 - t.y; end;
 
-        if (t1.x < 14) then begin t.x := t.x - 7; t1.x := t1.x + 14 end;
-        if (t1.y < 14) then begin t.y := t.y - 7; t1.y := t1.y + 14 end;
+        if (t1.x < 14) then begin t.x := t.x - (18 - t1.x); t1.x := t1.x + (18 - t1.x) * 2 end;
+        if (t1.y < 14) then begin t.y := t.y - (18 - t1.y); t1.y := t1.y + (18 - t1.y) * 2 end;
 
         if (Node^.Paint.typeForm = 1) then
         begin
