@@ -8,7 +8,7 @@
       <Unit>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="59"/>
         <Loaded Value="True"/>
       </Unit>
@@ -19,7 +19,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="158"/>
         <CursorPos X="75" Y="175"/>
         <UsageCount Value="59"/>
@@ -33,7 +32,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit2"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="22"/>
         <CursorPos X="15" Y="10"/>
         <UsageCount Value="32"/>
@@ -47,7 +46,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit3"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="22"/>
         <CursorPos X="15" Y="10"/>
         <UsageCount Value="32"/>
@@ -61,7 +60,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit4"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="3"/>
         <CursorPos X="6" Y="43"/>
         <UsageCount Value="22"/>
@@ -274,6 +273,14 @@
         <TopLine Value="221"/>
         <CursorPos Y="241"/>
         <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\P3_7\unit1.lfm"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="25">

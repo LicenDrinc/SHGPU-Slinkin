@@ -50,7 +50,7 @@ type
         function HexToColor(const Hex: string): TColor;
         procedure FocPaint(X, Y: integer);
         procedure FocNone();
-        procedure ButtonClik(tb: integer);
+        procedure ButtonClick(tb: integer);
         procedure NewStatusBar();
         function CheckLine(Mx, My, x, y, x1, y1, line: integer): Boolean;
     public
@@ -78,8 +78,9 @@ begin
             new(NewNode); NewNode^.Paint.typeForm := typeButton;
             NewNode^.next := nil; NewNode^.prev := nil;
             NewNode^.Paint.position.x := X; NewNode^.Paint.position.y := Y;
+            NewNode^.Paint.posDelta.x := 1; NewNode^.Paint.posDelta.y := 1;
         end
-        else if (typeButton = 0) then focMouse := true
+        else if (typeButton = 0) then begin if (FocNode <> nil) then focMouse := true; end
         else if (typeButton = -1) then
         begin
             if (FocNode <> nil) then
@@ -114,12 +115,15 @@ begin
     begin
         if (typeButton > 0) then
         begin
-            NewNode^.Paint.posDelta.x := X - NewNode^.Paint.position.x;
-            NewNode^.Paint.posDelta.y := Y - NewNode^.Paint.position.y;
-            if (NewNode^.Paint.posDelta.x = 0) then NewNode^.Paint.posDelta.x := 1;
-            if (NewNode^.Paint.posDelta.y = 0) then NewNode^.Paint.posDelta.y := 1;
+            if (NewNode <> nil) then
+            begin
+                NewNode^.Paint.posDelta.x := X - NewNode^.Paint.position.x;
+                NewNode^.Paint.posDelta.y := Y - NewNode^.Paint.position.y;
+                if (NewNode^.Paint.posDelta.x = 0) then NewNode^.Paint.posDelta.x := 1;
+                if (NewNode^.Paint.posDelta.y = 0) then NewNode^.Paint.posDelta.y := 1;
+            end;
         end
-        else if (typeButton = 0) then
+        else if (typeButton = 0) and focMouse then
         begin
             if (FocNode <> nil) then
             begin
@@ -145,19 +149,22 @@ begin
     begin
         if (typeButton > 0) then
         begin
-            NewNode^.Paint.posDelta.x := X - NewNode^.Paint.position.x;
-            NewNode^.Paint.posDelta.y := Y - NewNode^.Paint.position.y;
-            if (NewNode^.Paint.posDelta.x = 0) then NewNode^.Paint.posDelta.x := 1;
-            if (NewNode^.Paint.posDelta.y = 0) then NewNode^.Paint.posDelta.y := 1;
+            if (NewNode <> nil) then
+            begin
+                NewNode^.Paint.posDelta.x := X - NewNode^.Paint.position.x;
+                NewNode^.Paint.posDelta.y := Y - NewNode^.Paint.position.y;
+                if (NewNode^.Paint.posDelta.x = 0) then NewNode^.Paint.posDelta.x := 1;
+                if (NewNode^.Paint.posDelta.y = 0) then NewNode^.Paint.posDelta.y := 1;
 
-            //if (NewNode^.Paint.posDelta.x = 1) and (NewNode^.Paint.posDelta.y = 1) and (typeButton > 1) then
-            //begin NewNode^.Paint.posDelta.x := 2; NewNode^.Paint.posDelta.y := 2; end;
+                if (NewNode^.Paint.posDelta.x = 1) and (NewNode^.Paint.posDelta.y = 1) and (typeButton > 1) then
+                begin NewNode^.Paint.posDelta.x := 2; NewNode^.Paint.posDelta.y := 2; end;
 
-            if (StartNode = nil) then begin StartNode := NewNode; EndNode := NewNode; end
-            else begin EndNode^.next := NewNode; NewNode^.prev := EndNode; EndNode := NewNode; end;
-            NewNode := nil;
+                if (StartNode = nil) then begin StartNode := NewNode; EndNode := NewNode; end
+                else begin EndNode^.next := NewNode; NewNode^.prev := EndNode; EndNode := NewNode; end;
+                NewNode := nil;
+            end;
         end
-        else if (typeButton = 0) then
+        else if (typeButton = 0) and focMouse then
         begin
             focMouse := false;
             if (FocNode <> nil) then
@@ -173,11 +180,11 @@ begin
 end;
 
 procedure TForm1.PaintBox1Paint(Sender: TObject); begin NewPaint(); end;
-procedure TForm1.SpeedButton1Click(Sender: TObject); begin ButtonClik(1); end;
-procedure TForm1.SpeedButton2Click(Sender: TObject); begin ButtonClik(2); end;
-procedure TForm1.SpeedButton3Click(Sender: TObject); begin ButtonClik(3); end;
-procedure TForm1.SpeedButton4Click(Sender: TObject); begin ButtonClik(0); end;
-procedure TForm1.SpeedButton5Click(Sender: TObject); begin ButtonClik(-1); end;
+procedure TForm1.SpeedButton1Click(Sender: TObject); begin ButtonClick(1); end;
+procedure TForm1.SpeedButton2Click(Sender: TObject); begin ButtonClick(2); end;
+procedure TForm1.SpeedButton3Click(Sender: TObject); begin ButtonClick(3); end;
+procedure TForm1.SpeedButton4Click(Sender: TObject); begin ButtonClick(0); end;
+procedure TForm1.SpeedButton5Click(Sender: TObject); begin ButtonClick(-1); end;
 
 procedure TForm1.NewPaint();
 begin
@@ -268,7 +275,7 @@ begin
 end;
 
 procedure TForm1.FocNone(); begin FocNode := nil; PaintBox1.Invalidate; end;
-procedure TForm1.ButtonClik(tb: integer); begin typeButton := tb; NewStatusBar(); if (tb > 0) then FocNone(); end;
+procedure TForm1.ButtonClick(tb: integer); begin typeButton := tb; NewStatusBar(); if (tb > 0) then FocNone(); end;
 
 end.
 
