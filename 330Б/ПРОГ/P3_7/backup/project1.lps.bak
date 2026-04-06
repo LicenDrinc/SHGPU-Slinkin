@@ -10,7 +10,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
         <CursorPos Y="18"/>
-        <UsageCount Value="38"/>
+        <UsageCount Value="39"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -21,9 +21,9 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="120"/>
-        <CursorPos X="57" Y="137"/>
-        <UsageCount Value="38"/>
+        <TopLine Value="98"/>
+        <CursorPos X="79" Y="116"/>
+        <UsageCount Value="39"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -81,7 +81,7 @@
         <UsageCount Value="9"/>
       </Unit>
       <Unit>
-        <Filename Value="..\..\..\..\..\..\..\..\usr\lib64\lazarus\lcl\menus.pp"/>
+        <Filename Value="C:\usr\lib64\lazarus\lcl\menus.pp"/>
         <UnitName Value="Menus"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="407"/>

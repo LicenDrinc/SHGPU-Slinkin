@@ -113,8 +113,11 @@ begin
             begin
                 NewNode^.Paint.posDelta.x := X - NewNode^.Paint.position.x;
                 NewNode^.Paint.posDelta.y := Y - NewNode^.Paint.position.y;
-                if (NewNode^.Paint.posDelta.x = 0) then NewNode^.Paint.posDelta.x := 1;
-                if (NewNode^.Paint.posDelta.y = 0) then NewNode^.Paint.posDelta.y := 1;
+                if (typeButton <> 1) or ((NewNode^.Paint.posDelta.x = 0) and (NewNode^.Paint.posDelta.y = 0)) then
+                begin
+                    if (NewNode^.Paint.posDelta.x = 0) then NewNode^.Paint.posDelta.x := 1;
+                    if (NewNode^.Paint.posDelta.y = 0) then NewNode^.Paint.posDelta.y := 1;
+                end;
             end;
         end
         else if (typeButton = 0) and focMouse then
@@ -147,8 +150,11 @@ begin
             begin
                 NewNode^.Paint.posDelta.x := X - NewNode^.Paint.position.x;
                 NewNode^.Paint.posDelta.y := Y - NewNode^.Paint.position.y;
-                if (NewNode^.Paint.posDelta.x = 0) then NewNode^.Paint.posDelta.x := 1;
-                if (NewNode^.Paint.posDelta.y = 0) then NewNode^.Paint.posDelta.y := 1;
+                if (typeButton <> 1) or ((NewNode^.Paint.posDelta.x = 0) and (NewNode^.Paint.posDelta.y = 0)) then
+                begin
+                    if (NewNode^.Paint.posDelta.x = 0) then NewNode^.Paint.posDelta.x := 1;
+                    if (NewNode^.Paint.posDelta.y = 0) then NewNode^.Paint.posDelta.y := 1;
+                end;
 
                 if (NewNode^.Paint.posDelta.x = 1) and (NewNode^.Paint.posDelta.y = 1) and (typeButton > 1) then
                 begin NewNode^.Paint.posDelta.x := 2; NewNode^.Paint.posDelta.y := 2; end;
@@ -262,10 +268,10 @@ end;
 
 procedure TForm1.NewStatusBar();
 begin
-    if (typeButton = 1) then StatusBar1.SimpleText := 'Отрисовка отрезка'
-    else if (typeButton = 2) then StatusBar1.SimpleText := 'Отрисовка прямоугольника'
-    else if (typeButton = 3) then StatusBar1.SimpleText := 'Отрисовка эллипса'
-    else if (typeButton = 0) then StatusBar1.SimpleText := 'Режим готовности к перемещению фигур'
+    if      (typeButton = 1)  then StatusBar1.SimpleText := 'Отрисовка отрезка'
+    else if (typeButton = 2)  then StatusBar1.SimpleText := 'Отрисовка прямоугольника'
+    else if (typeButton = 3)  then StatusBar1.SimpleText := 'Отрисовка эллипса'
+    else if (typeButton = 0)  then StatusBar1.SimpleText := 'Режим готовности к перемещению фигур'
     else if (typeButton = -1) then StatusBar1.SimpleText := 'Режим удаления фигур';
 
     if (focMouse) then StatusBar1.SimpleText := 'Режим перемещение фигуры';
