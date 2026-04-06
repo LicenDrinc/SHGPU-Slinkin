@@ -1,26 +1,27 @@
 object Form1: TForm1
   Left = 35
-  Height = 503
+  Height = 504
   Top = 181
   Width = 829
   Caption = 'Form1'
-  ClientHeight = 503
+  ClientHeight = 504
   ClientWidth = 829
   DesignTimePPI = 120
+  Menu = MainMenu1
   LCLVersion = '4.2.0.0'
   OnCreate = FormCreate
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 29
-    Top = 474
-    Width = 829
+    Height = 18
+    Top = 410
+    Width = 705
     Panels = <>
   end
   object PaintBox1: TPaintBox
     Left = 0
-    Height = 474
+    Height = 410
     Top = 0
-    Width = 779
+    Width = 663
     Align = alClient
     OnMouseDown = PaintBox1MouseDown
     OnMouseMove = PaintBox1MouseMove
@@ -28,10 +29,10 @@ object Form1: TForm1
     OnPaint = PaintBox1Paint
   end
   object FlowPanel1: TFlowPanel
-    Left = 779
-    Height = 474
+    Left = 656
+    Height = 410
     Top = 0
-    Width = 50
+    Width = 49
     Align = alRight
     BorderWidth = 4
     ControlList = <    
@@ -71,7 +72,7 @@ object Form1: TForm1
       AllowAllUp = True
       Anchors = []
       Caption = '\'
-      Font.Height = -23
+      Font.Height = -24
       GroupIndex = 1
       ParentBidiMode = False
       ParentFont = False
@@ -80,12 +81,12 @@ object Form1: TForm1
     object SpeedButton2: TSpeedButton
       Left = 5
       Height = 40
-      Top = 45
+      Top = 39
       Width = 40
       AllowAllUp = True
       Anchors = []
       Caption = '■'
-      Font.Height = -23
+      Font.Height = -24
       GroupIndex = 1
       ParentFont = False
       OnClick = SpeedButton2Click
@@ -93,12 +94,12 @@ object Form1: TForm1
     object SpeedButton3: TSpeedButton
       Left = 5
       Height = 40
-      Top = 85
+      Top = 73
       Width = 40
       AllowAllUp = True
       Anchors = []
       Caption = '○'
-      Font.Height = -23
+      Font.Height = -24
       GroupIndex = 1
       ParentFont = False
       OnClick = SpeedButton3Click
@@ -106,14 +107,14 @@ object Form1: TForm1
     object SpeedButton4: TSpeedButton
       Left = 5
       Height = 40
-      Top = 133
+      Top = 114
       Width = 40
       AllowAllUp = True
       Anchors = []
       BorderSpacing.Top = 8
       Caption = '⌂'
-      Font.Color = clMenuHighlight
-      Font.Height = -23
+      Font.Color = clBlue
+      Font.Height = -24
       GroupIndex = 1
       ParentFont = False
       OnClick = SpeedButton4Click
@@ -121,16 +122,49 @@ object Form1: TForm1
     object SpeedButton5: TSpeedButton
       Left = 5
       Height = 40
-      Top = 173
+      Top = 148
       Width = 40
       AllowAllUp = True
       Anchors = []
       Caption = 'X'
       Font.Color = clRed
-      Font.Height = -23
+      Font.Height = -24
       GroupIndex = 1
       ParentFont = False
       OnClick = SpeedButton5Click
+    end
+  end
+  object MainMenu1: TMainMenu
+    Left = 565
+    Top = 188
+    object MenuItem1: TMenuItem
+      Caption = 'Файл'
+      object MenuItem11: TMenuItem
+        Caption = 'Сохранить'
+        Enabled = False
+      end
+      object MenuItem12: TMenuItem
+        Caption = 'Загрузить'
+        Enabled = False
+      end
+    end
+    object MenuItem2: TMenuItem
+      Caption = 'Правка'
+      object MenuItem21: TMenuItem
+        Caption = 'Очистить'
+        Enabled = False
+      end
+    end
+    object MenuItem3: TMenuItem
+      Caption = 'Справка'
+      object MenuItem31: TMenuItem
+        Caption = 'Документация'
+        Enabled = False
+      end
+      object MenuItem32: TMenuItem
+        Caption = 'О программе'
+        Enabled = False
+      end
     end
   end
 end

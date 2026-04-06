@@ -8,10 +8,8 @@ uses Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ComCtrls, ExtCtrls, 
 
 type
     transform  = record x: integer; y: integer; end;
-    PPaint     = ^TPaint;
-    TPaint     = record position: transform; posDelta: transform; typeForm: integer; end;
-    PNodePaint = ^TNodePaint;
-    TNodePaint = record next: PNodePaint; prev: PNodePaint; Paint: TPaint; end;
+    TPaint = record position: transform; posDelta: transform; typeForm: integer; end;
+    PNodePaint = ^TNodePaint; TNodePaint = record next: PNodePaint; prev: PNodePaint; Paint: TPaint; end;
 
     { TForm1 }
 
@@ -36,14 +34,8 @@ type
         procedure SpeedButton4Click(Sender: TObject);
         procedure SpeedButton5Click(Sender: TObject);
     private
-        StartNode: PNodePaint;
-        EndNode: PNodePaint;
-        Node: PNodePaint;
-        NewNode: PNodePaint;
-        FocNode: PNodePaint;
-        typeButton: integer;
-        deltaMouse: transform;
-        focMouse: Boolean;
+        StartNode, EndNode, Node, NewNode, FocNode: PNodePaint;
+        typeButton: integer; deltaMouse: transform; focMouse: Boolean;
 
         procedure NewPaint();
         procedure PaintNode(n: PNodePaint);
@@ -206,7 +198,7 @@ var x, y, x1, y1: integer;
 begin
     x := n^.Paint.position.x;      y := n^.Paint.position.y;
     x1 := x + n^.Paint.posDelta.x; y1 := y + n^.Paint.posDelta.y;
-    if (n^.Paint.typeForm = 1) then PaintBox1.Canvas.Line(x, y, x1, y1)
+    if      (n^.Paint.typeForm = 1) then PaintBox1.Canvas.Line(x, y, x1, y1)
     else if (n^.Paint.typeForm = 2) then PaintBox1.Canvas.Rectangle(x, y, x1, y1)
     else if (n^.Paint.typeForm = 3) then PaintBox1.Canvas.Ellipse(x, y, x1, y1);
 end;
@@ -236,21 +228,12 @@ begin
         if (t1.x < 14) then begin t.x := t.x - (18 - t1.x); t1.x := t1.x + (18 - t1.x) * 2 end;
         if (t1.y < 14) then begin t.y := t.y - (18 - t1.y); t1.y := t1.y + (18 - t1.y) * 2 end;
 
-        if (Node^.Paint.typeForm = 1) then
-        begin
-            if CheckLine(X, Y, x1, y1, x2, y2, 7) then
-            begin FocNode := Node; deltaMouse.x := X - x1; deltaMouse.y := Y - y1; Break; end;
-        end
-        else if (Node^.Paint.typeForm = 2) then
-        begin
-            if CheckBox(X, Y, t.x, t.y, t1.x, t1.y) then
-            begin FocNode := Node; deltaMouse.x := X - x1; deltaMouse.y := Y - y1; Break; end;
-        end
-        else if (Node^.Paint.typeForm = 3) then
-        begin
-            if CheckEllipse(X, Y, t.x, t.y, t1.x, t1.y) then
-            begin FocNode := Node; deltaMouse.x := X - x1; deltaMouse.y := Y - y1; Break; end;
-        end;
+        if (Node^.Paint.typeForm = 1) and CheckLine(X, Y, x1, y1, x2, y2, 7) then
+        begin FocNode := Node; deltaMouse.x := X - x1; deltaMouse.y := Y - y1; Break; end
+        else if (Node^.Paint.typeForm = 2) and CheckBox(X, Y, t.x, t.y, t1.x, t1.y) then
+        begin FocNode := Node; deltaMouse.x := X - x1; deltaMouse.y := Y - y1; Break; end
+        else if (Node^.Paint.typeForm = 3) and CheckEllipse(X, Y, t.x, t.y, t1.x, t1.y) then
+        begin FocNode := Node; deltaMouse.x := X - x1; deltaMouse.y := Y - y1; Break; end;
 
         Node := Node^.prev;
     end;
@@ -271,8 +254,10 @@ begin
 end;
 
 function TForm1.CheckEllipse(Mx, My, x, y, x1, y1: integer): Boolean;
+var f1, f2: Extended;
 begin
-    Result := (Mx >= x) and (My >= y) and (Mx <= x + x1) and (My <= y + y1);
+    f1 := x1 / 2; f2 := y1 / 2;
+    Result := (power(Mx - x - f1, 2) / power(f1, 2)) + (power(My - y - f2, 2) / power(f2, 2)) <= 1;
 end;
 
 procedure TForm1.NewStatusBar();
