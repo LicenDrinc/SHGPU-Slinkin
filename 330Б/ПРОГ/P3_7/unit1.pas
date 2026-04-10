@@ -80,7 +80,7 @@ end;
 procedure TForm1.MenuItem11Click(Sender: TObject);
 begin
     SaveDialog1.Filter := 'PNG изображение|*.png|' + 'BMP изображение|*.bmp|' +
-                          'JPG изображение|*.jpg|' + 'TEST файл|*.dat';
+                          'JPG изображение|*.jpg|' + 'DAT файл|*.dat';
     SaveDialog1.DefaultExt := 'dat';
     if SaveDialog1.Execute then
     begin

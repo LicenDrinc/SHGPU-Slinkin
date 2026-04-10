@@ -1,12 +1,13 @@
 object Form2: TForm2
   Left = 434
-  Height = 387
+  Height = 329
   Top = 32
-  Width = 535
+  Width = 455
   Caption = 'Form2'
-  ClientHeight = 387
-  ClientWidth = 535
-  DesignTimePPI = 120
+  ClientHeight = 329
+  ClientWidth = 455
+  DesignTimePPI = 102
+  LCLVersion = '3.6.0.0'
   object IpHtmlPanel1: TIpHtmlPanel
     Left = 0
     Height = 387

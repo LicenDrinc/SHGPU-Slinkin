@@ -1,0 +1,16 @@
+htmlB  = '';  htmlE  = '';
+headB  = '';  headE  = '';
+titleB = ''; titleE = '';
+bodyB  = '';  bodyE  = '';
+h1B    = '';    h1E    = '';
+pB     = '';     pE     = '';
+
+
+
+<html>
+    <head><title>Документация</title></head>
+    <body>
+        <h1>Документация</h1>
+        <p></p>
+    </body>
+</html>
