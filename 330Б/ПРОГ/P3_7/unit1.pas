@@ -206,8 +206,9 @@ procedure TForm1.SpeedButton5Click(Sender: TObject); begin ButtonClick(-1); end;
 procedure TForm1.NewPaint(ACanvas: TCanvas; brushTrue: Boolean = False);
 begin
     ACanvas.Pen.Color := HexToColor('000000');
+    ACanvas.Brush.Color := Form1.GetColorResolvingParent;
+    ACanvas.FillRect(ACanvas.ClipRect);
     ACanvas.Brush.Color := HexToColor('ffffff');
-    if (brushTrue) then ACanvas.FillRect(ACanvas.ClipRect);
     Node := StartNode;
     while Node <> nil do
     begin
