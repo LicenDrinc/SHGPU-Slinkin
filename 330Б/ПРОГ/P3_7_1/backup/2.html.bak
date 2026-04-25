@@ -1,0 +1,13 @@
+htmlB  = '<html>';  htmlE  = '</html>';
+headB  = '<head>';  headE  = '</head>';
+titleB = '<title>'; titleE = '</title>';
+bodyB  = '<body>';  bodyE  = '</body>';
+h1B    = '<h1>';    h1E    = '</h1>';
+pB     = '<p>';     pE     = '</p>';
+
+htmlB + headB + titleB + 'О программе' + titleE + headE + bodyB +
+h1B + 'О программе' + h1E +
+pB + 'Векорный графический редактор' + pE +
+pB + '(c) mihaoo4556@gmail.com 2026' + pE +
+bodyE + htmlE
+

@@ -1,0 +1,34 @@
+unit Unit2;
+
+{$mode ObjFPC}{$H+}
+
+interface
+
+uses Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, IpHtml;
+
+type
+    TForm2 = class(TForm)
+        IpHtmlPanel1: TIpHtmlPanel;
+    private
+    public
+        procedure HtmlInfo(typeInfo: Integer);
+    end;
+
+var Form2: TForm2;
+
+implementation
+
+{$R *.lfm}
+
+procedure TForm2.HtmlInfo(typeInfo: Integer);
+var f: TStringList;
+begin
+    f := TStringList.Create; try
+        if (typeInfo = 1) then begin f.LoadFromFile('res/1.html'); Caption := 'Документация'; IpHtmlPanel1.SetHtmlFromStr(f.Text); end
+        else if (typeInfo = 2) then begin f.LoadFromFile('res/2.html'); Caption := 'О программе'; IpHtmlPanel1.SetHtmlFromStr(f.Text); end
+        else begin Caption := 'ERROR'; IpHtmlPanel1.SetHtmlFromStr('<html><body><p>ERROR</p></body></html>'); end;
+    finally f.Free; end;
+end;
+
+end.
+
