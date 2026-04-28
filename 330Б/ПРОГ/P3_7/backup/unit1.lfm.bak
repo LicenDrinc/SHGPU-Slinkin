@@ -2,10 +2,10 @@ object Form1: TForm1
   Left = 35
   Height = 428
   Top = 181
-  Width = 705
+  Width = 815
   Caption = 'Form1'
   ClientHeight = 428
-  ClientWidth = 705
+  ClientWidth = 815
   DesignTimePPI = 102
   Menu = MainMenu1
   OnCreate = FormCreate
@@ -14,14 +14,14 @@ object Form1: TForm1
     Left = 0
     Height = 29
     Top = 475
-    Width = 829
+    Width = 959
     Panels = <>
   end
   object PaintBox1: TPaintBox
     Left = 0
-    Height = 475
-    Top = 0
-    Width = 780
+    Height = 435
+    Top = 40
+    Width = 910
     Align = alClient
     OnMouseDown = PaintBox1MouseDown
     OnMouseMove = PaintBox1MouseMove
@@ -29,9 +29,9 @@ object Form1: TForm1
     OnPaint = PaintBox1Paint
   end
   object FlowPanel1: TFlowPanel
-    Left = 787
-    Height = 475
-    Top = 0
+    Left = 917
+    Height = 435
+    Top = 40
     Width = 42
     Align = alRight
     BorderWidth = 4
@@ -132,6 +132,113 @@ object Form1: TForm1
       GroupIndex = 1
       OnClick = SpeedButton5Click
       ParentFont = False
+    end
+  end
+  object ScrollBox1: TScrollBox
+    Left = 0
+    Height = 34
+    Top = 0
+    Width = 959
+    HorzScrollBar.Page = 901
+    VertScrollBar.Page = 32
+    Align = alTop
+    ClientHeight = 30
+    ClientWidth = 955
+    TabOrder = 2
+    object Label1: TLabel
+      Left = 7
+      Height = 20
+      Top = 7
+      Width = 75
+      Caption = 'Позиция Z'
+      WordWrap = True
+    end
+    object SpinEdit1: TSpinEdit
+      Left = 80
+      Height = 28
+      Top = 3
+      Width = 75
+      OnChange = SpinEdit1Change
+      TabOrder = 0
+    end
+    object Label2: TLabel
+      Left = 163
+      Height = 20
+      Top = 7
+      Width = 33
+      Caption = 'Цвет'
+    end
+    object Edit1: TEdit
+      Left = 197
+      Height = 28
+      Top = 3
+      Width = 68
+      TabOrder = 1
+      Text = '000000'
+      OnChange = Edit1Change
+    end
+    object Edit2: TEdit
+      Left = 272
+      Height = 28
+      Top = 3
+      Width = 68
+      TabOrder = 2
+      Text = 'ffffff'
+      OnChange = Edit2Change
+    end
+    object Label3: TLabel
+      Left = 354
+      Height = 20
+      Top = 7
+      Width = 63
+      Caption = 'Толщина'
+    end
+    object SpinEdit2: TSpinEdit
+      Left = 415
+      Height = 28
+      Top = 3
+      Width = 75
+      MaxValue = 500000
+      OnChange = SpinEdit2Change
+      TabOrder = 3
+    end
+    object ValueListEditor1: TValueListEditor
+      Left = 592
+      Height = 2
+      Top = 16
+      Width = 17
+      FixedCols = 0
+      RowCount = 2
+      TabOrder = 4
+      ColWidths = (
+        68
+        0
+      )
+    end
+    object Label4: TLabel
+      Left = 503
+      Height = 20
+      Top = 7
+      Width = 40
+      Caption = 'Стиль'
+    end
+    object ComboBox1: TComboBox
+      Left = 544
+      Height = 28
+      Top = 3
+      Width = 106
+      ItemHeight = 20
+      TabOrder = 5
+      OnChange = ComboBox1Change
+    end
+    object ComboBox2: TComboBox
+      Left = 660
+      Height = 28
+      Top = 3
+      Width = 106
+      ItemHeight = 20
+      TabOrder = 6
+      OnChange = ComboBox2Change
     end
   end
   object MainMenu1: TMainMenu

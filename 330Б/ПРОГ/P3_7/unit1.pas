@@ -332,7 +332,7 @@ procedure TForm1.PaintNode(n: PNodePaint; ACanvas: TCanvas);
 var x, y, x1, y1: integer;
 begin
     ACanvas.Pen.Color := HexToColor(n^.Paint.colorLine); ACanvas.Brush.Color := HexToColor(n^.Paint.color);
-    ACanvas.Pen.Style := penStyle[n^.Paint.styleLine]; ACanvas.Brush.Style := brushStyle[n^.Paint.style];
+    ACanvas.Pen.Style := penStyle[n^.Paint.styleLine];   ACanvas.Brush.Style := brushStyle[n^.Paint.style];
     ACanvas.Pen.Width := n^.Paint.depthLine; if (n = FocNode) then ACanvas.Pen.Width := ACanvas.Pen.Width + 3;
     x := n^.Paint.position.x; y := n^.Paint.position.y; x1 := x + n^.Paint.posDelta.x; y1 := y + n^.Paint.posDelta.y;
     if      (n^.Paint.typeForm = 1) then ACanvas.Line(x, y, x1, y1)
