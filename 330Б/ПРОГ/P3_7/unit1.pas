@@ -14,8 +14,7 @@ type
         position, posDelta: transform;
         typeForm, depthLine: integer;
         colorLine, color: ShortString;
-        styleLine: TPenStyle;
-        style: TBrushStyle;
+        styleLine, style: integer;
     end;
     PNodePaint = ^TNodePaint; TNodePaint = record next: PNodePaint; prev: PNodePaint; Paint: TPaint; end;
 
@@ -45,6 +44,10 @@ type
         SpinEdit2: TSpinEdit;
         StatusBar1: TStatusBar;
         ValueListEditor1: TValueListEditor;
+        procedure ComboBox1Change(Sender: TObject);
+        procedure ComboBox2Change(Sender: TObject);
+        procedure Edit1Change(Sender: TObject);
+        procedure Edit2Change(Sender: TObject);
         procedure FormCreate(Sender: TObject);
         procedure MenuItem11Click(Sender: TObject);
         procedure MenuItem12Click(Sender: TObject);
@@ -61,6 +64,7 @@ type
         procedure SpeedButton4Click(Sender: TObject);
         procedure SpeedButton5Click(Sender: TObject);
         procedure SpinEdit1Change(Sender: TObject);
+        procedure SpinEdit2Change(Sender: TObject);
     private
         StartNode, EndNode, Node, NewNode, FocNode: PNodePaint;
         typeButton: integer; deltaMouse: transform; focMouse: Boolean;
@@ -71,6 +75,7 @@ type
         function HexToColor(const Hex: string): TColor;
         function HexToFPColor(const Hex: string): TFPColor;
         procedure FocPaint(X, Y: integer);
+        procedure NewFocNode(X, X1, Y, Y1: integer);
         procedure FocNone();
         procedure ButtonClick(tb: integer);
         procedure NewStatusBar();
@@ -118,6 +123,8 @@ begin
     ComboBox2.Items.Add('Solid');    ComboBox2.Items.Add('Clear');     ComboBox2.Items.Add('Horizontal');
     ComboBox2.Items.Add('Vertical'); ComboBox2.Items.Add('FDiagonal'); ComboBox2.Items.Add('BDiagonal');
     ComboBox2.Items.Add('Cross');    ComboBox2.Items.Add('DiagCross');
+
+    ComboBox1.ItemIndex := 0; ComboBox2.ItemIndex := 0;
 end;
 
 procedure TForm1.MenuItem11Click(Sender: TObject);
@@ -170,7 +177,6 @@ begin
         NewStatusBar();
     end;
 end;
-
 procedure TForm1.PaintBox1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 begin
     if ssLeft in Shift then
@@ -197,7 +203,6 @@ begin
     if (typeButton = -1) then begin FocPaint(X, Y); end;
     PaintBox1.Invalidate; UpdateCursor();
 end;
-
 procedure TForm1.PaintBox1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
     if Button = mbLeft then
@@ -234,7 +239,7 @@ begin
     NewNode^.Paint.position.x := x; NewNode^.Paint.position.y := y;
     NewNode^.Paint.posDelta.x := 1; NewNode^.Paint.posDelta.y := 1;
     NewNode^.Paint.depthLine := SpinEdit2.Value; NewNode^.Paint.color := Edit2.Text; NewNode^.Paint.colorLine := Edit1.Text;
-    NewNode^.Paint.styleLine := penStyle[ComboBox1.ItemIndex]; NewNode^.Paint.style := brushStyle[ComboBox2.ItemIndex];
+    NewNode^.Paint.styleLine := ComboBox1.ItemIndex; NewNode^.Paint.style := ComboBox2.ItemIndex;
 end;
 
 procedure TForm1.NewInPaint(x, y: integer);
@@ -294,6 +299,21 @@ begin
     end;
 end;
 
+procedure TForm1.SpinEdit2Change(Sender: TObject);
+begin if (typeButton = 0) and (FocNode <> nil) then begin FocNode^.Paint.depthLine := SpinEdit2.Value; PaintBox1.Invalidate; end; end;
+
+procedure TForm1.Edit1Change(Sender: TObject);
+begin if (typeButton = 0) and (FocNode <> nil) and (Length(Edit1.Text) > 5) then begin FocNode^.Paint.colorLine := Edit1.Text; PaintBox1.Invalidate; end; end;
+
+procedure TForm1.ComboBox1Change(Sender: TObject);
+begin if (typeButton = 0) and (FocNode <> nil) then begin FocNode^.Paint.styleLine := ComboBox1.ItemIndex; PaintBox1.Invalidate; end; end;
+
+procedure TForm1.ComboBox2Change(Sender: TObject);
+begin if (typeButton = 0) and (FocNode <> nil) then begin FocNode^.Paint.style := ComboBox2.ItemIndex; PaintBox1.Invalidate; end; end;
+
+procedure TForm1.Edit2Change(Sender: TObject);
+begin if (typeButton = 0) and (FocNode <> nil) and (Length(Edit2.Text) > 5) then begin FocNode^.Paint.color := Edit2.Text; PaintBox1.Invalidate; end; end;
+
 procedure TForm1.NewPaint(ACanvas: TCanvas);
 var i: integer;
 begin
@@ -312,7 +332,7 @@ procedure TForm1.PaintNode(n: PNodePaint; ACanvas: TCanvas);
 var x, y, x1, y1: integer;
 begin
     ACanvas.Pen.Color := HexToColor(n^.Paint.colorLine); ACanvas.Brush.Color := HexToColor(n^.Paint.color);
-    ACanvas.Pen.Style := n^.Paint.styleLine; ACanvas.Brush.Style := n^.Paint.style;
+    ACanvas.Pen.Style := penStyle[n^.Paint.styleLine]; ACanvas.Brush.Style := brushStyle[n^.Paint.style];
     ACanvas.Pen.Width := n^.Paint.depthLine; if (n = FocNode) then ACanvas.Pen.Width := ACanvas.Pen.Width + 3;
     x := n^.Paint.position.x; y := n^.Paint.position.y; x1 := x + n^.Paint.posDelta.x; y1 := y + n^.Paint.posDelta.y;
     if      (n^.Paint.typeForm = 1) then ACanvas.Line(x, y, x1, y1)
@@ -348,17 +368,22 @@ begin
         if (t1.x < 14) then begin t.x := t.x - (18 - t1.x); t1.x := t1.x + (18 - t1.x) * 2 end;
         if (t1.y < 14) then begin t.y := t.y - (18 - t1.y); t1.y := t1.y + (18 - t1.y) * 2 end;
 
-        if (Node^.Paint.typeForm = 1) and CheckLine(X, Y, x1, y1, x2, y2, 7) then
-        begin FocNode := Node; deltaMouse.x := X - x1; deltaMouse.y := Y - y1; Break; end
-        else if (Node^.Paint.typeForm = 2) and CheckBox(X, Y, t.x, t.y, t1.x, t1.y) then
-        begin FocNode := Node; deltaMouse.x := X - x1; deltaMouse.y := Y - y1; Break; end
-        else if (Node^.Paint.typeForm = 3) and CheckEllipse(X, Y, t.x, t.y, t1.x, t1.y) then
-        begin FocNode := Node; deltaMouse.x := X - x1; deltaMouse.y := Y - y1; Break; end;
+        if (Node^.Paint.typeForm = 1) and CheckLine(X, Y, x1, y1, x2, y2, 7) then begin NewFocNode(X, X1, Y, Y1); Break; end
+        else if (Node^.Paint.typeForm = 2) and CheckBox(X, Y, t.x, t.y, t1.x, t1.y) then begin NewFocNode(X, X1, Y, Y1); Break; end
+        else if (Node^.Paint.typeForm = 3) and CheckEllipse(X, Y, t.x, t.y, t1.x, t1.y) then begin NewFocNode(X, X1, Y, Y1); Break; end;
 
         Node := Node^.prev; i := i + 1;
     end;
     i := LineNode() - i - 1; if (i <> -1) then SpinEdit1.Value := i;
     PaintBox1.Invalidate;
+end;
+
+procedure TForm1.NewFocNode(X, X1, Y, Y1: integer);
+begin
+    FocNode := Node; deltaMouse.x := X - X1; deltaMouse.y := Y - Y1;
+    Edit1.Text := FocNode^.Paint.colorLine; Edit2.Text := FocNode^.Paint.color;
+    ComboBox1.ItemIndex := FocNode^.Paint.styleLine; ComboBox2.ItemIndex := FocNode^.Paint.style;
+    SpinEdit2.Value := FocNode^.Paint.depthLine;
 end;
 
 function TForm1.CheckLine(Mx, My, x, y, x1, y1, line: integer): Boolean;
