@@ -5,8 +5,7 @@ unit Unit1;
 interface
 
 uses Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ComCtrls, ExtCtrls,
-    Buttons, Menus, Spin, StdCtrls, EditBtn, ColorBox, ValEdit, ComboEx,
-    ShortPathEdit, Math, FPImage, FPWritePNG, FPWriteJPEG;
+    Buttons, Menus, Spin, StdCtrls, ValEdit, Math, FPImage, FPWritePNG, FPWriteJPEG;
 
 type
     transform  = record x: integer; y: integer; end;
@@ -317,7 +316,8 @@ begin if (typeButton = 0) and (FocNode <> nil) and (Length(Edit2.Text) > 5) then
 procedure TForm1.NewPaint(ACanvas: TCanvas);
 var i: integer;
 begin
-    ACanvas.Pen.Color := HexToColor('000000'); ACanvas.Brush.Color := clDefault; ACanvas.FillRect(ACanvas.ClipRect);
+    ACanvas.Pen.Color := HexToColor('000000'); ACanvas.Brush.Color := clDefault;
+    ACanvas.Pen.Style := psSolid; ACanvas.Brush.Style := bsSolid; ACanvas.FillRect(ACanvas.ClipRect);
     Node := StartNode; i := 0;
     while Node <> nil do
     begin
@@ -325,7 +325,6 @@ begin
         PaintNode(Node, ACanvas); Node := Node^.next; i := i + 1;
     end;
     if (NewNode <> nil) and (SpinEdit1.Value = i) then begin PaintNode(NewNode, ACanvas); end;
-    ACanvas.Pen.Style := psSolid; ACanvas.Brush.Style := bsSolid;
 end;
 
 procedure TForm1.PaintNode(n: PNodePaint; ACanvas: TCanvas);

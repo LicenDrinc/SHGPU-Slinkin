@@ -10,7 +10,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="4"/>
         <CursorPos Y="19"/>
-        <UsageCount Value="60"/>
+        <UsageCount Value="62"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -21,10 +21,10 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="272"/>
-        <CursorPos Y="295"/>
-        <FoldState Value=" T3jR0E5 piajL06382122116 PjHmS0$"/>
-        <UsageCount Value="60"/>
+        <TopLine Value="308"/>
+        <CursorPos X="5" Y="320"/>
+        <FoldState Value=" T3jQ0E5 piajL06382122116 PjHmU0y"/>
+        <UsageCount Value="62"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -38,7 +38,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="10"/>
         <CursorPos X="20" Y="24"/>
-        <UsageCount Value="39"/>
+        <UsageCount Value="41"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -136,7 +136,7 @@
         <Filename Value="res\2.html"/>
         <EditorIndex Value="3"/>
         <CursorPos X="29" Y="2"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="18"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="HTML"/>
       </Unit>
@@ -144,7 +144,7 @@
         <Filename Value="res\1.html"/>
         <EditorIndex Value="2"/>
         <CursorPos X="11" Y="7"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="18"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="HTML"/>
       </Unit>
