@@ -1,0 +1,154 @@
+object dm: Tdm
+  OnCreate = DataModuleCreate
+  OldCreateOrder = False
+  Height = 418
+  HorizontalOffset = 461
+  VerticalOffset = 34
+  Width = 617
+  PPI = 102
+  object Connector: TSQLConnector
+    Connected = True
+    LoginPrompt = False
+    DatabaseName = 'PCLD'
+    KeepConnection = False
+    Password = '123'
+    Transaction = Transaction
+    UserName = 'postgres'
+    HostName = 'localhost'
+    ConnectorType = 'PostgreSQL'
+    Left = 56
+    Top = 17
+  end
+  object Transaction: TSQLTransaction
+    Active = True
+    Database = Connector
+    Left = 144
+    Top = 17
+  end
+  object Users_Admin: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    MaxIndexesCount = 4
+    FieldDefs = <    
+      item
+        Name = 'id'
+        DataType = ftInteger
+        Precision = -1
+      end    
+      item
+        Name = 'id_admin'
+        DataType = ftInteger
+        Precision = -1
+      end    
+      item
+        Name = 'name'
+        DataType = ftString
+        Precision = -1
+        Size = 20
+      end    
+      item
+        Name = 'password'
+        DataType = ftString
+        Precision = -1
+        Size = 20
+      end>
+    Active = True
+    Database = Connector
+    Transaction = Transaction
+    SQL.Strings = (
+      'Select id, id_admin, name::varchar(20), "password"::varchar(20)'
+      'from users_admin'
+    )
+    Params = <>
+    Macros = <>
+    Left = 56
+    Top = 96
+    object Users_Adminid: TLongintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      ReadOnly = False
+      Required = False
+    end
+    object Users_Adminid_admin: TLongintField
+      FieldKind = fkData
+      FieldName = 'id_admin'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object Users_Adminname: TStringField
+      FieldKind = fkData
+      FieldName = 'name'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object Users_Adminpassword: TStringField
+      FieldKind = fkData
+      FieldName = 'password'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object fio: TStringField
+      FieldKind = fkLookup
+      FieldName = 'name1'
+      Index = 4
+      KeyFields = 'id_admin'
+      LookupCache = False
+      LookupDataSet = human
+      LookupKeyFields = 'id'
+      LookupResultField = 'name'
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+  end
+  object DS_Users_Admin: TDataSource
+    DataSet = Users_Admin
+    Left = 56
+    Top = 160
+  end
+  object human: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    MaxIndexesCount = 4
+    FieldDefs = <    
+      item
+        Name = 'id'
+        DataType = ftInteger
+        Precision = -1
+      end    
+      item
+        Name = 'name'
+        DataType = ftString
+        Precision = -1
+        Size = 20
+      end    
+      item
+        Name = 'phone_number'
+        DataType = ftString
+        Precision = -1
+        Size = 15
+      end>
+    Active = True
+    Database = Connector
+    Transaction = Transaction
+    SQL.Strings = (
+      'Select id, name, phone_number'
+      'From human'
+      'order by id'
+    )
+    Params = <>
+    Macros = <>
+    Left = 192
+    Top = 96
+  end
+end

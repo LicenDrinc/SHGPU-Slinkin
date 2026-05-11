@@ -4,15 +4,23 @@ unit udm;
 
 interface
 
-uses Classes, SysUtils, SQLDB, PQConnection;
+uses Classes, SysUtils, SQLDB, DB, PQConnection;
 
 type
 
     { Tdm }
 
     Tdm = class(TDataModule)
-        SQLConnector: TSQLConnector;
-        SQLTransaction: TSQLTransaction;
+        Connector: TSQLConnector;
+        DS_Users_Admin: TDataSource;
+        human: TSQLQuery;
+        Users_Admin: TSQLQuery;
+        Transaction: TSQLTransaction;
+        Users_Adminid: TLongintField;
+        Users_Adminid_admin: TLongintField;
+        Users_Adminname: TStringField;
+        Users_Adminpassword: TStringField;
+        procedure DataModuleCreate(Sender: TObject);
     private
 
     public
@@ -25,6 +33,15 @@ var
 implementation
 
 {$R *.lfm}
+
+{ Tdm }
+
+procedure Tdm.DataModuleCreate(Sender: TObject);
+begin
+    //Connector.Open;
+    //Transaction.Action := True;
+    //Users_Admin.Open;
+end;
 
 end.
 

@@ -1,8 +1,72 @@
 object Main: TMain
   Left = 434
-  Height = 460
+  Height = 450
   Top = 32
-  Width = 943
+  Width = 1167
   Caption = 'Main'
-  DesignTimePPI = 120
+  ClientHeight = 450
+  ClientWidth = 1167
+  DesignTimePPI = 102
+  object DBGrid1: TDBGrid
+    Left = 0
+    Height = 392
+    Top = 0
+    Width = 1167
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    Color = clWindow
+    Columns = <    
+      item
+        PickList.Strings = (
+          'ЛЛЛ'
+          'HHH'
+          'МММ'
+          'LicenDrinc'
+          'T T T'
+          'Р Р Р'
+          'YYY'
+        )
+        Title.Caption = 'id_admin'
+        FieldName = 'name1'
+      end    
+      item
+        Title.Caption = 'name'
+        FieldName = 'name'
+      end    
+      item
+        ReadOnly = False
+        Title.Caption = 'password'
+        FieldName = 'password'
+      end>
+    DataSource = dm.DS_Users_Admin
+    TabOrder = 0
+  end
+  object DBNavigator1: TDBNavigator
+    Left = 0
+    Height = 27
+    Top = 392
+    Width = 1167
+    Anchors = [akLeft, akRight, akBottom]
+    BevelOuter = bvNone
+    ChildSizing.EnlargeHorizontal = crsScaleChilds
+    ChildSizing.EnlargeVertical = crsScaleChilds
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 100
+    ClientHeight = 27
+    ClientWidth = 1167
+    DataSource = dm.DS_Users_Admin
+    Options = []
+    TabOrder = 1
+  end
+  object InDB: TButton
+    Left = 0
+    Height = 27
+    Top = 423
+    Width = 1167
+    Anchors = [akLeft, akRight, akBottom]
+    Caption = 'InDB'
+    TabOrder = 2
+    OnClick = InDBClick
+  end
 end
