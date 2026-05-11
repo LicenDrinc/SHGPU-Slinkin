@@ -1,0 +1,8 @@
+object Form1: TForm1
+  Left = 434
+  Height = 460
+  Top = 32
+  Width = 943
+  Caption = 'Main'
+  DesignTimePPI = 120
+end
