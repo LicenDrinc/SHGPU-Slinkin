@@ -13,7 +13,12 @@ type
     Tdm = class(TDataModule)
         Connector: TSQLConnector;
         DS_Users_Admin: TDataSource;
-        human: TSQLQuery;
+        DS_Human: TDataSource;
+        fio: TStringField;
+        Human: TSQLQuery;
+        Humanid1: TLongintField;
+        Humanname1: TStringField;
+        Humanphone_number1: TStringField;
         Users_Admin: TSQLQuery;
         Transaction: TSQLTransaction;
         Users_Adminid: TLongintField;
@@ -21,6 +26,7 @@ type
         Users_Adminname: TStringField;
         Users_Adminpassword: TStringField;
         procedure DataModuleCreate(Sender: TObject);
+        procedure Users_AdminpasswordGetText(Sender: TField; var aText: string; DisplayText: Boolean);
     private
 
     public
@@ -38,10 +44,13 @@ implementation
 
 procedure Tdm.DataModuleCreate(Sender: TObject);
 begin
-    //Connector.Open;
-    //Transaction.Action := True;
-    //Users_Admin.Open;
+    Connector.Open;
+    Transaction.Active := True;
+    Human.Open;
+    Users_Admin.Open;
 end;
+
+procedure Tdm.Users_AdminpasswordGetText(Sender: TField; var aText: string; DisplayText: Boolean); begin aText := '*****'; end;
 
 end.
 

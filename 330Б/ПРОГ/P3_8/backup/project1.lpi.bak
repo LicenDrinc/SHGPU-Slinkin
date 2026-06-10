@@ -55,6 +55,14 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
       </Unit>
+      <Unit>
+        <Filename Value="umain1.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Main1"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uMain1"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

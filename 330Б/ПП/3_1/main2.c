@@ -19,59 +19,62 @@ int strToInt(char* str);
 int MissionHelp(int i, char* message)
 {
     printf("%s [", message); printf("-h");
-    printf("|-d|-dl");
+    printf("|-dl");
     printf("]\n");
-    printf("[-d <имя каталога>] [-dl <имя каталога> <глубина>]\n");
+    printf("%s <РёРјСЏ РєР°С‚Р°Р»РѕРіР°>\n[-dl <РёРјСЏ РєР°С‚Р°Р»РѕРіР°> <РіР»СѓР±РёРЅР°>]\n", message);
     return i;
 }
 
 int MissionDir(char* dir, int line, int lock)
 {
-    if (lock != -1) { if (line > lock) return 0; }
+    if (lock > -1) { if (line > lock) return 0; }
 
     DIR* dir1;
-    if (!(dir1 = opendir(dir))) { printf("%s\nERROR: %i: %s\n", dir, errno, strerror(errno)); closedir(dir1); return errno; }
+    if (!(dir1 = opendir(dir)))
+    { printf("%s\nРћС€РёР±РєР° РІС…РѕРґР° РІ РєР°С‚Р°Р»РѕРі: %i: %s\n\n", dir, errno, strerror(errno)); closedir(dir1); return errno; }
 
     struct dirent* ent; struct stat filedata;
     while ((ent = readdir(dir1)) != NULL)
     {
         if (strcmp(ent->d_name, ".") && strcmp(ent->d_name, ".."))
         {
-            int ldir = strlen(dir);
-            char* p = dir[ldir - 1] != '/' ? addstr(dir, "/") : dir; char* path = addstr(p, ent->d_name);
-            printf("Файл: %s | тип: ", path);
+            int ldir = strlen(dir); char* p = dir[ldir - 1] != '/' ? addstr(dir, "/") : dir;
+            char* path = addstr(p, ent->d_name); printf("Р¤Р°Р№Р»: %s\nС‚РёРї: ", path);
             int typedir = 0;
             switch (ent->d_type)
             {
-            case DT_UNKNOWN: typedir = 0; printf("Неизвестен\n");            break;
-            case DT_FIFO:    typedir = 1; printf("FIFO\n");                  break;
-            case DT_CHR:     typedir = 2; printf("Символьное устройство\n"); break;
-            case DT_DIR:     typedir = 3; printf("Папка\n");                 break;
-            case DT_BLK:     typedir = 4; printf("Блочное Устройство\n");    break;
-            case DT_REG:     typedir = 5; printf("Файл\n");                  break;
-            case DT_LNK:     typedir = 6; printf("Символическая ссылка\n");  break;
-            case DT_SOCK:    typedir = 7; printf("Сокет\n");                 break;
-            case DT_WHT:     typedir = 8; printf("WHT\n");                   break;
+				case DT_UNKNOWN: typedir = 0; printf("РќРµРёР·РІРµСЃС‚РµРЅ");            break;
+				case DT_FIFO:    typedir = 1; printf("FIFO");                  break;
+				case DT_CHR:     typedir = 2; printf("РЎРёРјРІРѕР»СЊРЅРѕРµ СѓСЃС‚СЂРѕР№СЃС‚РІРѕ"); break;
+				case DT_DIR:     typedir = 3; printf("РџР°РїРєР°");                 break;
+				case DT_BLK:     typedir = 4; printf("Р‘Р»РѕС‡РЅРѕРµ СѓСЃС‚СЂРѕР№СЃС‚РІРѕ");    break;
+				case DT_REG:     typedir = 5; printf("Р¤Р°Р№Р»");                  break;
+				case DT_LNK:     typedir = 6; printf("РЎРёРјРІРѕР»РёС‡РµСЃРєР°СЏ СЃСЃС‹Р»РєР°");  break;
+				case DT_SOCK:    typedir = 7; printf("РЎРѕРєРµС‚");                 break;
+				case DT_WHT:     typedir = 8; printf("WHT");                   break;
             }
 
             if (stat(path, &filedata) == 0)
             {
                 struct group* groupstr = getgrgid(filedata.st_gid);
                 struct passwd* userstr = getpwuid(filedata.st_uid);
-                printf("Владелец: %s(%i) | ", userstr->pw_name, filedata.st_uid);
-                printf("Группа: %s(%i)\n", groupstr->gr_name, filedata.st_gid);
+                printf(" | Р’Р»Р°РґРµР»РµС†: %s(%i) | ", userstr->pw_name, filedata.st_uid);
+                printf("Р“СЂСѓРїРїР°: %s(%i)\n", groupstr->gr_name, filedata.st_gid);
                 int rights = filedata.st_mode % (int)powf(8, 4);
-                printf("Владелец: \t");      printRights(rights % 8, typedir);
-                printf("\nГруппа: \t");      printRights(rights % (int)powf(8, 2) / 8, typedir);
-                printf("\nОстальные: \t");   printRights(rights % (int)powf(8, 3) / (int)powf(8, 2), typedir);
-                printf("\nСпециальные: \t"); printSpecialRights(rights / (int)powf(8, 3), typedir); printf("\n");
+                printf("Р’Р»Р°РґРµР»РµС†: \t");
+                printRights(rights % 8, typedir);
+                printf("\nР“СЂСѓРїРїР°: \t");
+                printRights(rights % (int)powf(8, 2) / 8, typedir);
+                printf("\nРћСЃС‚Р°Р»СЊРЅС‹Рµ: \t");
+                printRights(rights % (int)powf(8, 3) / (int)powf(8, 2), typedir);
+                printf("\nРЎРїРµС†РёР°Р»СЊРЅС‹Рµ: \t");
+                printSpecialRights(rights / (int)powf(8, 3), typedir); printf("\n");
             }
             else { printf("ERROR: %i: %s\n", errno, strerror(errno)); errno = 0; printf("\n"); }
 
-            char* s = dir[ldir - 1] != '/' ? addstr(dir, "/") : dir; char* s1 = addstr(s, ent->d_name);
-            free(path); if (dir[ldir - 1] != '/') { free(p); free(s); } printf("\n");
-            if (typedir == 3) MissionDir(s1, line + 1, lock);
-            free(s1);
+            if (dir[ldir - 1] != '/') { free(p); } printf("\n");
+            if (typedir == 3) MissionDir(path, line + 1, lock);
+            free(path);
         }
     }
     closedir(dir1); return 0;
@@ -86,10 +89,9 @@ int main(int argc, char* argv[])
     if (argc < 2)                 return MissionHelp(1, argv[0]);
     if (!strcmp(argv[1], "-h"))   return MissionHelp(0, argv[0]);
     
-    if (!strcmp(argv[1], "-d"))   return MissionDir(argv[2], 0, -1);
     if (!strcmp(argv[1], "-dl"))  return MissionDir(argv[2], 0, argc > 3 ? strToInt(argv[3]) : 0);
     
-    return MissionHelp(1, argv[0]);
+    return MissionDir(argv[1], 0, -1);
 }
 
 
@@ -100,27 +102,36 @@ void printSpecialRights(int r, int t)
 {
     if (!r) return;
 	int b1 = r / 4, b2 = r / 2 % 2, b3 = r % 2;
-    if (t == 3)
-    {
-        if (b1) { printf("Исполнять от пользователя"); if (b2 || b3) printf(", "); }
-        if (b2) { printf("Исполнять от группы"); if (b3) printf(", "); }
-        if (b3) printf("Ограничить удаление");
-    }
-    else
-    {
-        if (b1) { printf("Исполнять от пользователя"); if (b2 || b3) printf(", "); }
-        if (b2) { printf("Исполнять от группы"); if (b3) printf(", "); }
-        if (b1) printf("Сохранять в оперативной памяти");
-    }
+	if (t == 3)
+	{
+		if (b1) { printf("SUID СѓСЃС‚Р°РЅРѕРІР»РµРЅ (РЅРµРїСЂРёРјРµРЅСЏРµС‚СЃСЏ)"); if (b2 || b3) printf(", "); }
+		if (b2) { printf("РќР°СЃР»РµРґРѕРІР°РЅРёРµ РіСЂСѓРїРїС‹-РІР»Р°РґРµР»СЊС†Р°"); if (b3) printf(", "); }
+		if (b3) printf("РћРіСЂР°РЅРёС‡РёС‚СЊ СѓРґР°Р»РµРЅРёРµ (РєСЂРѕРјРµ РІР»Р°РґРµР»СЊС†Р°)");
+	}
+	else
+	{
+		if (b1) { printf("РСЃРїРѕР»РЅСЏС‚СЊ СЃ РїСЂР°РІРІРјРё РІР»Р°РґРµР»СЊС†Р°"); if (b2 || b3) printf(", "); }
+		if (b2) { printf("РСЃРїРѕР»РЅСЏС‚СЊ СЃ РїСЂР°РІРІРјРё РіСЂСѓРїРїС‹-РІР»Р°РґРµР»СЊС†Р°"); if (b3) printf(", "); }
+		if (b3) printf("РЎРѕС…СЂР°РЅСЏС‚СЊ РІ РѕРїРµСЂР°С‚РёРІРЅРѕР№ РїР°РјСЏС‚Рё");
+	}
 }
 
 void printRights(int r, int t)
 {
-    if (!r) { printf("Нет Прав"); return; }
+    if (!r) { printf("РќРµС‚ РџСЂР°РІ"); return; }
     int b1 = r / 4, b2 = r / 2 % 2, b3 = r % 2;
-    if (b1) { printf("Чтение"); if (b2 || b3) printf(", "); }
-    if (b2) { printf("Запись"); if (b3) printf(", "); }
-    if (b3) printf(t == 3 ? "Поиск" : "Исполнение");
+    if (t == 3)
+    {
+		if (b1) { printf("РџСЂРѕСЃРјРѕС‚СЂ"); if (b2 || b3) printf(", "); }
+		if (b2) { printf("РР·РјРµРЅРµРЅРё СЃРѕРґРµСЂР¶РёРјРѕРіРѕ"); if (b3) printf(", "); }
+		if (b3) printf("Р’С…РѕРґ");
+	}
+	else
+	{
+		if (b1) { printf("Р§С‚РµРЅРёРµ"); if (b2 || b3) printf(", "); }
+		if (b2) { printf("Р—Р°РїРёСЃСЊ"); if (b3) printf(", "); }
+		if (b3) printf("РСЃРїРѕР»РЅРµРЅРёРµ");
+	}
 }
 
 char* addstr(char* a, char* b)
@@ -130,4 +141,5 @@ char* addstr(char* a, char* b)
     res[la + lb] = '\0'; return res;
 }
 
-int strToInt(char* str) { int res = 0; for (int i = 0; str[i]; i++) res = res * 10 + (str[i] - '0'); return res; }
+int strToInt(char* str)
+{ int res = 0; for (int i = 0; str[i]; i++) res = res * 10 + (str[i] - '0'); return res; }

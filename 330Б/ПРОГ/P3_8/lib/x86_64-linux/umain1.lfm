@@ -1,0 +1,122 @@
+object Main1: TMain1
+  Left = 1520
+  Height = 524
+  Top = 250
+  Width = 950
+  Caption = 'Main1'
+  ClientHeight = 524
+  ClientWidth = 950
+  DesignTimePPI = 102
+  object DBGrid1: TDBGrid
+    Left = 0
+    Height = 432
+    Top = 0
+    Width = 950
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    AutoFillColumns = True
+    Color = clWindow
+    Columns = <    
+      item
+        PickList.Strings = (
+          'ЛЛЛ'
+          'HHH'
+          'МММ'
+          'LicenDrinc'
+          'T T T'
+          'Р Р Р'
+          'YYY'
+        )
+        Title.Caption = 'id_admin'
+        Width = 920
+        FieldName = 'name'
+      end>
+    DataSource = dm.DS_Users_Admin
+    DefaultRowHeight = 50
+    Options = [dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+    TabOrder = 0
+    OnDrawColumnCell = DBGrid1DrawColumnCell
+  end
+  object Label1: TLabel
+    Left = 288
+    Height = 16
+    Top = 452
+    Width = 38
+    Anchors = [akLeft, akBottom]
+    Caption = 'Логин'
+  end
+  object DBEdit1: TDBEdit
+    Left = 336
+    Height = 26
+    Top = 442
+    Width = 237
+    DataField = 'name'
+    DataSource = dm.DS_Users_Admin
+    Anchors = [akLeft, akBottom]
+    MaxLength = 0
+    TabOrder = 1
+  end
+  object Label2: TLabel
+    Left = 608
+    Height = 16
+    Top = 452
+    Width = 49
+    Anchors = [akLeft, akBottom]
+    Caption = 'Пароль'
+  end
+  object Label3: TLabel
+    Left = 8
+    Height = 16
+    Top = 452
+    Width = 27
+    Anchors = [akLeft, akBottom]
+    Caption = 'Фио'
+  end
+  object DBEdit2: TDBEdit
+    Left = 664
+    Height = 26
+    Top = 442
+    Width = 216
+    DataField = 'password'
+    DataSource = dm.DS_Users_Admin
+    Anchors = [akLeft, akBottom]
+    MaxLength = 0
+    PasswordChar = '*'
+    TabOrder = 2
+  end
+  object DBLookupComboBox1: TDBLookupComboBox
+    Left = 48
+    Height = 28
+    Top = 440
+    Width = 226
+    Anchors = [akLeft, akBottom]
+    DataField = 'id_admin'
+    DataSource = dm.DS_Users_Admin
+    KeyField = 'id'
+    ListField = 'name'
+    ListFieldIndex = 0
+    ListSource = dm.DS_Human
+    LookupCache = False
+    TabOrder = 3
+  end
+  object BitBtn1: TBitBtn
+    Left = 8
+    Height = 33
+    Top = 480
+    Width = 180
+    Caption = '&Сохранить'
+    Kind = bkAll
+    ModalResult = 8
+    OnClick = BitBtn1Click
+    TabOrder = 4
+  end
+  object BitBtn2: TBitBtn
+    Left = 200
+    Height = 33
+    Top = 480
+    Width = 192
+    Caption = '&Отмена'
+    Kind = bkClose
+    OnClick = BitBtn2Click
+    TabOrder = 5
+  end
+end
