@@ -8,7 +8,7 @@
       <Unit>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="4"/>
         <CursorPos X="24" Y="13"/>
         <UsageCount Value="49"/>
         <Loaded Value="True"/>
@@ -33,7 +33,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit2"/>
-        <EditorIndex Value="2"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
         <TopLine Value="13"/>
         <CursorPos X="20" Y="24"/>
         <UsageCount Value="28"/>
@@ -132,7 +133,7 @@
       </Unit>
       <Unit>
         <Filename Value="res\2.html"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <CursorPos X="29" Y="2"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
@@ -140,7 +141,7 @@
       </Unit>
       <Unit>
         <Filename Value="res\1.html"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <CursorPos X="11" Y="7"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
@@ -149,11 +150,9 @@
       <Unit>
         <Filename Value="..\..\СиА\C3_1\unit1.pas"/>
         <UnitName Value="Unit1"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="115"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
