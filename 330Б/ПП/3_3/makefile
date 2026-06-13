@@ -3,3 +3,6 @@ main : main.c
 
 clean :
 	rm -f main
+	
+cleanRes :
+	rm -f r.txt
